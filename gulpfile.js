@@ -9,6 +9,12 @@ var browserSync = require('browser-sync');
 var reload = browserSync.reload;
 var uglify = require('gulp-uglify');
 
+/**
+ * STYLES
+ *
+ * @param styles is the name of this task that…
+ * @param function is a callback function that…
+ */
 gulp.task('styles', function () {
     return gulp.src('app/styles/main.scss')
         .pipe(plugins.sourcemaps.init())
