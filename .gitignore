@@ -1,0 +1,170 @@
+################
+# CDT-specific #
+################
+.cproject
+
+###################
+# Compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+###########
+# Eclipse #
+#         ##################################################################
+# https://github.com/github/gitignore/blob/master/Global/Eclipse.gitignore #
+############################################################################
+local.properties
+bin/**
+tmp/**
+tmp/**/*
+*.pydevproject
+*.tmp
+*.bak
+*.swp
+*~.nib
+.project
+.metadata
+.classpath
+.settings/
+.loadpath
+
+#########
+# Emacs #
+#########
+*.*~
+
+##########################
+# External tool builders #
+##########################
+.externalToolBuilders/
+
+######################
+# Folder config file #
+######################
+Desktop.ini
+
+##################################################
+# Locally stored “Eclipse launch configurations” #
+##################################################
+*.launch
+
+######################
+# Logs and databases #
+######################
+*.log
+*.sqlite
+
+######################
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+############
+# Packages #
+############
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+################
+# PDT-specific #
+################
+.buildpath
+
+###################################
+# Recycle Bin used on file shares #
+###################################
+$RECYCLE.BIN/
+
+########
+# SASS #
+########
+*.scssc
+*.map
+.sass-cache
+
+###############
+# SublimeText #
+#             ###############
+# SublimeText project files ####################################################
+# https://github.com/github/gitignore/blob/master/Global/SublimeText.gitignore #
+################################################################################
+*.sublime-workspace
+
+############
+# TextMate #
+#          ##################################################################
+# https://github.com/github/gitignore/blob/master/Global/TextMate.gitignore #
+#############################################################################
+*.tmproj
+*.tmproject
+tmtags
+
+#######
+# vim #
+#     ##################################################################
+# https://github.com/github/gitignore/blob/master/Global/vim.gitignore #
+########################################################################
+#
+# .gitignore files don’t support full reg exes. Consequently, to avoid
+# ignoring .svg files, I am required to parse out the following
+#
+# *.s([a-u]|[w])([a-f]|[h-z])
+#
+# into algebraic long form
+#
+*.s[a-u][a-f]
+*.s[a-u][h-z]
+*.s[w][a-f]
+*.s[w][h-z]
+
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+*.un~
+Session.vim
+.netrwhist
+*~
+
+###########
+# Windows #
+#         ###################
+# Windows image file caches ################################################
+# https://github.com/github/gitignore/blob/master/Global/Windows.gitignore #
+############################################################################
+Thumbs.db
+ehthumbs.db
+
+####################################
+# PHPStorm, IntelliJ, and WebStorm #
+####################################
+.idea/
+
+##########################################
+# Add your repo-specific overrides below #
+##########################################
+
+# Ignore the following folders created by Gulp in the build process
+/dist
+/scripts
+/css
+.temp
+/css
+
+# Ignore the following folder created by `npm install`.
+/node_modules
