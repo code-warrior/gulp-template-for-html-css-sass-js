@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/code-warrior/gulp-template-for-html-css-sass-js/issues"
   },
-  "homepage": "https://github.com/code-warrior/gulp-template-for-html-css-sass-js#readme"
+  "homepage": "https://github.com/code-warrior/gulp-template-for-html-css-sass-js#readme",
+  "devDependencies": {
+    "gulp": "^3.9.0"
+  }
 }
