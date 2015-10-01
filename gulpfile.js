@@ -32,12 +32,24 @@ gulp.task('styles', function () {
         .pipe(reload({stream: true}));
 });
 
+/**
+ * COMPRESS
+ *
+ * @param compress is the name of this task that…
+ * @param function is a callback function that…
+ */
 gulp.task('compress', function () {
     return gulp.src('app/scripts/**/*.js')
         .pipe(uglify())
         .pipe(gulp.dest('dist/scripts'));
 });
 
+/**
+ * HTML
+ *
+ * @param html is the name of this task that…
+ * @param function is a callback function that…
+ */
 gulp.task('html', ['styles'], function () {
     var assets = $.useref.assets({searchPath: ['.tmp', 'app', '.']});
 
@@ -51,6 +63,12 @@ gulp.task('html', ['styles'], function () {
         .pipe(gulp.dest('dist'));
 });
 
+/**
+ * IMAGES
+ *
+ * @param images is the name of this task that…
+ * @param function is a callback function that…
+ */
 gulp.task('images', function () {
     return gulp.src('app/img/**/*')
         .pipe($.cache($.imagemin({
@@ -63,6 +81,12 @@ gulp.task('images', function () {
         .pipe(gulp.dest('dist/img'));
 });
 
+/**
+ * EXTRAS
+ *
+ * @param extras is the name of this task that…
+ * @param function is a callback function that…
+ */
 gulp.task('extras', function () {
     return gulp.src([
         'app/**/*.*',
@@ -72,8 +96,20 @@ gulp.task('extras', function () {
     }).pipe(gulp.dest('dist'));
 });
 
+/**
+ * CLEAN
+ *
+ * @param clean is the name of this task that…
+ * @param function is a callback function that…
+ */
 gulp.task('clean', require('del').bind(null, ['.tmp', 'dist']));
 
+/**
+ * SERVE
+ *
+ * @param serve is the name of this task that…
+ * @param function is a callback function that…
+ */
 gulp.task('serve', ['styles'], function () {
     browserSync({
         notify: false,
@@ -114,10 +150,23 @@ gulp.task('wiredep', function () {
         .pipe(gulp.dest('app'));
 });
 
+/**
+ * BUILD
+ *
+ * @param build is the name of this task that…
+ * @param function is a callback function that…
+ */
 gulp.task('build', ['compress', 'html', 'images', 'extras'], function () {
     return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
 });
 
+
+/**
+ * DEFAULT
+ *
+ * @param default is the name of this task that…
+ * @param function is a callback function that…
+ */
 gulp.task('default', ['clean'], function () {
     gulp.start('build');
 });
