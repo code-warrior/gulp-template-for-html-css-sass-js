@@ -164,7 +164,6 @@ ehthumbs.db
 /scripts
 /css
 .temp
-/css
 
 # Ignore the following folder created by `npm install`.
 /node_modules
