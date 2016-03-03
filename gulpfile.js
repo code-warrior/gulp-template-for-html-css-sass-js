@@ -13,7 +13,7 @@ var gulp                           = require('gulp'),
     JSConcatenator                 = require('gulp-concat'),
     JSLinter                       = require('gulp-eslint'),
     JSCompressor                   = require('gulp-uglify'),
-    compressImages                 = require('gulp-imagemin'),
+    imageCompressor                = require('gulp-imagemin'),
     tempCache                      = require('gulp-cache'),
     browserSync                    = require('browser-sync'),
     reload                         = browserSync.reload,
@@ -222,7 +222,7 @@ gulp.task('lintJS', function () {
 gulp.task('copyImagesToProdFolder', function () {
     return gulp.src(devSourceFolder + '/' + imagesFolder + '/**/*')
         .pipe(tempCache(
-            compressImages({
+            imageCompressor({
                 optimizationLevel: 3, // For PNG files. Accepts 0 – 7; 3 is default.
                 progressive: true,    // For JPG files.
                 multipass: false,     // For SVG files. Set to true for compression.
