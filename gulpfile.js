@@ -27,11 +27,9 @@ var gulp                           = require('gulp'),
     imagesFolder                   = 'img',
     sassCSSFolder                  = 'styles',
 
-    // Filenames
+    // Filenames and paths
     JSTargetFilename               = 'app.js',
 
-    // Remove-able folders deleted by the clean task
-    expendableFolders             = [devTargetFolder, prodTargetFolder],
     preCompiledJSFilesWithGrid    = devSourceFolder + '/' + JSFolder + '/*.js',
     preCompiledJSFilesWithoutGrid = [
               devSourceFolder + '/' + JSFolder + '/*.js',
@@ -43,14 +41,17 @@ var gulp                           = require('gulp'),
         devSourceFolder + '/' + HTMLSourceFolder + '/**/*.html'
     ],
 
-    JSDevTargetFolder        = devTargetFolder  + '/' + JSFolder,
-    JSProdTargetFolder       = prodTargetFolder + '/' + JSFolder,
-    cssDevDestinationFolder  = devTargetFolder  + '/' + sassCSSFolder + '/',
-    cssProdDestinationFolder = prodTargetFolder + '/' + sassCSSFolder + '/',
     sassSourceFileForDev     = devSourceFolder  + '/' + sassCSSFolder +
                                    '/00-main-dev/main.scss',
     sassSourceFileForProd    = devSourceFolder + '/' + sassCSSFolder +
-                                   '/00-main-prod/main.scss';
+                                   '/00-main-prod/main.scss',
+
+    // Folder paths
+    expendableFolders        = [devTargetFolder, prodTargetFolder],
+    JSDevTargetFolder        = devTargetFolder  + '/' + JSFolder,
+    JSProdTargetFolder       = prodTargetFolder + '/' + JSFolder,
+    cssDevDestinationFolder  = devTargetFolder  + '/' + sassCSSFolder + '/',
+    cssProdDestinationFolder = prodTargetFolder + '/' + sassCSSFolder + '/';
 
 /**
  * VALIDATE HTML
