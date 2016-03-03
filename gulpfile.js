@@ -341,11 +341,12 @@ gulp.task('serve',
             reload
         );
     });
+
 /**
  * CLEAN
  *
- * This tasks deletes the buildable devTargetFolder and prodTargetFolder
- * directories.
+ * This tasks deletes the devTargetFolder and prodTargetFolder directories, both of
+ * which are expendable, since Gulp can re-build them at any moment.
  */
 gulp.task('clean', function () {
     var fs = require('fs');
