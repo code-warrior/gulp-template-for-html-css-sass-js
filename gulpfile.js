@@ -69,6 +69,7 @@ gulp.task('validateHTML', function () {
     return gulp.src(HTMLFiles)
         .pipe(HTMLValidator());
 });
+
 /**
  * COMPRESS HTML
  *
@@ -83,6 +84,7 @@ gulp.task('compressHTML', function() {
         }))
         .pipe(gulp.dest(prodTargetFolder));
 });
+
 /**
  * COMPILE CSS FOR DEVELOPMENT WORK
  *
@@ -103,6 +105,7 @@ gulp.task('compileCSSForDev', function () {
         }))
         .pipe(gulp.dest(cssDevDestinationFolder));
 });
+
 /**
  * COMPILE CSS FOR PRODUCTION
  *
@@ -125,6 +128,7 @@ gulp.task('compileCSSForProd', function () {
         .pipe(CSSCompressor())
         .pipe(gulp.dest(cssProdDestinationFolder));
 });
+
 /**
  * COMPILE ALL JAVASCRIPT FILES INTO ONE FILE FOR DEVELOPMENT WORK
  *
@@ -137,6 +141,7 @@ gulp.task('compileJSForDev', function () {
         .pipe(JSConcatenator(JSTargetFilename))
         .pipe(gulp.dest(JSDevTargetFolder));
 });
+
 /**
  * COMPILE ALL JAVASCRIPT FILES INTO A SINGLE FILE FOR PRODUCTION
  *
@@ -152,6 +157,7 @@ gulp.task('compileJSForProd', function () {
         .pipe(compressJS())
         .pipe(gulp.dest(JSProdTargetFolder));
 });
+
 /**
  * LINT JAVASCRIPT
  *
@@ -205,6 +211,7 @@ gulp.task('lintJS', function () {
         //
         .pipe(JSLinter.failAfterError());
 });
+
 /**
  * COPY IMAGES TO THE PRODUCTION FOLDER
  *
@@ -223,6 +230,7 @@ gulp.task('copyImagesToProdFolder', function () {
         ))
         .pipe(gulp.dest(prodTargetFolder + '/' + imagesFolder));
 });
+
 /**
  * COPY UNPROCESSED ASSETS TO THE PRODUCTION FOLDER
  *
@@ -244,6 +252,7 @@ gulp.task('copyUnprocessedAssetsToProdFolder', function () {
         '!' + devSourceFolder + '/' + sassCSSFolder + '/**'     // ignore Sass/CSS.
     ], {dot: true}).pipe(gulp.dest(prodTargetFolder));
 });
+
 /**
  * BUILD
  *
@@ -261,6 +270,7 @@ gulp.task('build',
         'copyImagesToProdFolder',
         'copyUnprocessedAssetsToProdFolder'
     ]);
+
 /**
  * SERVE
  *
@@ -357,6 +367,7 @@ gulp.task('clean', function () {
 
     process.stdout.write('\n');
 });
+
 /**
  * DEFAULT
  *
