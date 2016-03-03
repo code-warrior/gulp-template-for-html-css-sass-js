@@ -296,9 +296,6 @@ gulp.task('build',
  * generated, and the browser reloads.
  *
  * Finally, changes to images also trigger a browser reload.
- *
- * Note: The page will not automatically reload if the saved HTML doesn’t pass
- *       validation.
  */
 gulp.task('serve',
     [
