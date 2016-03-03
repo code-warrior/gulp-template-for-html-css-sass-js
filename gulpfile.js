@@ -32,7 +32,7 @@ var gulp                           = require('gulp'),
 
     preCompiledJSFilesWithGrid    = devSourceFolder + '/' + JSFolder + '/*.js',
     preCompiledJSFilesWithoutGrid = [
-              devSourceFolder + '/' + JSFolder + '/*.js',
+        devSourceFolder + '/' + JSFolder + '/*.js',
         '!' + devSourceFolder + '/' + JSFolder + '/grid.js'
     ],
 
@@ -245,8 +245,8 @@ gulp.task('copyImagesToProdFolder', function () {
  */
 gulp.task('copyUnprocessedAssetsToProdFolder', function () {
     return gulp.src([
-              devSourceFolder + '/*.*',                         // Source all files,
-              devSourceFolder + '/**',                          // and all folders,
+        devSourceFolder + '/*.*',                               // Source all files,
+        devSourceFolder + '/**',                                // and all folders,
                                                                 // but
         '!' + devSourceFolder + '/' + imagesFolder,             // ignore images;
         '!' + devSourceFolder + '/**/*.js',                     // ignore JS;
@@ -315,7 +315,7 @@ gulp.task('serve',
                     devTargetFolder,
                     devSourceFolder,
                     devSourceFolder + '/' + HTMLSourceFolder
-               ]
+                ]
             }
         });
 
