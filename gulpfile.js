@@ -12,7 +12,7 @@ var gulp                           = require('gulp'),
     HTMLValidator                  = require('gulp-html'),
     JSConcatenator                 = require('gulp-concat'),
     JSLinter                       = require('gulp-eslint'),
-    compressJS                     = require('gulp-uglify'),
+    JSCompressor                   = require('gulp-uglify'),
     compressImages                 = require('gulp-imagemin'),
     tempCache                      = require('gulp-cache'),
     browserSync                    = require('browser-sync'),
@@ -155,7 +155,7 @@ gulp.task('compileJSForDev', function () {
 gulp.task('compileJSForProd', function () {
     return gulp.src(preCompiledJSFilesWithoutGrid)
         .pipe(JSConcatenator(JSTargetFilename))
-        .pipe(compressJS())
+        .pipe(JSCompressor())
         .pipe(gulp.dest(JSProdTargetFolder));
 });
 
