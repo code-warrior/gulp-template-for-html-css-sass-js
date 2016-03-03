@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <title>Abraham Lincoln Trivia (v0.0.3)</title>
+      <link rel="stylesheet" href="styles/main.css">
+   </head>
+   <body>
+      <header>
+         <h1><span>Facts Surrounding Abraham Lincoln’s Assassination</span></h1>
+      </header>
+      <p id="show-users-name"></p>
+      <div id="name-container">
+         <form id="request-users-name">
+            <div>
+               <label for="users-name">Enter your first name:</label>
+               <input id="users-name" type="text" name="users-name">
+               <button type="button" name="submit-users-name" id="submit-users-name">Submit</button>
+            </div>
+         </form>
+      </div>
+      <main>
+         <p>April 2015 marks the 150<sup>th</sup> anniversary of Abraham Lincoln’s assassination. Use this web page to test your knowledge of his life and the facts surrounding his tragic, untimely assassination.</p>
+         <p>Here’s your first fact: The background image (created by Eugene Richards for National Geographic) of this page shows the Lincoln catafalque, which was specially constructed to carry Abraham Lincoln’s coffin during his funeral train procession from Washington, <abbr title="District of Columbia">DC</abbr> to Springfield, Illinois.</p>
+         <!-- WHERE WAS LINCOLN BORN -->
+         <section id="where-was-lincoln-born-question-container">
+            <h2><label for="lincolns-birth-place">Where Was Lincoln Born?</label></h2>
+            <div>
+               <form>
+                  <div>
+                     <select id="lincolns-birth-place" name="lincolns-birth-place">
+                        <option value="lansing">Lansing, Michigan</option>
+                        <option value="hodgenville">Hodgenville, Kentucky</option>
+                        <option value="washington">Washington, DC</option>
+                     </select>
+                     <button type="button" name="submit-lincolns-birth-place" id="submit-lincolns-birth-place">Submit</button>
+                  </div>
+               </form>
+            </div>
+            <aside>
+               <p></p>
+            </aside>
+            <button type="button" name="move-to-question-2" id="move-to-question-2">Next Question</button>
+         </section>
+         <!-- WHO ASSASSINATED LINCOLN -->
+         <section id="who-assassinated-lincoln-question-container">
+            <h2><label for="lincolns-assassin">Who Assassinated Lincoln?</label></h2>
+            <div>
+               <form>
+                  <div>
+                     <select id="lincolns-assassin" name="lincolns-assassin">
+                        <option value="lee-oswald">Lee Harvey Oswald</option>
+                        <option value="john-booth">John Wilkes Booth</option>
+                        <option value="john-hinckley">John Hinckley Jr</option>
+                     </select>
+                     <button type="button" name="submit-name-of-lincolns-assassin" id="submit-name-of-lincolns-assassin">Submit</button>
+                  </div>
+               </form>
+            </div>
+            <aside>
+               <p></p>
+            </aside>
+            <button type="button" name="move-to-question-3" id="move-to-question-3">Next Question</button>
+         </section>
+      </main>
+      <script src="scripts/app.js" defer></script>
+   </body>
+</html>

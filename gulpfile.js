@@ -1,172 +1,368 @@
-/*jslint
-    node: true */
+/*jslint node: true */
 
 'use strict';
 
-var gulp = require('gulp');
-var $ = require('gulp-load-plugins')();
-var browserSync = require('browser-sync');
-var reload = browserSync.reload;
-var uglify = require('gulp-uglify');
+    // Gulp plugins
+var gulp                           = require('gulp'),
+    del                            = require('del'),
+    sass                           = require('gulp-sass'),
+    CSSCompressor                  = require('gulp-csso'),
+    browserSpecificPrefixGenerator = require('gulp-autoprefixer'),
+    HTMLMinifier                   = require('gulp-htmlmin'),
+    HTMLValidator                  = require('gulp-html'),
+    JSConcatenator                 = require('gulp-concat'),
+    JSLinter                       = require('gulp-eslint'),
+    compressJS                     = require('gulp-uglify'),
+    compressImages                 = require('gulp-imagemin'),
+    tempCache                      = require('gulp-cache'),
+    browserSync                    = require('browser-sync'),
+    reload                         = browserSync.reload,
+
+    // Folder name variables
+    devSourceFolder                = 'dev',
+    devTargetFolder                = 'temp',
+    prodTargetFolder               = 'prod',
+    HTMLSourceFolder               = 'html',
+    JSFolder                       = 'scripts',
+    imagesFolder                   = 'img',
+    sassCSSFolder                  = 'styles',
+
+    // Filenames
+    JSTargetFilename               = 'app.js',
+
+    // Remove-able folders deleted by the clean task
+    expendableFolders             = [devTargetFolder, prodTargetFolder],
+    preCompiledJSFilesWithGrid    = devSourceFolder + '/' + JSFolder + '/*.js',
+    preCompiledJSFilesWithoutGrid = [
+              devSourceFolder + '/' + JSFolder + '/*.js',
+        '!' + devSourceFolder + '/' + JSFolder + '/grid.js'
+    ],
+
+    HTMLFiles = [
+        devSourceFolder + '/' + HTMLSourceFolder + '/*.html',
+        devSourceFolder + '/' + HTMLSourceFolder + '/**/*.html'
+    ],
+
+    JSDevTargetFolder        = devTargetFolder  + '/' + JSFolder,
+    JSProdTargetFolder       = prodTargetFolder + '/' + JSFolder,
+    cssDevDestinationFolder  = devTargetFolder  + '/' + sassCSSFolder + '/',
+    cssProdDestinationFolder = prodTargetFolder + '/' + sassCSSFolder + '/',
+    sassSourceFileForDev     = devSourceFolder  + '/' + sassCSSFolder +
+                                   '/00-main-dev/main.scss',
+    sassSourceFileForProd    = devSourceFolder + '/' + sassCSSFolder +
+                                   '/00-main-prod/main.scss';
 
 /**
- * STYLES
+ * VALIDATE HTML
  *
- * @param styles is the name of this task that…
- * @param function is a callback function that…
+ * This task validates HTML pages. If no errors are found, the Gulp task will simply
+ * move down a line, reporting the task is done.
+ *
+ * On error, however, you’ll receive one or more messages about your HTML errors.
+ * These errors are reported as having been found at line and column values. For
+ * example, 1.5 means an error on line 1, column 5.
+ *
+ * Regardless of whether your HTML validates or not, no files are copied to any
+ * destination folder.
  */
-gulp.task('styles', function () {
-    return gulp.src('app/styles/main.scss')
-        .pipe($.sourcemaps.init())
-        .pipe($.sass({
+gulp.task('validateHTML', function () {
+    return gulp.src(HTMLFiles)
+        .pipe(HTMLValidator());
+});
+/**
+ * COMPRESS HTML
+ *
+ * This task compresses all the HTML files in the HTMLFiles array, then writes the
+ * compressed files to the prodTargetFolder.
+ */
+gulp.task('compressHTML', function() {
+    return gulp.src(HTMLFiles)
+        .pipe(HTMLMinifier({
+            removeComments: true,
+            collapseWhitespace: true
+        }))
+        .pipe(gulp.dest(prodTargetFolder));
+});
+/**
+ * COMPILE CSS FOR DEVELOPMENT WORK
+ *
+ * This task looks for a single Sass file (sassSourceFileForDev), compiles the CSS
+ * from it, and writes the resulting file to the cssDevDestinationFolder. The final
+ * CSS file will be formatted with 2-space indentations. Any floating-point
+ * calculations will be carried out 10 places, and browser-specific prefixes will be
+ * added to support 2 browser versions behind all current browsers’ versions.
+ */
+gulp.task('compileCSSForDev', function () {
+    return gulp.src(sassSourceFileForDev)
+        .pipe(sass({
+            outputStyle: 'expanded',
+            precision: 10
+        }).on('error', sass.logError))
+        .pipe(browserSpecificPrefixGenerator({
+            browsers: ['last 2 versions']
+        }))
+        .pipe(gulp.dest(cssDevDestinationFolder));
+});
+/**
+ * COMPILE CSS FOR PRODUCTION
+ *
+ * This task looks for a single Sass file (sassSourceFileForProd), compiles the CSS
+ * from it, and writes the resulting single CSS file to the cssProdDestinationFolder.
+ * Any floating-point calculations will be carried out 10 places, and
+ * browser-specific prefixes will be added to support 2 browser versions behind all
+ * current browsers’ versions. Lastly, the final CSS file is passed through two
+ * levels of compression: “outputStyle” from Sass and compressCSS().
+ */
+gulp.task('compileCSSForProd', function () {
+    return gulp.src(sassSourceFileForProd)
+        .pipe(sass({
             outputStyle: 'compressed',
-            precision: 10,
-            includePaths: ['.'],
-            onError: console.error.bind(console, '\n\nSass error:\n\n')
+            precision: 10
+        }).on('error', sass.logError))
+        .pipe(browserSpecificPrefixGenerator({
+            browsers: ['last 2 versions']
         }))
-        .pipe($.postcss([
-            require('gulp-autoprefixer')({browsers: ['last 1 version']})
-        ]))
-        .pipe($.sourcemaps.write())
-        .pipe(gulp.dest('.tmp/styles'))
-        .pipe(reload({stream: true}));
+        .pipe(CSSCompressor())
+        .pipe(gulp.dest(cssProdDestinationFolder));
 });
-
 /**
- * COMPRESS
+ * COMPILE ALL JAVASCRIPT FILES INTO ONE FILE FOR DEVELOPMENT WORK
  *
- * @param compress is the name of this task that…
- * @param function is a callback function that…
+ * This task compiles preCompiledJavaScriptFilesWithGrid via the
+ * compileJavaScript concatenator, then writes the result to the
+ * javaScriptDevTargetFolder with filename javaScriptTargetFilename.
  */
-gulp.task('compress', function () {
-    return gulp.src('app/scripts/**/*.js')
-        .pipe(uglify())
-        .pipe(gulp.dest('dist/scripts'));
+gulp.task('compileJSForDev', function () {
+    return gulp.src(preCompiledJSFilesWithGrid)
+        .pipe(JSConcatenator(JSTargetFilename))
+        .pipe(gulp.dest(JSDevTargetFolder));
 });
-
 /**
- * HTML
+ * COMPILE ALL JAVASCRIPT FILES INTO A SINGLE FILE FOR PRODUCTION
  *
- * @param html is the name of this task that…
- * @param function is a callback function that…
+ * This task compiles one or more JavaScript files into a single file whose name is
+ * the value to the JSTargetFilename variable. The resulting file is compressed then
+ * written to the JSProdTargetFolder.
+ *
+ * Note: This task does not contain the grid used during development.
  */
-gulp.task('html', ['styles'], function () {
-    var assets = $.useref.assets({searchPath: ['.tmp', 'app', '.']});
-
-    return gulp.src('app/**/*.html')
-        .pipe(assets)
-        // .pipe($.if('*.js', $.uglify()))
-        // .pipe($.if('*.css', $.csso()))
-        .pipe(assets.restore())
-        .pipe($.useref())
-        .pipe($.if('*.html', $.minifyHtml({conditionals: true, false: true})))
-        .pipe(gulp.dest('dist'));
+gulp.task('compileJSForProd', function () {
+    return gulp.src(preCompiledJSFilesWithoutGrid)
+        .pipe(JSConcatenator(JSTargetFilename))
+        .pipe(compressJS())
+        .pipe(gulp.dest(JSProdTargetFolder));
 });
-
 /**
- * IMAGES
+ * LINT JAVASCRIPT
  *
- * @param images is the name of this task that…
- * @param function is a callback function that…
+ * This task lints JavaScript using the linter defined by JSLinter, the second pipe
+ * in this task. (ESLint is the linter in this case.) In order to generate a linting
+ * report, the multiple JS files in the preCompiledJSFilesWithoutGrid are compiled
+ * into a single, memory-cached file with a temporary name, then sent to the linter
+ * for processing.
+ *
+ * Note: The temporary file is *not* written to a destination folder.
  */
-gulp.task('images', function () {
-    return gulp.src('app/img/**/*')
-        .pipe($.cache($.imagemin({
-            progressive: true,
-            interlaced: true,
-            // don't remove IDs from SVGs, they are often used
-            // as hooks for embedding and styling
-            svgoPlugins: [{cleanupIDs: false}]
-        })))
-        .pipe(gulp.dest('dist/img'));
+gulp.task('lintJS', function () {
+    return gulp.src(preCompiledJSFilesWithoutGrid)
+        .pipe(JSConcatenator(JSTargetFilename))
+        .pipe(JSLinter({
+            'rules': {
+                'indent': [
+                    2,
+                    4
+                ],
+                'quotes': [
+                    2,
+                    'single'
+                ],
+                'linebreak-style': [
+                    2,
+                    'unix'
+                ],
+                'semi': [
+                    2,
+                    'always'
+                ],
+                'max-len': [
+                    2,
+                    85,
+                    4
+                ]
+            },
+            'env': {
+                'node': true,
+                'browser': true
+            },
+            'extends': 'eslint:recommended'
+        }))
+        .pipe(JSLinter.formatEach('compact', process.stderr))
+        //
+        // “To have the process exit with an error code (1) on lint error, return
+        // the stream and pipe to failAfterError last.”
+        //
+        //     — https://github.com/adametry/gulp-eslint
+        //
+        .pipe(JSLinter.failAfterError());
 });
-
 /**
- * EXTRAS
+ * COPY IMAGES TO THE PRODUCTION FOLDER
  *
- * @param extras is the name of this task that…
- * @param function is a callback function that…
+ * This task sources all the images in the devSourceFolder, compresses PNGs and JPGs,
+ * then copies the final compressed images to the prodTargetFolder.
  */
-gulp.task('extras', function () {
+gulp.task('copyImagesToProdFolder', function () {
+    return gulp.src(devSourceFolder + '/' + imagesFolder + '/**/*')
+        .pipe(tempCache(
+            compressImages({
+                optimizationLevel: 3, // For PNG files. Accepts 0 – 7; 3 is default.
+                progressive: true,    // For JPG files.
+                multipass: false,     // For SVG files. Set to true for compression.
+                interlaced: false     // For GIF files. Set to true for compression.
+            })
+        ))
+        .pipe(gulp.dest(prodTargetFolder + '/' + imagesFolder));
+});
+/**
+ * COPY UNPROCESSED ASSETS TO THE PRODUCTION FOLDER
+ *
+ * This task copies all unprocessed assets in the devSourceFolder to the
+ * prodTargetFolder that aren’t images, JavaScript, or Sass/CSS. This is because
+ * those files are processed by other tasks, then copied after processing:
+ *
+ * — Images are compressed and copied by the copyImagesToProdFolder task.
+ * — JavaScript is concatenated and compressed by the compileJSForProd task.
+ * — Sass/CSS is concatenated and compressed by the compileCSSForProd task.
+ */
+gulp.task('copyUnprocessedAssetsToProdFolder', function () {
     return gulp.src([
-        'app/**/*.*',
-        '!app/**/*.html'
-    ], {
-        dot: true
-    }).pipe(gulp.dest('dist'));
+              devSourceFolder + '/*.*',                         // Source all files,
+              devSourceFolder + '/**',                          // and all folders,
+                                                                // but
+        '!' + devSourceFolder + '/' + imagesFolder,             // ignore images;
+        '!' + devSourceFolder + '/**/*.js',                     // ignore JS;
+        '!' + devSourceFolder + '/' + sassCSSFolder + '/**'     // ignore Sass/CSS.
+    ], {dot: true}).pipe(gulp.dest(prodTargetFolder));
 });
-
-/**
- * CLEAN
- *
- * @param clean is the name of this task that…
- * @param function is a callback function that…
- */
-gulp.task('clean', require('del').bind(null, ['.tmp', 'dist']));
-
-/**
- * SERVE
- *
- * @param serve is the name of this task that…
- * @param function is a callback function that…
- */
-gulp.task('serve', ['styles'], function () {
-    browserSync({
-        notify: false,
-        port: 9000,
-        server: {
-            baseDir: ['.tmp', 'app'],
-            routes: {
-                '/bower_components': 'bower_components'
-            }
-        }
-    });
-
-    gulp.watch([
-        'app/**/*.html',
-        'app/scripts/**/*.js',
-        'app/img/**/*'
-    ]).on('change', reload);
-
-    gulp.watch('app/styles/**/*.scss', ['styles']);
-    gulp.watch('bower.json', ['wiredep']);
-});
-
-gulp.task('wiredep', function () {
-    var wiredep = require('wiredep').stream;
-
-    gulp.src('app/styles/*.scss')
-        .pipe(wiredep({
-            // Ignore 1 or more “../”
-            ignorePath: /^(\.\.\/)+/
-        }))
-        .pipe(gulp.dest('app/styles'));
-
-    gulp.src('app/**/*.html')
-        .pipe(wiredep({
-            // Ignore 0 or more “../” followed by “../”.
-            ignorePath: /^(\.\.\/)*\.\./
-        }))
-        .pipe(gulp.dest('app'));
-});
-
 /**
  * BUILD
  *
- * @param build is the name of this task that…
- * @param function is a callback function that…
+ * This task validates HTML, lints JavaScript, compiles any files that require
+ * pre-processing, then copies the pre-processed and unprocessed files to the
+ * prodTargetFolder.
  */
-gulp.task('build', ['compress', 'html', 'images', 'extras'], function () {
-    return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
+gulp.task('build',
+    [
+        'validateHTML',
+        'compressHTML',
+        'compileCSSForProd',
+        'lintJS',
+        'compileJSForProd',
+        'copyImagesToProdFolder',
+        'copyUnprocessedAssetsToProdFolder'
+    ]);
+/**
+ * SERVE
+ *
+ * Used for development only, this task compiles HTML via Nunjucks, compiles CSS
+ * via Sass, concatenates one or more JavaScript files into a single file, lints
+ * JavaScript, then, finally, validates HTML.
+ *
+ * The localhost server looks for index.html from either the devTargetFolder or
+ * the devSourceFolder as the first page to load. In this case, index.html is
+ * *only* found in the devTargetFolder.
+ *
+ * Because Gulp uses a stream-based system over a file-based system, files that
+ * require pre-processing must be written to a folder before being served.
+ * Thus, this task serves HTML, CSS, and JavaScript from a temp folder, the
+ * development target folder (devTargetFolder), while un-processed files, such
+ * as fonts and images, are served from the development source folder
+ * (devSourceFolder).
+ *
+ * If a JavaScript file is changed, all JavaScript files are rebuilt, the
+ * resulting file is linted, and the browser reloads. The same goes for HTML.
+ *
+ * If a Sass file is changed, a re-compilation of the primary CSS file is
+ * generated, and the browser reloads.
+ *
+ * Finally, changes to images also trigger a browser reload.
+ *
+ * Note: The page will not automatically reload if the saved HTML doesn’t pass
+ *       validation.
+ */
+gulp.task('serve',
+    [
+        'compileCSSForDev',
+        'compileJSForDev',
+        'lintJS',
+        'validateHTML'
+    ],
+    function () {
+        browserSync({
+            notify: true,
+            port: 9000,
+            reloadDelay: 100,
+            server: {
+                baseDir: [
+                    devTargetFolder,
+                    devSourceFolder,
+                    devSourceFolder + '/' + HTMLSourceFolder
+               ]
+            }
+        });
+
+        gulp.watch(devSourceFolder + '/' + JSFolder + '/*.js',
+            ['compileJavaScriptForDev', 'lintJS']).on(
+            'change',
+            reload
+        );
+
+        gulp.watch(devSourceFolder + '/' + imagesFolder + '/**/*').on(
+            'change',
+            reload
+        );
+
+        gulp.watch([devSourceFolder + '/' + HTMLSourceFolder + '/**/*.html'],
+            ['validateHTML']).on(
+            'change',
+            reload
+        );
+
+        gulp.watch(devSourceFolder + '/' + sassCSSFolder + '/**/*.scss',
+            ['compileCSSForDev']).on(
+            'change',
+            reload
+        );
+    });
+/**
+ * CLEAN
+ *
+ * This tasks deletes the buildable devTargetFolder and prodTargetFolder
+ * directories.
+ */
+gulp.task('clean', function () {
+    var fs = require('fs');
+
+    for (var i = 0; i < expendableFolders.length; i++ ) {
+        try {
+            fs.accessSync(expendableFolders[i], fs.F_OK);
+            process.stdout.write('\n\tThe ' + expendableFolders[i] +
+                ' directory was found and will be deleted.\n');
+            del(expendableFolders[i]);
+        } catch (e) {
+            process.stdout.write('\n\tThe ' + expendableFolders[i] +
+                ' directory does NOT exist or is NOT accessible.\n');
+        }
+    }
+
+    process.stdout.write('\n');
 });
-
-
 /**
  * DEFAULT
  *
- * @param default is the name of this task that…
- * @param function is a callback function that…
+ * This task does nothing. See the output message below.
  */
-gulp.task('default', ['clean'], function () {
-    gulp.start('build');
+gulp.task('default', function () {
+    process.stdout.write('\n\tThis default gulp task does nothing except generate ' +
+        'this message.\n\tRun “gulp --tasks” to see the available tasks.\n\n');
 });
