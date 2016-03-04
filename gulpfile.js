@@ -214,12 +214,12 @@ gulp.task('lintJS', function () {
 });
 
 /**
- * COPY AND COMPRESS IMAGES TO THE PRODUCTION FOLDER
+ * COMPRESS THEN COPY IMAGES TO THE PRODUCTION FOLDER
  *
  * This task sources all the images in the devSourceFolder, compresses PNGs and JPGs,
  * then copies the final compressed images to the prodTargetFolder.
  */
-gulp.task('copyAndCompressImagesToProdFolder', function () {
+gulp.task('compressThenCopyImagesToProdFolder', function () {
     return gulp.src(devSourceFolder + '/' + imagesFolder + '/**/*')
         .pipe(tempCache(
             imageCompressor({
@@ -239,9 +239,9 @@ gulp.task('copyAndCompressImagesToProdFolder', function () {
  * prodTargetFolder that aren’t images, JavaScript, or Sass/CSS. This is because
  * those files are processed by other tasks, then copied after processing:
  *
- * — Images are copied and compressed by the copyAndCompressImagesToProdFolder task.
- * — JavaScript is concatenated and compressed by the compileJSForProd task.
- * — Sass/CSS is concatenated and compressed by the compileCSSForProd task.
+ * — Images are compressed then copied by the compressThenCopyImagesToProdFolder task
+ * — JavaScript is concatenated and compressed by the compileJSForProd task
+ * — Sass/CSS is concatenated and compressed by the compileCSSForProd task
  */
 gulp.task('copyUnprocessedAssetsToProdFolder', function () {
     return gulp.src([
@@ -268,7 +268,7 @@ gulp.task('build',
         'compileCSSForProd',
         'lintJS',
         'compileJSForProd',
-        'copyAndCompressImagesToProdFolder',
+        'compressThenCopyImagesToProdFolder',
         'copyUnprocessedAssetsToProdFolder'
     ]);
 
