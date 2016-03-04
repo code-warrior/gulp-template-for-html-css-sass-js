@@ -1,0 +1,91 @@
+// =============================================================================
+// Grid-specific variables.
+// =============================================================================
+$grid-width: 60px;                                                  // 60 pixels
+$grid-gutter: $grid-width / 3;                                      // 25 pixels
+$color-grid-column: rgba(200, 0, 0, 0.2);
+$color-grid-baseline: rgba(56, 255, 255, 0.8);
+
+// =============================================================================
+// The file `modular-grid.png` below is a placeholder for the image you’d like
+// to use for development. Make sure to update the value to the `height`
+// variable to the height of your image.
+// =============================================================================
+$users-comparison-bg-image: url('../img/modular-grid.png');
+$users-comparison-bg-image--height: 3111px;
+$users-comparison-bg-image--position-x: center;
+$users-comparison-bg-image--position-y: top;
+$users-comparison-bg-image--size-x: auto;
+$users-comparison-bg-image--size-y: auto;
+$users-comparison-bg-image--attachment: scroll;
+$users-comparison-bg-image--repeat: no-repeat;
+$users-comparison-bg-image--color: transparent;
+
+#column-baseline-grid {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: $users-comparison-bg-image--height;
+}
+
+.all-grids {
+  background-image: $users-comparison-bg-image,
+    linear-gradient(90deg, $color-grid-column $grid-width,
+    transparent 0px),
+    linear-gradient(0deg, rgba(0, 0, 0, 0) 95%,
+    $color-grid-baseline 100%);
+
+  background-position: $users-comparison-bg-image--position-x
+    $users-comparison-bg-image--position-y,
+    0% 0%,
+    0% 0%;
+
+  background-size: $users-comparison-bg-image--size-x
+    $users-comparison-bg-image--size-y,
+    ($grid-width + $grid-gutter) 100%,
+    100% $grid-leading;
+
+  background-attachment: $users-comparison-bg-image--attachment,
+    fixed,
+    fixed;
+
+  background-repeat: $users-comparison-bg-image--repeat,
+    no-repeat,
+    no-repeat;
+
+  background-color: $users-comparison-bg-image--color,
+    transparent;
+}
+
+.modular-grid {
+  background-image: linear-gradient(90deg, $color-grid-column $grid-width,
+    transparent 0px),
+    linear-gradient(0deg, rgba(0, 0, 0, 0) 95%, $color-grid-baseline 100%);
+  background-size: ($grid-width + $grid-gutter) 100%,
+    100% $grid-leading;
+}
+
+.column-grid {
+  background-image: linear-gradient(90deg, $color-grid-column $grid-width,
+    transparent 0px);
+  background-size: ($grid-width + $grid-gutter) 100%;
+}
+
+.baseline-grid {
+  background-image: linear-gradient(0deg, rgba(0, 0, 0, 0) 95%,
+    $color-grid-baseline 100%);
+  background-size: 100% $grid-leading;
+}
+
+.user-supplied-bg-image {
+  background-image: $users-comparison-bg-image;
+  background-position: $users-comparison-bg-image--position-x
+    $users-comparison-bg-image--position-y;
+  background-size: $users-comparison-bg-image--size-x
+    $users-comparison-bg-image--size-y;
+  background-attachment: $users-comparison-bg-image--attachment;
+  background-repeat: $users-comparison-bg-image--repeat;
+  background-color: $users-comparison-bg-image--color;
+}

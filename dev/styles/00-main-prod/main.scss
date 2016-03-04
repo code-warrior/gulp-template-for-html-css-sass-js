@@ -1,0 +1,52 @@
+@charset "utf-8";
+//
+// This file acts like an index, importing partials from each of the numbered
+// folders below. Any code, such as hacks and temporary fixes, not entered into a
+// proper partial must go in the shame file imported at the end of this document; no
+// syntax of any kind should ever be placed in this file.
+//
+// Contents:
+//
+// 00. Main (for production purposes, which does not include the modular grid)
+// 01. Fonts (@font-face rules)
+// 02. Utilities (Variables, functions, mixins, etc)
+// 03. Base (HTML elements, such as <header>, <footer>, <main>, etc)
+// 04. Layout (Layout templates, grid structure)
+// 05. Modules (modules, background, colors, typography)
+// 06. States (JavaScript-related Sass)
+// 07. Shame (Any code that would otherwise be marked with a TODO elsewhere)
+
+// ==================================================================================
+// Fonts
+// ==================================================================================
+@import '../01-fonts/index';
+
+// ==================================================================================
+// Utilities
+// ==================================================================================
+@import '../02-utilities/index';
+
+// ==================================================================================
+// Base
+// ==================================================================================
+@import '../03-base/index';
+
+// ==================================================================================
+// Layout
+// ==================================================================================
+@import '../04-layout/index';
+
+// ==================================================================================
+// Modules
+// ==================================================================================
+@import '../05-modules/index';
+
+// ==================================================================================
+// States
+// ==================================================================================
+@import '../06-states/index-for-prod';
+
+// ==================================================================================
+// Shame
+// ==================================================================================
+@import '../07-_shame';

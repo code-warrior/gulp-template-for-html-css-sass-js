@@ -1,0 +1,27 @@
+input, select, textarea {
+  font: 1em "Hind", sans-serif;
+}
+
+button {
+   border: 0;
+   background-color: #aaa;
+   color: #fff;
+   padding: 7px;
+}
+
+input {
+   background-color: transparent;
+   color: white;
+   padding: 0 8px;
+   width: 200px;
+   border: 0;
+   border-bottom: 2px solid white;
+
+   &[type="submit"] {
+      border: 0;
+   }
+}
+
+textarea {
+   padding: 10px;
+}
