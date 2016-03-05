@@ -11,11 +11,13 @@
     "url": "git+https://github.com/code-warrior/gulp-template-for-html-css-sass-js.git"
   },
   "keywords": [
+    "gulp",
     "automation",
     "template",
+    "html",
     "css",
     "sass",
-    "gulp"
+    "javascript"
   ],
   "author": "Roy Vanegas",
   "license": "ISC",
