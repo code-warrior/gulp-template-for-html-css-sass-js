@@ -275,26 +275,25 @@ gulp.task('build',
 /**
  * SERVE
  *
- * Used for development only, this task compiles HTML via Nunjucks, compiles CSS
- * via Sass, concatenates one or more JavaScript files into a single file, lints
- * JavaScript, then, finally, validates HTML.
+ * Used for development only, this task compiles CSS via Sass, concatenates one or
+ * more JavaScript files into a single file, lints JavaScript, then, finally,
+ * validates HTML.
  *
- * The localhost server looks for index.html from either the devTargetFolder or
- * the devSourceFolder as the first page to load. In this case, index.html is
- * *only* found in the devTargetFolder.
+ * The localhost server looks for index.html as the first page to load from either
+ * the temporary folder (devTargetFolder), the development folder (devSourceFolder),
+ * or the folder containing HTML (devSourceFolder + '/' + HTMLSourceFolder).
  *
  * Because Gulp uses a stream-based system over a file-based system, files that
- * require pre-processing must be written to a folder before being served.
- * Thus, this task serves HTML, CSS, and JavaScript from a temp folder, the
- * development target folder (devTargetFolder), while un-processed files, such
- * as fonts and images, are served from the development source folder
- * (devSourceFolder).
+ * require pre-processing must be written to a folder before being served. Thus, this
+ * task serves CSS and JS from a temp folder, the development target folder
+ * (devTargetFolder), while un-processed files, such as fonts and images, are served
+ * from the development source folder (devSourceFolder).
  *
- * If a JavaScript file is changed, all JavaScript files are rebuilt, the
- * resulting file is linted, and the browser reloads. The same goes for HTML.
+ * If a JS file is changed, all JS files are rebuilt, the resulting file is linted,
+ * and the browser reloads.
  *
- * If a Sass file is changed, a re-compilation of the primary CSS file is
- * generated, and the browser reloads.
+ * If a Sass file is changed, a re-compilation of the primary CSS file is generated,
+ * and the browser reloads.
  *
  * Finally, changes to images also trigger a browser reload.
  */
