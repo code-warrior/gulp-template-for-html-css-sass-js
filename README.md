@@ -1,24 +1,27 @@
-# An Elaborate Gulp Task for HTML, Sass/CSS, and JavaScript
+# Validate HTML
 
-## Installation
-All the node modules need to be installed before you can use this template. From the root of this project, type `npm install`, which will create a folder called `node_modules` and download myriad JavaScript files. If you encounter an `ERR!` message about `EACCES`, then you’ll need to run the command as the super user: `sudo npm install`.
+This task validates HTML pages. If no errors are found, the Gulp task will simply move down a line, reporting the task is done. On error, however, you’ll receive one or more messages about your HTML errors. These errors are reported as having been found at line and column values. For example, 1.5 means an error on line 1, column 5. Regardless of whether your HTML validates or not, no files are copied to any destination folder.
 
-Because the 13 Gulp tasks amount to about 220MB, expect to wait.
+# Compile CSS for Development Work
+This task looks for a single Sass file (`sassSourceFileForDev`), compiles the CSS from it, and writes the resulting file to the `cssDevDestinationFolder`. The final CSS file will be formatted with 2-space indentations. Any floating-point calculations will be carried out 10 places, and browser-specific prefixes will be added to support 2 browser versions behind all current browsers’ versions.
 
-## Tasks
-Typing `gulp --tasks` will provide you with a list of tasks included in `gulpfile.js`. Tasks such as `build` and `serve` invoke other tasks, which are nested in the output of `gulp --tasks`.
+# Compile All JavaScript Files Into One File for Development Work
+This task compiles `preCompiledJavaScriptFilesWithGrid` via the `compileJavaScript` concatenator, then writes the result to the `javaScriptDevTargetFolder` with filename `javaScriptTargetFilename`.
 
-Each task can be run on its own. For example, if all you want to do is validate your HTML, you can type `gulp validateHTML`, and if the task runs to completion without any messages, it means your HTML is valid and W3-compliant.
+# Lint JavaScript
+This task lints JavaScript using the linter defined by `JSLinter`, the second pipe in this task. (ESLint is the linter in this case.) In order to generate a linting report, the multiple JS files in the `preCompiledJSFilesWithoutGrid` are compiled into a single, memory-cached file with a temporary name, then sent to the linter for processing.
 
-Above each task in the `gulpfile.js` file is an elaborate comment discussing what each task does.
+ Note: The temporary file is *not* written to a destination folder.
 
-## Running the Project
-For development, run `gulp serve`, which runs multiple development-related tasks, then launches your default browser and listens for changes. Gulp keeps you informed via The Terminal. You can now work on your project as you normally would. Each time you save a file, your browser will refresh so you don’t have to.
+# Serve
+Used for development only, this task compiles CSS via Sass, concatenates one or more JavaScript files into a single file, lints JavaScript, then, finally, validates HTML.
 
-## About the Example
-The example in this project is taken from [https://github.com/code-warrior/abraham-lincoln-assassination-trivia](https://github.com/code-warrior/abraham-lincoln-assassination-trivia) and not meant to be elaborate. It’s only purpose is to show you how to stand up a web project that uses HTML, Sass/CSS, and JavaScript. Compare the scaffolding of the original project to this one in order to get a better idea of how this template is structured.
+The localhost server looks for `index.html` as the first page to load from either the temporary folder (`devTargetFolder`), the development folder (`devSourceFolder`), or the folder containing HTML (`devSourceFolder + '/' + HTMLSourceFolder`).
 
-## About the Scaffold
-All your work must be added to the sub-folders under the `dev` folder: your markup in `html`, your Sass/CSS in `styles`, your JavaScript in `scripts`, and your images in `img`.
+Files that require pre-processing must be written to a folder before being served. Thus, this task serves CSS and JS from a temp folder, the development target folder (`devTargetFolder`), while un-processed files, such as fonts and images, are served from the development source folder (`devSourceFolder`).
 
-Running `build` creates a folder called `prod`, which is the production version of your project. This is the folder you’d upload to your server if you were going live with your project.
+If a JS file is changed, all JS files are rebuilt, the resulting file is linted, and the browser reloads.
+
+If a Sass file is changed, a re-compilation of the primary CSS file is generated, and the browser reloads.
+
+Finally, changes to images also trigger a browser reload.
