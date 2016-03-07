@@ -283,11 +283,10 @@ gulp.task('build',
  * the temporary folder (devTargetFolder), the development folder (devSourceFolder),
  * or the folder containing HTML (devSourceFolder + '/' + HTMLSourceFolder).
  *
- * Because Gulp uses a stream-based system over a file-based system, files that
- * require pre-processing must be written to a folder before being served. Thus, this
- * task serves CSS and JS from a temp folder, the development target folder
- * (devTargetFolder), while un-processed files, such as fonts and images, are served
- * from the development source folder (devSourceFolder).
+ * Files that require pre-processing must be written to a folder before being served.
+ * Thus, this task serves CSS and JS from a temp folder, the development target
+ * folder (devTargetFolder), while un-processed files, such as fonts and images, are
+ * served from the development source folder (devSourceFolder).
  *
  * If a JS file is changed, all JS files are rebuilt, the resulting file is linted,
  * and the browser reloads.
