@@ -12,6 +12,10 @@ Each task can be run on its own. For example, if all you want to do is validate 
 
 Above each task in the `gulpfile.js` file is an elaborate comment discussing what each task does.
 
+## Individual Tasks as Branches
+
+Each of the 13 tasks has been broken out into its own branch, and the full `gulpfile` is available without comments and without variables. You can view all the branches with `git branch -r`.
+
 ## Running the Project
 For development, run `gulp serve`, which runs multiple development-related tasks, then launches your default browser and listens for changes. Gulp keeps you informed via The Terminal. You can now work on your project as you normally would. Each time you save a file, your browser will refresh so you don’t have to.
 
