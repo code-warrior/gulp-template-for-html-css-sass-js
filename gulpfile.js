@@ -9,7 +9,8 @@ var baseFolders = {
     },
     languageFolders = {
         html: 'html/',
-        js: 'scripts/'
+        js: 'scripts/',
+        styles: 'styles/'
     };
 
     // Gulp plugins
@@ -29,7 +30,6 @@ var gulp                           = require('gulp'),
     reload                         = browserSync.reload,
 
     // Folder name variables
-    sassCSSFolder                  = 'styles/',
     imagesFolder                   = 'img/',
 
     // Filenames and paths
@@ -46,17 +46,17 @@ var gulp                           = require('gulp'),
         baseFolders.src + languageFolders.html + '**/*.html'
     ],
 
-    sassSourceFileForDev     = baseFolders.src  + sassCSSFolder +
+    sassSourceFileForDev     = baseFolders.src  + languageFolders.styles +
                                    '00-main-dev/main.scss',
-    sassSourceFileForProd    = baseFolders.src + sassCSSFolder +
+    sassSourceFileForProd    = baseFolders.src + languageFolders.styles +
                                    '00-main-prod/main.scss',
 
     // Folder paths
     expendableFolders        = [baseFolders.dev, baseFolders.prod],
     JSDevTargetFolder        = baseFolders.dev  + languageFolders.js,
     JSProdTargetFolder       = baseFolders.prod + languageFolders.js,
-    cssDevDestinationFolder  = baseFolders.dev  + sassCSSFolder,
-    cssProdDestinationFolder = baseFolders.prod + sassCSSFolder;
+    cssDevDestinationFolder  = baseFolders.dev  + languageFolders.styles,
+    cssProdDestinationFolder = baseFolders.prod + languageFolders.styles;
 
 /**
  * VALIDATE HTML
@@ -255,7 +255,7 @@ gulp.task('copyUnprocessedAssetsToProdFolder', function () {
                                                          // but
         '!' + baseFolders.src + imagesFolder,            // ignore images;
         '!' + baseFolders.src + '**/*.js',               // ignore JS;
-        '!' + baseFolders.src + sassCSSFolder + '**'     // ignore Sass/CSS.
+        '!' + baseFolders.src + languageFolders.styles + '**'     // ignore Sass/CSS.
     ], {dot: true}).pipe(gulp.dest(baseFolders.prod));
 });
 
@@ -339,7 +339,7 @@ gulp.task('serve',
             reload
         );
 
-        gulp.watch(baseFolders.src + sassCSSFolder + '**/*.scss',
+        gulp.watch(baseFolders.src + languageFolders.styles + '**/*.scss',
             ['compileCSSForDev']).on(
             'change',
             reload
