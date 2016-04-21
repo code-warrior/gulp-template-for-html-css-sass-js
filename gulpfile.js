@@ -80,7 +80,7 @@ gulp.task('validateHTML', function () {
  * This task compresses all the HTML files in the HTMLFiles array, then writes the
  * compressed files to the prodTargetFolder.
  */
-gulp.task('compressHTML', function() {
+gulp.task('compressHTML', function () {
     return gulp.src(HTMLFiles)
         .pipe(HTMLMinifier({
             removeComments: true,
