@@ -42,10 +42,8 @@ var gulp                           = require('gulp'),
         sass: 'main.scss'
     },
 
-    sassSourceFileForDev = baseFolders.src + scaffoldFolders.styles +
-                                   '00-main-dev' + filenames.sass,
-    sassSourceFileForProd = baseFolders.src + scaffoldFolders.styles +
-                                   '00-main-prod' + filenames.sass;
+    sassSourceFileForProd =
+        baseFolders.src + scaffoldFolders.styles + '00-main-prod' + filenames.sass;
 
 /**
  * VALIDATE HTML
@@ -89,7 +87,7 @@ gulp.task('compressHTML', function () {
 /**
  * COMPILE CSS FOR DEVELOPMENT WORK
  *
- * This task looks for a single Sass file (sassSourceFileForDev), compiles the CSS
+ * This task looks for a single Sass file, compiles the CSS
  * from it, and writes the resulting file to the baseFolders.dev +
  * scaffoldFolders.styles. The final CSS file will be formatted with 2-space
  * indentations. Any floating-point calculations will be carried out 10 places, and
@@ -97,7 +95,10 @@ gulp.task('compressHTML', function () {
  * current browsers’ versions.
  */
 gulp.task('compileCSSForDev', function () {
-    return gulp.src(sassSourceFileForDev)
+    return gulp.src(baseFolders.src +
+                    scaffoldFolders.styles +
+                    '00-main-dev' +
+                    filenames.sass)
         .pipe(sass({
             outputStyle: 'expanded',
             precision: 10
