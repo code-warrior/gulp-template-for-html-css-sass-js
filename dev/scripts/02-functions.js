@@ -148,7 +148,7 @@ function checkAnswerToLincolnsBirthPlaceQuestion() {
             );
 
             break;
-        }
+    }
 }
 
 /**
@@ -212,7 +212,7 @@ function checkAnswerToLincolnsAssassinQuestion() {
             );
 
             break;
-        }
+    }
 }
 
 /**
