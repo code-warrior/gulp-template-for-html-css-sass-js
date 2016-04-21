@@ -7,7 +7,7 @@ var baseFolders = {
         dev: 'temp/',
         prod: 'prod/'
     },
-    languageFolders = {
+    scaffoldFolders = {
         html: 'html/',
         js: 'scripts/',
         styles: 'styles/'
@@ -35,28 +35,28 @@ var gulp                           = require('gulp'),
     // Filenames and paths
     JSTargetFilename               = 'app.js',
 
-    preCompiledJSFilesWithGrid    = baseFolders.src + languageFolders.js + '*.js',
+    preCompiledJSFilesWithGrid    = baseFolders.src + scaffoldFolders.js + '*.js',
     preCompiledJSFilesWithoutGrid = [
-        baseFolders.src + languageFolders.js + '*.js',
-        '!' + baseFolders.src + languageFolders.js + 'grid.js'
+        baseFolders.src + scaffoldFolders.js + '*.js',
+        '!' + baseFolders.src + scaffoldFolders.js + 'grid.js'
     ],
 
     HTMLFiles = [
-        baseFolders.src + languageFolders.html + '*.html',
-        baseFolders.src + languageFolders.html + '**/*.html'
+        baseFolders.src + scaffoldFolders.html + '*.html',
+        baseFolders.src + scaffoldFolders.html + '**/*.html'
     ],
 
-    sassSourceFileForDev     = baseFolders.src  + languageFolders.styles +
+    sassSourceFileForDev     = baseFolders.src  + scaffoldFolders.styles +
                                    '00-main-dev/main.scss',
-    sassSourceFileForProd    = baseFolders.src + languageFolders.styles +
+    sassSourceFileForProd    = baseFolders.src + scaffoldFolders.styles +
                                    '00-main-prod/main.scss',
 
     // Folder paths
     expendableFolders        = [baseFolders.dev, baseFolders.prod],
-    JSDevTargetFolder        = baseFolders.dev  + languageFolders.js,
-    JSProdTargetFolder       = baseFolders.prod + languageFolders.js,
-    cssDevDestinationFolder  = baseFolders.dev  + languageFolders.styles,
-    cssProdDestinationFolder = baseFolders.prod + languageFolders.styles;
+    JSDevTargetFolder        = baseFolders.dev  + scaffoldFolders.js,
+    JSProdTargetFolder       = baseFolders.prod + scaffoldFolders.js,
+    cssDevDestinationFolder  = baseFolders.dev  + scaffoldFolders.styles,
+    cssProdDestinationFolder = baseFolders.prod + scaffoldFolders.styles;
 
 /**
  * VALIDATE HTML
@@ -255,7 +255,7 @@ gulp.task('copyUnprocessedAssetsToProdFolder', function () {
                                                          // but
         '!' + baseFolders.src + imagesFolder,            // ignore images;
         '!' + baseFolders.src + '**/*.js',               // ignore JS;
-        '!' + baseFolders.src + languageFolders.styles + '**'     // ignore Sass/CSS.
+        '!' + baseFolders.src + scaffoldFolders.styles + '**'     // ignore Sass/CSS.
     ], {dot: true}).pipe(gulp.dest(baseFolders.prod));
 });
 
@@ -286,7 +286,7 @@ gulp.task('build',
  *
  * The localhost server looks for index.html as the first page to load from either
  * the temporary folder (baseFolders.dev), the development folder (baseFolders.src),
- * or the folder containing HTML (baseFolders.src + '/' + languageFolders.html).
+ * or the folder containing HTML (baseFolders.src + '/' + scaffoldFolders.html).
  *
  * Files that require pre-processing must be written to a folder before being served.
  * Thus, this task serves CSS and JS from a temp folder, the development target
@@ -317,12 +317,12 @@ gulp.task('serve',
                 baseDir: [
                     baseFolders.dev,
                     baseFolders.src,
-                    baseFolders.src + languageFolders.html
+                    baseFolders.src + scaffoldFolders.html
                 ]
             }
         });
 
-        gulp.watch(baseFolders.src + languageFolders.js + '*.js',
+        gulp.watch(baseFolders.src + scaffoldFolders.js + '*.js',
             ['compileJavaScriptForDev', 'lintJS']).on(
             'change',
             reload
@@ -333,13 +333,13 @@ gulp.task('serve',
             reload
         );
 
-        gulp.watch([baseFolders.src + languageFolders.html + '**/*.html'],
+        gulp.watch([baseFolders.src + scaffoldFolders.html + '**/*.html'],
             ['validateHTML']).on(
             'change',
             reload
         );
 
-        gulp.watch(baseFolders.src + languageFolders.styles + '**/*.scss',
+        gulp.watch(baseFolders.src + scaffoldFolders.styles + '**/*.scss',
             ['compileCSSForDev']).on(
             'change',
             reload
