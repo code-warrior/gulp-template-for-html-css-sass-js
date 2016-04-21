@@ -10,7 +10,8 @@ var baseFolders = {
     scaffoldFolders = {
         html: 'html/',
         js: 'scripts/',
-        styles: 'styles/'
+        styles: 'styles/',
+        images: 'img/'
     };
 
     // Gulp plugins
@@ -28,9 +29,6 @@ var gulp                           = require('gulp'),
     tempCache                      = require('gulp-cache'),
     browserSync                    = require('browser-sync'),
     reload                         = browserSync.reload,
-
-    // Folder name variables
-    imagesFolder                   = 'img/',
 
     // Filenames and paths
     JSTargetFilename               = 'app.js',
@@ -225,7 +223,7 @@ gulp.task('lintJS', function () {
  * then copies the final compressed images to the baseFolders.prod.
  */
 gulp.task('compressThenCopyImagesToProdFolder', function () {
-    return gulp.src(baseFolders.src + imagesFolder + '**/*')
+    return gulp.src(baseFolders.src + scaffoldFolders.images + '**/*')
         .pipe(tempCache(
             imageCompressor({
                 optimizationLevel: 3, // For PNG files. Accepts 0 – 7; 3 is default.
@@ -234,7 +232,7 @@ gulp.task('compressThenCopyImagesToProdFolder', function () {
                 interlaced: false     // For GIF files. Set to true for compression.
             })
         ))
-        .pipe(gulp.dest(baseFolders.prod + imagesFolder));
+        .pipe(gulp.dest(baseFolders.prod + scaffoldFolders.images));
 });
 
 /**
@@ -253,7 +251,7 @@ gulp.task('copyUnprocessedAssetsToProdFolder', function () {
         baseFolders.src + '*.*',                         // Source all files,
         baseFolders.src + '**',                          // and all folders,
                                                          // but
-        '!' + baseFolders.src + imagesFolder,            // ignore images;
+        '!' + baseFolders.src + scaffoldFolders.images,            // ignore images;
         '!' + baseFolders.src + '**/*.js',               // ignore JS;
         '!' + baseFolders.src + scaffoldFolders.styles + '**'     // ignore Sass/CSS.
     ], {dot: true}).pipe(gulp.dest(baseFolders.prod));
@@ -328,7 +326,7 @@ gulp.task('serve',
             reload
         );
 
-        gulp.watch(baseFolders.src + imagesFolder + '**/*').on(
+        gulp.watch(baseFolders.src + scaffoldFolders.images + '**/*').on(
             'change',
             reload
         );
