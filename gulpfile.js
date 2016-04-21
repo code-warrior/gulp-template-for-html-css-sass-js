@@ -8,7 +8,8 @@ var baseFolders = {
         prod: 'prod/'
     },
     languageFolders = {
-        html: 'html/'
+        html: 'html/',
+        js: 'scripts/'
     };
 
     // Gulp plugins
@@ -29,16 +30,15 @@ var gulp                           = require('gulp'),
 
     // Folder name variables
     sassCSSFolder                  = 'styles/',
-    JSFolder                       = 'scripts/',
     imagesFolder                   = 'img/',
 
     // Filenames and paths
     JSTargetFilename               = 'app.js',
 
-    preCompiledJSFilesWithGrid    = baseFolders.src + JSFolder + '*.js',
+    preCompiledJSFilesWithGrid    = baseFolders.src + languageFolders.js + '*.js',
     preCompiledJSFilesWithoutGrid = [
-        baseFolders.src + JSFolder + '*.js',
-        '!' + baseFolders.src + JSFolder + 'grid.js'
+        baseFolders.src + languageFolders.js + '*.js',
+        '!' + baseFolders.src + languageFolders.js + 'grid.js'
     ],
 
     HTMLFiles = [
@@ -53,8 +53,8 @@ var gulp                           = require('gulp'),
 
     // Folder paths
     expendableFolders        = [baseFolders.dev, baseFolders.prod],
-    JSDevTargetFolder        = baseFolders.dev  + JSFolder,
-    JSProdTargetFolder       = baseFolders.prod + JSFolder,
+    JSDevTargetFolder        = baseFolders.dev  + languageFolders.js,
+    JSProdTargetFolder       = baseFolders.prod + languageFolders.js,
     cssDevDestinationFolder  = baseFolders.dev  + sassCSSFolder,
     cssProdDestinationFolder = baseFolders.prod + sassCSSFolder;
 
@@ -322,7 +322,7 @@ gulp.task('serve',
             }
         });
 
-        gulp.watch(baseFolders.src + JSFolder + '*.js',
+        gulp.watch(baseFolders.src + languageFolders.js + '*.js',
             ['compileJavaScriptForDev', 'lintJS']).on(
             'change',
             reload
