@@ -55,10 +55,7 @@ var gulp                           = require('gulp'),
     sassSourceFileForDev = baseFolders.src  + scaffoldFolders.styles +
                                    '00-main-dev/main.scss',
     sassSourceFileForProd = baseFolders.src + scaffoldFolders.styles +
-                                   '00-main-prod/main.scss',
-
-    // Folder paths
-    expendableFolders = [baseFolders.dev, baseFolders.prod];
+                                   '00-main-prod/main.scss';
 
 /**
  * VALIDATE HTML
@@ -357,7 +354,8 @@ gulp.task('serve',
  */
 gulp.task('clean', function () {
     var fs = require('fs'),
-        i;
+        i,
+        expendableFolders = [baseFolders.dev, baseFolders.prod];
 
     for (i = 0; i < expendableFolders.length; i++) {
         try {
