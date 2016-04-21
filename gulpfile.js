@@ -51,7 +51,6 @@ var gulp                           = require('gulp'),
 
     // Folder paths
     expendableFolders        = [baseFolders.dev, baseFolders.prod],
-    JSProdTargetFolder       = baseFolders.prod + scaffoldFolders.js,
     cssDevDestinationFolder  = baseFolders.dev  + scaffoldFolders.styles,
     cssProdDestinationFolder = baseFolders.prod + scaffoldFolders.styles;
 
@@ -142,7 +141,7 @@ gulp.task('compileCSSForProd', function () {
 gulp.task('compileJSForDev', function () {
     return gulp.src(preCompiledJSFilesWithGrid)
         .pipe(JSConcatenator(JSTargetFilename))
-        .pipe(gulp.dest(baseFolders.dev  + scaffoldFolders.js));
+        .pipe(gulp.dest(baseFolders.dev + scaffoldFolders.js));
 });
 
 /**
@@ -150,7 +149,7 @@ gulp.task('compileJSForDev', function () {
  *
  * This task compiles one or more JavaScript files into a single file whose name is
  * the value to the JSTargetFilename variable. The resulting file is compressed then
- * written to the JSProdTargetFolder.
+ * written to the baseFolders.prod + scaffoldFolders.js.
  *
  * Note: This task does not contain the grid used during development.
  */
@@ -158,7 +157,7 @@ gulp.task('compileJSForProd', function () {
     return gulp.src(preCompiledJSFilesWithoutGrid)
         .pipe(JSConcatenator(JSTargetFilename))
         .pipe(JSCompressor())
-        .pipe(gulp.dest(JSProdTargetFolder));
+        .pipe(gulp.dest(baseFolders.prod + scaffoldFolders.js));
 });
 
 /**
