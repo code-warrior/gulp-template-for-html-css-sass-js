@@ -19,39 +19,39 @@ var gulp                           = require('gulp'),
     reload                         = browserSync.reload,
 
     // Folder name variables
-    devSourceFolder                = 'dev',
-    devTargetFolder                = 'temp',
-    prodTargetFolder               = 'prod',
-    HTMLSourceFolder               = 'html',
-    JSFolder                       = 'scripts',
-    imagesFolder                   = 'img',
-    sassCSSFolder                  = 'styles',
+    devSourceFolder                = 'dev/',
+    devTargetFolder                = 'temp/',
+    prodTargetFolder               = 'prod/',
+    HTMLSourceFolder               = 'html/',
+    JSFolder                       = 'scripts/',
+    imagesFolder                   = 'img/',
+    sassCSSFolder                  = 'styles/',
 
     // Filenames and paths
     JSTargetFilename               = 'app.js',
 
-    preCompiledJSFilesWithGrid    = devSourceFolder + '/' + JSFolder + '/*.js',
+    preCompiledJSFilesWithGrid    = devSourceFolder + JSFolder + '*.js',
     preCompiledJSFilesWithoutGrid = [
-        devSourceFolder + '/' + JSFolder + '/*.js',
-        '!' + devSourceFolder + '/' + JSFolder + '/grid.js'
+        devSourceFolder + JSFolder + '*.js',
+        '!' + devSourceFolder + JSFolder + 'grid.js'
     ],
 
     HTMLFiles = [
-        devSourceFolder + '/' + HTMLSourceFolder + '/*.html',
-        devSourceFolder + '/' + HTMLSourceFolder + '/**/*.html'
+        devSourceFolder + HTMLSourceFolder + '*.html',
+        devSourceFolder + HTMLSourceFolder + '**/*.html'
     ],
 
-    sassSourceFileForDev     = devSourceFolder  + '/' + sassCSSFolder +
-                                   '/00-main-dev/main.scss',
-    sassSourceFileForProd    = devSourceFolder + '/' + sassCSSFolder +
-                                   '/00-main-prod/main.scss',
+    sassSourceFileForDev     = devSourceFolder  + sassCSSFolder +
+                                   '00-main-dev/main.scss',
+    sassSourceFileForProd    = devSourceFolder + sassCSSFolder +
+                                   '00-main-prod/main.scss',
 
     // Folder paths
     expendableFolders        = [devTargetFolder, prodTargetFolder],
-    JSDevTargetFolder        = devTargetFolder  + '/' + JSFolder,
-    JSProdTargetFolder       = prodTargetFolder + '/' + JSFolder,
-    cssDevDestinationFolder  = devTargetFolder  + '/' + sassCSSFolder + '/',
-    cssProdDestinationFolder = prodTargetFolder + '/' + sassCSSFolder + '/';
+    JSDevTargetFolder        = devTargetFolder  + JSFolder,
+    JSProdTargetFolder       = prodTargetFolder + JSFolder,
+    cssDevDestinationFolder  = devTargetFolder  + sassCSSFolder,
+    cssProdDestinationFolder = prodTargetFolder + sassCSSFolder;
 
 /**
  * VALIDATE HTML
@@ -220,7 +220,7 @@ gulp.task('lintJS', function () {
  * then copies the final compressed images to the prodTargetFolder.
  */
 gulp.task('compressThenCopyImagesToProdFolder', function () {
-    return gulp.src(devSourceFolder + '/' + imagesFolder + '/**/*')
+    return gulp.src(devSourceFolder + imagesFolder + '**/*')
         .pipe(tempCache(
             imageCompressor({
                 optimizationLevel: 3, // For PNG files. Accepts 0 – 7; 3 is default.
@@ -229,7 +229,7 @@ gulp.task('compressThenCopyImagesToProdFolder', function () {
                 interlaced: false     // For GIF files. Set to true for compression.
             })
         ))
-        .pipe(gulp.dest(prodTargetFolder + '/' + imagesFolder));
+        .pipe(gulp.dest(prodTargetFolder + imagesFolder));
 });
 
 /**
@@ -245,12 +245,12 @@ gulp.task('compressThenCopyImagesToProdFolder', function () {
  */
 gulp.task('copyUnprocessedAssetsToProdFolder', function () {
     return gulp.src([
-        devSourceFolder + '/*.*',                               // Source all files,
-        devSourceFolder + '/**',                                // and all folders,
-                                                                // but
-        '!' + devSourceFolder + '/' + imagesFolder,             // ignore images;
-        '!' + devSourceFolder + '/**/*.js',                     // ignore JS;
-        '!' + devSourceFolder + '/' + sassCSSFolder + '/**'     // ignore Sass/CSS.
+        devSourceFolder + '*.*',                         // Source all files,
+        devSourceFolder + '**',                          // and all folders,
+                                                         // but
+        '!' + devSourceFolder + imagesFolder,            // ignore images;
+        '!' + devSourceFolder + '**/*.js',               // ignore JS;
+        '!' + devSourceFolder + sassCSSFolder + '**'     // ignore Sass/CSS.
     ], {dot: true}).pipe(gulp.dest(prodTargetFolder));
 });
 
@@ -312,29 +312,29 @@ gulp.task('serve',
                 baseDir: [
                     devTargetFolder,
                     devSourceFolder,
-                    devSourceFolder + '/' + HTMLSourceFolder
+                    devSourceFolder + HTMLSourceFolder
                 ]
             }
         });
 
-        gulp.watch(devSourceFolder + '/' + JSFolder + '/*.js',
+        gulp.watch(devSourceFolder + JSFolder + '*.js',
             ['compileJavaScriptForDev', 'lintJS']).on(
             'change',
             reload
         );
 
-        gulp.watch(devSourceFolder + '/' + imagesFolder + '/**/*').on(
+        gulp.watch(devSourceFolder + imagesFolder + '**/*').on(
             'change',
             reload
         );
 
-        gulp.watch([devSourceFolder + '/' + HTMLSourceFolder + '/**/*.html'],
+        gulp.watch([devSourceFolder + HTMLSourceFolder + '**/*.html'],
             ['validateHTML']).on(
             'change',
             reload
         );
 
-        gulp.watch(devSourceFolder + '/' + sassCSSFolder + '/**/*.scss',
+        gulp.watch(devSourceFolder + sassCSSFolder + '**/*.scss',
             ['compileCSSForDev']).on(
             'change',
             reload
