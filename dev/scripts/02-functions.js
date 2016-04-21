@@ -171,8 +171,9 @@ function checkAnswerToLincolnsAssassinQuestion() {
             setTimeout(
                 function () {
                     p.innerHTML = '<span class="fa fa-remove"></span> Lee Harvey ' +
-                        'Oswald did assassinate a president, but it wasn’t Lincoln. ' +
-                        'He took the life of John F Kennedy on 22 November 1963.';
+                        'Oswald did assassinate a president, but it wasn’t ' +
+                        'Lincoln. He took the life of John F Kennedy on 22 ' +
+                        'November 1963.';
                     aside.setAttribute('class', 'transition');
                 },
                 250
@@ -184,8 +185,8 @@ function checkAnswerToLincolnsAssassinQuestion() {
             setTimeout(
                 function () {
                     p.innerHTML = '<span class="fa fa-check"></span> Indeed, the ' +
-                        'actor John Wilkes Booth killed Lincoln in a cowardly act, ' +
-                        'shooting the president from behind.';
+                        'actor John Wilkes Booth killed Lincoln in a cowardly ' +
+                        'act, shooting the president from behind.';
                     aside.setAttribute('class', 'transition');
                     moveToQuestion3.style.display = 'inline';
                     setTimeout(
@@ -203,9 +204,9 @@ function checkAnswerToLincolnsAssassinQuestion() {
             aside.classList.remove('transition');
             setTimeout(
                 function () {
-                    p.innerHTML = '<span class="fa fa-remove"></span> John Hinckley ' +
-                        'Jr never killed a president, but he attempted to assassinate ' +
-                        'Ronald Reagan in 1981.';
+                    p.innerHTML = '<span class="fa fa-remove"></span> John ' +
+                        'Hinckley Jr never killed a president, but he attempted ' +
+                        'to assassinate Ronald Reagan in 1981.';
                     aside.setAttribute('class', 'transition');
                 },
                 250
