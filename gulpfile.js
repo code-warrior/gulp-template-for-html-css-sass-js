@@ -2,6 +2,10 @@
 
 'use strict';
 
+var baseFolders = {
+    src: 'dev/'
+};
+
     // Gulp plugins
 var gulp                           = require('gulp'),
     del                            = require('del'),
@@ -19,7 +23,6 @@ var gulp                           = require('gulp'),
     reload                         = browserSync.reload,
 
     // Folder name variables
-    devSourceFolder                = 'dev/',
     devTargetFolder                = 'temp/',
     prodTargetFolder               = 'prod/',
     HTMLSourceFolder               = 'html/',
@@ -30,20 +33,20 @@ var gulp                           = require('gulp'),
     // Filenames and paths
     JSTargetFilename               = 'app.js',
 
-    preCompiledJSFilesWithGrid    = devSourceFolder + JSFolder + '*.js',
+    preCompiledJSFilesWithGrid    = baseFolders.src + JSFolder + '*.js',
     preCompiledJSFilesWithoutGrid = [
-        devSourceFolder + JSFolder + '*.js',
-        '!' + devSourceFolder + JSFolder + 'grid.js'
+        baseFolders.src + JSFolder + '*.js',
+        '!' + baseFolders.src + JSFolder + 'grid.js'
     ],
 
     HTMLFiles = [
-        devSourceFolder + HTMLSourceFolder + '*.html',
-        devSourceFolder + HTMLSourceFolder + '**/*.html'
+        baseFolders.src + HTMLSourceFolder + '*.html',
+        baseFolders.src + HTMLSourceFolder + '**/*.html'
     ],
 
-    sassSourceFileForDev     = devSourceFolder  + sassCSSFolder +
+    sassSourceFileForDev     = baseFolders.src  + sassCSSFolder +
                                    '00-main-dev/main.scss',
-    sassSourceFileForProd    = devSourceFolder + sassCSSFolder +
+    sassSourceFileForProd    = baseFolders.src + sassCSSFolder +
                                    '00-main-prod/main.scss',
 
     // Folder paths
@@ -216,11 +219,11 @@ gulp.task('lintJS', function () {
 /**
  * COMPRESS THEN COPY IMAGES TO THE PRODUCTION FOLDER
  *
- * This task sources all the images in the devSourceFolder, compresses PNGs and JPGs,
+ * This task sources all the images in the baseFolders.src, compresses PNGs and JPGs,
  * then copies the final compressed images to the prodTargetFolder.
  */
 gulp.task('compressThenCopyImagesToProdFolder', function () {
-    return gulp.src(devSourceFolder + imagesFolder + '**/*')
+    return gulp.src(baseFolders.src + imagesFolder + '**/*')
         .pipe(tempCache(
             imageCompressor({
                 optimizationLevel: 3, // For PNG files. Accepts 0 – 7; 3 is default.
@@ -235,7 +238,7 @@ gulp.task('compressThenCopyImagesToProdFolder', function () {
 /**
  * COPY UNPROCESSED ASSETS TO THE PRODUCTION FOLDER
  *
- * This task copies all unprocessed assets in the devSourceFolder to the
+ * This task copies all unprocessed assets in the baseFolders.src to the
  * prodTargetFolder that aren’t images, JavaScript, or Sass/CSS. This is because
  * those files are processed by other tasks, then copied after processing:
  *
@@ -245,12 +248,12 @@ gulp.task('compressThenCopyImagesToProdFolder', function () {
  */
 gulp.task('copyUnprocessedAssetsToProdFolder', function () {
     return gulp.src([
-        devSourceFolder + '*.*',                         // Source all files,
-        devSourceFolder + '**',                          // and all folders,
+        baseFolders.src + '*.*',                         // Source all files,
+        baseFolders.src + '**',                          // and all folders,
                                                          // but
-        '!' + devSourceFolder + imagesFolder,            // ignore images;
-        '!' + devSourceFolder + '**/*.js',               // ignore JS;
-        '!' + devSourceFolder + sassCSSFolder + '**'     // ignore Sass/CSS.
+        '!' + baseFolders.src + imagesFolder,            // ignore images;
+        '!' + baseFolders.src + '**/*.js',               // ignore JS;
+        '!' + baseFolders.src + sassCSSFolder + '**'     // ignore Sass/CSS.
     ], {dot: true}).pipe(gulp.dest(prodTargetFolder));
 });
 
@@ -280,13 +283,13 @@ gulp.task('build',
  * validates HTML.
  *
  * The localhost server looks for index.html as the first page to load from either
- * the temporary folder (devTargetFolder), the development folder (devSourceFolder),
- * or the folder containing HTML (devSourceFolder + '/' + HTMLSourceFolder).
+ * the temporary folder (devTargetFolder), the development folder (baseFolders.src),
+ * or the folder containing HTML (baseFolders.src + '/' + HTMLSourceFolder).
  *
  * Files that require pre-processing must be written to a folder before being served.
  * Thus, this task serves CSS and JS from a temp folder, the development target
  * folder (devTargetFolder), while un-processed files, such as fonts and images, are
- * served from the development source folder (devSourceFolder).
+ * served from the development source folder (baseFolders.src).
  *
  * If a JS file is changed, all JS files are rebuilt, the resulting file is linted,
  * and the browser reloads.
@@ -311,30 +314,30 @@ gulp.task('serve',
             server: {
                 baseDir: [
                     devTargetFolder,
-                    devSourceFolder,
-                    devSourceFolder + HTMLSourceFolder
+                    baseFolders.src,
+                    baseFolders.src + HTMLSourceFolder
                 ]
             }
         });
 
-        gulp.watch(devSourceFolder + JSFolder + '*.js',
+        gulp.watch(baseFolders.src + JSFolder + '*.js',
             ['compileJavaScriptForDev', 'lintJS']).on(
             'change',
             reload
         );
 
-        gulp.watch(devSourceFolder + imagesFolder + '**/*').on(
+        gulp.watch(baseFolders.src + imagesFolder + '**/*').on(
             'change',
             reload
         );
 
-        gulp.watch([devSourceFolder + HTMLSourceFolder + '**/*.html'],
+        gulp.watch([baseFolders.src + HTMLSourceFolder + '**/*.html'],
             ['validateHTML']).on(
             'change',
             reload
         );
 
-        gulp.watch(devSourceFolder + sassCSSFolder + '**/*.scss',
+        gulp.watch(baseFolders.src + sassCSSFolder + '**/*.scss',
             ['compileCSSForDev']).on(
             'change',
             reload
