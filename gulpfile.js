@@ -3,10 +3,13 @@
 'use strict';
 
 var baseFolders = {
-    src: 'dev/',
-    dev: 'temp/',
-    prod: 'prod/'
-};
+        src: 'dev/',
+        dev: 'temp/',
+        prod: 'prod/'
+    },
+    languageFolders = {
+        html: 'html/'
+    };
 
     // Gulp plugins
 var gulp                           = require('gulp'),
@@ -25,7 +28,6 @@ var gulp                           = require('gulp'),
     reload                         = browserSync.reload,
 
     // Folder name variables
-    HTMLSourceFolder               = 'html/',
     sassCSSFolder                  = 'styles/',
     JSFolder                       = 'scripts/',
     imagesFolder                   = 'img/',
@@ -40,8 +42,8 @@ var gulp                           = require('gulp'),
     ],
 
     HTMLFiles = [
-        baseFolders.src + HTMLSourceFolder + '*.html',
-        baseFolders.src + HTMLSourceFolder + '**/*.html'
+        baseFolders.src + languageFolders.html + '*.html',
+        baseFolders.src + languageFolders.html + '**/*.html'
     ],
 
     sassSourceFileForDev     = baseFolders.src  + sassCSSFolder +
@@ -284,7 +286,7 @@ gulp.task('build',
  *
  * The localhost server looks for index.html as the first page to load from either
  * the temporary folder (baseFolders.dev), the development folder (baseFolders.src),
- * or the folder containing HTML (baseFolders.src + '/' + HTMLSourceFolder).
+ * or the folder containing HTML (baseFolders.src + '/' + languageFolders.html).
  *
  * Files that require pre-processing must be written to a folder before being served.
  * Thus, this task serves CSS and JS from a temp folder, the development target
@@ -315,7 +317,7 @@ gulp.task('serve',
                 baseDir: [
                     baseFolders.dev,
                     baseFolders.src,
-                    baseFolders.src + HTMLSourceFolder
+                    baseFolders.src + languageFolders.html
                 ]
             }
         });
@@ -331,7 +333,7 @@ gulp.task('serve',
             reload
         );
 
-        gulp.watch([baseFolders.src + HTMLSourceFolder + '**/*.html'],
+        gulp.watch([baseFolders.src + languageFolders.html + '**/*.html'],
             ['validateHTML']).on(
             'change',
             reload
