@@ -57,8 +57,8 @@ var gulp                           = require('gulp'),
  */
 gulp.task('validateHTML', function () {
     return gulp.src([
-        baseFolders.src + scaffoldFolders.html + '*.html',
-        baseFolders.src + scaffoldFolders.html + '**/*.html'
+        baseFolders.src + scaffoldFolders.html + filenames.html.all,
+        baseFolders.src + scaffoldFolders.html + filenames.html.allNested
     ])
         .pipe(HTMLValidator());
 });
@@ -71,8 +71,8 @@ gulp.task('validateHTML', function () {
  */
 gulp.task('compressHTML', function () {
     return gulp.src([
-        baseFolders.src + scaffoldFolders.html + '*.html',
-        baseFolders.src + scaffoldFolders.html + '**/*.html'
+        baseFolders.src + scaffoldFolders.html + filenames.html.all,
+        baseFolders.src + scaffoldFolders.html + filenames.html.allNested
     ])
         .pipe(HTMLMinifier({
             removeComments: true,
