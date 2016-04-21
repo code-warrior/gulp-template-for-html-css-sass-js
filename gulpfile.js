@@ -50,8 +50,7 @@ var gulp                           = require('gulp'),
                                    '00-main-prod/main.scss',
 
     // Folder paths
-    expendableFolders        = [baseFolders.dev, baseFolders.prod],
-    cssProdDestinationFolder = baseFolders.prod + scaffoldFolders.styles;
+    expendableFolders        = [baseFolders.dev, baseFolders.prod];
 
 /**
  * VALIDATE HTML
@@ -112,7 +111,7 @@ gulp.task('compileCSSForDev', function () {
  * COMPILE CSS FOR PRODUCTION
  *
  * This task looks for a single Sass file (sassSourceFileForProd), compiles the CSS
- * from it, and writes the resulting single CSS file to the cssProdDestinationFolder.
+ * from it, and writes the resulting single CSS file to the baseFolders.prod + scaffoldFolders.styles.
  * Any floating-point calculations will be carried out 10 places, and
  * browser-specific prefixes will be added to support 2 browser versions behind all
  * current browsers’ versions. Lastly, the final CSS file is passed through two
@@ -128,7 +127,7 @@ gulp.task('compileCSSForProd', function () {
             browsers: ['last 2 versions']
         }))
         .pipe(CSSCompressor())
-        .pipe(gulp.dest(cssProdDestinationFolder));
+        .pipe(gulp.dest(baseFolders.prod + scaffoldFolders.styles));
 });
 
 /**
