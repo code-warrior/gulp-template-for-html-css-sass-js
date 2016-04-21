@@ -51,7 +51,6 @@ var gulp                           = require('gulp'),
 
     // Folder paths
     expendableFolders        = [baseFolders.dev, baseFolders.prod],
-    cssDevDestinationFolder  = baseFolders.dev  + scaffoldFolders.styles,
     cssProdDestinationFolder = baseFolders.prod + scaffoldFolders.styles;
 
 /**
@@ -91,10 +90,11 @@ gulp.task('compressHTML', function () {
  * COMPILE CSS FOR DEVELOPMENT WORK
  *
  * This task looks for a single Sass file (sassSourceFileForDev), compiles the CSS
- * from it, and writes the resulting file to the cssDevDestinationFolder. The final
- * CSS file will be formatted with 2-space indentations. Any floating-point
- * calculations will be carried out 10 places, and browser-specific prefixes will be
- * added to support 2 browser versions behind all current browsers’ versions.
+ * from it, and writes the resulting file to the baseFolders.dev +
+ * scaffoldFolders.styles. The final CSS file will be formatted with 2-space
+ * indentations. Any floating-point calculations will be carried out 10 places, and
+ * browser-specific prefixes will be added to support 2 browser versions behind all
+ * current browsers’ versions.
  */
 gulp.task('compileCSSForDev', function () {
     return gulp.src(sassSourceFileForDev)
@@ -105,7 +105,7 @@ gulp.task('compileCSSForDev', function () {
         .pipe(browserSpecificPrefixGenerator({
             browsers: ['last 2 versions']
         }))
-        .pipe(gulp.dest(cssDevDestinationFolder));
+        .pipe(gulp.dest(baseFolders.dev + scaffoldFolders.styles));
 });
 
 /**
