@@ -51,7 +51,6 @@ var gulp                           = require('gulp'),
 
     // Folder paths
     expendableFolders        = [baseFolders.dev, baseFolders.prod],
-    JSDevTargetFolder        = baseFolders.dev  + scaffoldFolders.js,
     JSProdTargetFolder       = baseFolders.prod + scaffoldFolders.js,
     cssDevDestinationFolder  = baseFolders.dev  + scaffoldFolders.styles,
     cssProdDestinationFolder = baseFolders.prod + scaffoldFolders.styles;
@@ -143,7 +142,7 @@ gulp.task('compileCSSForProd', function () {
 gulp.task('compileJSForDev', function () {
     return gulp.src(preCompiledJSFilesWithGrid)
         .pipe(JSConcatenator(JSTargetFilename))
-        .pipe(gulp.dest(JSDevTargetFolder));
+        .pipe(gulp.dest(baseFolders.dev  + scaffoldFolders.js));
 });
 
 /**
