@@ -42,7 +42,7 @@ var gulp                           = require('gulp'),
     browserSync                    = require('browser-sync'),
     reload                         = browserSync.reload,
 
-    preCompiledJSFilesWithGrid    = baseFolders.src + scaffoldFolders.js + '*.js',
+    preCompiledJSFilesWithGrid = baseFolders.src + scaffoldFolders.js + '*.js',
     preCompiledJSFilesWithoutGrid = [
         baseFolders.src + scaffoldFolders.js + '*.js',
         '!' + baseFolders.src + scaffoldFolders.js + 'grid.js'
@@ -53,13 +53,13 @@ var gulp                           = require('gulp'),
         baseFolders.src + scaffoldFolders.html + '**/*.html'
     ],
 
-    sassSourceFileForDev     = baseFolders.src  + scaffoldFolders.styles +
+    sassSourceFileForDev = baseFolders.src  + scaffoldFolders.styles +
                                    '00-main-dev/main.scss',
-    sassSourceFileForProd    = baseFolders.src + scaffoldFolders.styles +
+    sassSourceFileForProd = baseFolders.src + scaffoldFolders.styles +
                                    '00-main-prod/main.scss',
 
     // Folder paths
-    expendableFolders        = [baseFolders.dev, baseFolders.prod];
+    expendableFolders = [baseFolders.dev, baseFolders.prod];
 
 /**
  * VALIDATE HTML
