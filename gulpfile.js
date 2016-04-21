@@ -2,7 +2,23 @@
 
 'use strict';
 
-var baseFolders = {
+    // Gulp plugins
+var gulp                           = require('gulp'),
+    del                            = require('del'),
+    sass                           = require('gulp-sass'),
+    CSSCompressor                  = require('gulp-csso'),
+    browserSpecificPrefixGenerator = require('gulp-autoprefixer'),
+    HTMLMinifier                   = require('gulp-htmlmin'),
+    HTMLValidator                  = require('gulp-html'),
+    JSConcatenator                 = require('gulp-concat'),
+    JSLinter                       = require('gulp-eslint'),
+    JSCompressor                   = require('gulp-uglify'),
+    imageCompressor                = require('gulp-imagemin'),
+    tempCache                      = require('gulp-cache'),
+    browserSync                    = require('browser-sync'),
+    reload                         = browserSync.reload,
+
+    baseFolders = {
         src: 'dev/',
         dev: 'temp/',
         prod: 'prod/'
@@ -24,23 +40,7 @@ var baseFolders = {
             allNested: '**/*.html'
         },
         sass: 'main.scss'
-    };
-
-    // Gulp plugins
-var gulp                           = require('gulp'),
-    del                            = require('del'),
-    sass                           = require('gulp-sass'),
-    CSSCompressor                  = require('gulp-csso'),
-    browserSpecificPrefixGenerator = require('gulp-autoprefixer'),
-    HTMLMinifier                   = require('gulp-htmlmin'),
-    HTMLValidator                  = require('gulp-html'),
-    JSConcatenator                 = require('gulp-concat'),
-    JSLinter                       = require('gulp-eslint'),
-    JSCompressor                   = require('gulp-uglify'),
-    imageCompressor                = require('gulp-imagemin'),
-    tempCache                      = require('gulp-cache'),
-    browserSync                    = require('browser-sync'),
-    reload                         = browserSync.reload,
+    },
 
     preCompiledJSFilesWithoutGrid = [
         baseFolders.src + scaffoldFolders.js + '*.js',
