@@ -43,8 +43,8 @@ var gulp                           = require('gulp'),
     },
 
     preCompiledJSFilesWithoutGrid = [
-        baseFolders.src + scaffoldFolders.js + '*.js',
-        '!' + baseFolders.src + scaffoldFolders.js + 'grid.js'
+        baseFolders.src + scaffoldFolders.js + filenames.js.all,
+        '!' + baseFolders.src + scaffoldFolders.js + filenames.js.grid
     ],
 
     sassSourceFileForDev = baseFolders.src + scaffoldFolders.styles +
