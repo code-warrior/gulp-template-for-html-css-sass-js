@@ -40,10 +40,7 @@ var gulp                           = require('gulp'),
             allNested: '**/*.html'
         },
         sass: 'main.scss'
-    },
-
-    sassSourceFileForProd =
-        baseFolders.src + scaffoldFolders.styles + '00-main-prod' + filenames.sass;
+    };
 
 /**
  * VALIDATE HTML
@@ -112,7 +109,7 @@ gulp.task('compileCSSForDev', function () {
 /**
  * COMPILE CSS FOR PRODUCTION
  *
- * This task looks for a single Sass file (sassSourceFileForProd), compiles the CSS
+ * This task looks for a single Sass file, compiles the CSS
  * from it, and writes the resulting single CSS file to the baseFolders.prod +
  * scaffoldFolders.styles. Any floating-point calculations will be carried out 10
  * places, and browser-specific prefixes will be added to support 2 browser versions
@@ -120,7 +117,10 @@ gulp.task('compileCSSForDev', function () {
  * through two levels of compression: “outputStyle” from Sass and compressCSS().
  */
 gulp.task('compileCSSForProd', function () {
-    return gulp.src(sassSourceFileForProd)
+    return gulp.src(baseFolders.src +
+                    scaffoldFolders.styles +
+                    '00-main-prod' +
+                    filenames.sass)
         .pipe(sass({
             outputStyle: 'compressed',
             precision: 10
