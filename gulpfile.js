@@ -3,7 +3,8 @@
 'use strict';
 
 var baseFolders = {
-    src: 'dev/'
+    src: 'dev/',
+    dev: 'temp/'
 };
 
     // Gulp plugins
@@ -23,7 +24,6 @@ var gulp                           = require('gulp'),
     reload                         = browserSync.reload,
 
     // Folder name variables
-    devTargetFolder                = 'temp/',
     prodTargetFolder               = 'prod/',
     HTMLSourceFolder               = 'html/',
     JSFolder                       = 'scripts/',
@@ -50,10 +50,10 @@ var gulp                           = require('gulp'),
                                    '00-main-prod/main.scss',
 
     // Folder paths
-    expendableFolders        = [devTargetFolder, prodTargetFolder],
-    JSDevTargetFolder        = devTargetFolder  + JSFolder,
+    expendableFolders        = [baseFolders.dev, prodTargetFolder],
+    JSDevTargetFolder        = baseFolders.dev  + JSFolder,
     JSProdTargetFolder       = prodTargetFolder + JSFolder,
-    cssDevDestinationFolder  = devTargetFolder  + sassCSSFolder,
+    cssDevDestinationFolder  = baseFolders.dev  + sassCSSFolder,
     cssProdDestinationFolder = prodTargetFolder + sassCSSFolder;
 
 /**
@@ -283,12 +283,12 @@ gulp.task('build',
  * validates HTML.
  *
  * The localhost server looks for index.html as the first page to load from either
- * the temporary folder (devTargetFolder), the development folder (baseFolders.src),
+ * the temporary folder (baseFolders.dev), the development folder (baseFolders.src),
  * or the folder containing HTML (baseFolders.src + '/' + HTMLSourceFolder).
  *
  * Files that require pre-processing must be written to a folder before being served.
  * Thus, this task serves CSS and JS from a temp folder, the development target
- * folder (devTargetFolder), while un-processed files, such as fonts and images, are
+ * folder (baseFolders.dev), while un-processed files, such as fonts and images, are
  * served from the development source folder (baseFolders.src).
  *
  * If a JS file is changed, all JS files are rebuilt, the resulting file is linted,
@@ -313,7 +313,7 @@ gulp.task('serve',
             reloadDelay: 100,
             server: {
                 baseDir: [
-                    devTargetFolder,
+                    baseFolders.dev,
                     baseFolders.src,
                     baseFolders.src + HTMLSourceFolder
                 ]
@@ -347,7 +347,7 @@ gulp.task('serve',
 /**
  * CLEAN
  *
- * This tasks deletes the devTargetFolder and prodTargetFolder directories, both of
+ * This tasks deletes the baseFolders.dev and prodTargetFolder directories, both of
  * which are expendable, since Gulp can re-build them at any moment.
  */
 gulp.task('clean', function () {
