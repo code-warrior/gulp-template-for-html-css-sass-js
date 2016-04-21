@@ -48,9 +48,9 @@ var gulp                           = require('gulp'),
     ],
 
     sassSourceFileForDev = baseFolders.src + scaffoldFolders.styles +
-                                   '00-main-dev/main.scss',
+                                   '00-main-dev' + filenames.sass,
     sassSourceFileForProd = baseFolders.src + scaffoldFolders.styles +
-                                   '00-main-prod/main.scss';
+                                   '00-main-prod' + filenames.sass;
 
 /**
  * VALIDATE HTML
