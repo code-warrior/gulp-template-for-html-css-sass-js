@@ -185,7 +185,8 @@ gulp.task('lintJS', function () {
             'rules': {
                 'indent': [
                     2,
-                    4
+                    4,
+                    {"SwitchCase": 1}
                 ],
                 'quotes': [
                     2,
