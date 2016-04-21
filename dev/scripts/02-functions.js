@@ -105,7 +105,7 @@ function checkAnswerToLincolnsBirthPlaceQuestion() {
         aside.classList.remove('transition');
         setTimeout(
             function () {
-                p.innerHTML = '<span class=\"fa fa-remove\"></span> You chose ' +
+                p.innerHTML = '<span class="fa fa-remove"></span> You chose ' +
                     'Lansing, Michigan. This is incorrect, as Lansing wasn’t ' +
                     'settled until 1835, years after Lincoln’s birth.';
                 aside.setAttribute('class', 'transition');
@@ -119,7 +119,7 @@ function checkAnswerToLincolnsBirthPlaceQuestion() {
         aside.classList.remove('transition');
         setTimeout(
             function () {
-                p.innerHTML = '<span class=\"fa fa-check\"></span> Hodgenville, ' +
+                p.innerHTML = '<span class="fa fa-check"></span> Hodgenville, ' +
                     'Kentucky is correct!';
                 aside.setAttribute('class', 'transition');
                 moveToQuestion2.style.display = 'inline';
@@ -139,8 +139,8 @@ function checkAnswerToLincolnsBirthPlaceQuestion() {
         aside.classList.remove('transition');
         setTimeout(
             function () {
-                p.innerHTML = '<span class=\"fa fa-remove\"></span> Although ' +
-                    'Washington <abbr title=\"District of Columbia\">DC</abbr> ' +
+                p.innerHTML = '<span class="fa fa-remove"></span> Although ' +
+                    'Washington <abbr title="District of Columbia">DC</abbr> ' +
                     'eventually becomes his home, Lincoln was not born here.';
                 aside.setAttribute('class', 'transition');
             },
@@ -170,7 +170,7 @@ function checkAnswerToLincolnsAssassinQuestion() {
         aside.classList.remove('transition');
         setTimeout(
             function () {
-                p.innerHTML = '<span class=\"fa fa-remove\"></span> Lee Harvey ' +
+                p.innerHTML = '<span class="fa fa-remove"></span> Lee Harvey ' +
                     'Oswald did assassinate a president, but it wasn’t Lincoln. ' +
                     'He took the life of John F Kennedy on 22 November 1963.';
                 aside.setAttribute('class', 'transition');
@@ -183,7 +183,7 @@ function checkAnswerToLincolnsAssassinQuestion() {
         aside.classList.remove('transition');
         setTimeout(
             function () {
-                p.innerHTML = '<span class=\"fa fa-check\"></span> Indeed, the ' +
+                p.innerHTML = '<span class="fa fa-check"></span> Indeed, the ' +
                     'actor John Wilkes Booth killed Lincoln in a cowardly act, ' +
                     'shooting the president from behind.';
                 aside.setAttribute('class', 'transition');
@@ -203,7 +203,7 @@ function checkAnswerToLincolnsAssassinQuestion() {
         aside.classList.remove('transition');
         setTimeout(
             function () {
-                p.innerHTML = '<span class=\"fa fa-remove\"></span> John Hinckley ' +
+                p.innerHTML = '<span class="fa fa-remove"></span> John Hinckley ' +
                     'Jr never killed a president, but he attempted to assassinate ' +
                     'Ronald Reagan in 1981.';
                 aside.setAttribute('class', 'transition');
@@ -236,7 +236,7 @@ function setUsersName() {
     'use strict';
 
     if (usersName.value === '') {
-        showUsersName.innerHTML = '<span class=\"error-highlight\">Nothing ' +
+        showUsersName.innerHTML = '<span class="error-highlight">Nothing ' +
             'entered. Please try again.</span>';
 
     } else {
