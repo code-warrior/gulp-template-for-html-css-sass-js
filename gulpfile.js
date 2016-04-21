@@ -26,9 +26,9 @@ var gulp                           = require('gulp'),
 
     // Folder name variables
     HTMLSourceFolder               = 'html/',
+    sassCSSFolder                  = 'styles/',
     JSFolder                       = 'scripts/',
     imagesFolder                   = 'img/',
-    sassCSSFolder                  = 'styles/',
 
     // Filenames and paths
     JSTargetFilename               = 'app.js',
