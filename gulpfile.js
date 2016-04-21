@@ -42,7 +42,6 @@ var gulp                           = require('gulp'),
     browserSync                    = require('browser-sync'),
     reload                         = browserSync.reload,
 
-    preCompiledJSFilesWithGrid = baseFolders.src + scaffoldFolders.js + '*.js',
     preCompiledJSFilesWithoutGrid = [
         baseFolders.src + scaffoldFolders.js + '*.js',
         '!' + baseFolders.src + scaffoldFolders.js + 'grid.js'
@@ -147,7 +146,7 @@ gulp.task('compileCSSForProd', function () {
  * javaScriptDevTargetFolder with filename javaScriptTargetFilename.
  */
 gulp.task('compileJSForDev', function () {
-    return gulp.src(preCompiledJSFilesWithGrid)
+    return gulp.src(baseFolders.src + scaffoldFolders.js + filenames.js.all)
         .pipe(JSConcatenator(filenames.js.main))
         .pipe(gulp.dest(baseFolders.dev + scaffoldFolders.js));
 });
