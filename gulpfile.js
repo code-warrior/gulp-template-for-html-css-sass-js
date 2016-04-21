@@ -12,6 +12,18 @@ var baseFolders = {
         js: 'scripts/',
         styles: 'styles/',
         images: 'img/'
+    },
+    filenames = {
+        js: {
+            main: 'app.js',
+            all: '*.js',
+            grid: 'grid.js'
+        },
+        html: {
+            all: '*.html',
+            allNested: '**/*.html'
+        },
+        sass: 'main.scss'
     };
 
     // Gulp plugins
@@ -29,9 +41,6 @@ var gulp                           = require('gulp'),
     tempCache                      = require('gulp-cache'),
     browserSync                    = require('browser-sync'),
     reload                         = browserSync.reload,
-
-    // Filenames and paths
-    JSTargetFilename               = 'app.js',
 
     preCompiledJSFilesWithGrid    = baseFolders.src + scaffoldFolders.js + '*.js',
     preCompiledJSFilesWithoutGrid = [
@@ -111,11 +120,11 @@ gulp.task('compileCSSForDev', function () {
  * COMPILE CSS FOR PRODUCTION
  *
  * This task looks for a single Sass file (sassSourceFileForProd), compiles the CSS
- * from it, and writes the resulting single CSS file to the baseFolders.prod + scaffoldFolders.styles.
- * Any floating-point calculations will be carried out 10 places, and
- * browser-specific prefixes will be added to support 2 browser versions behind all
- * current browsers’ versions. Lastly, the final CSS file is passed through two
- * levels of compression: “outputStyle” from Sass and compressCSS().
+ * from it, and writes the resulting single CSS file to the baseFolders.prod +
+ * scaffoldFolders.styles. Any floating-point calculations will be carried out 10
+ * places, and browser-specific prefixes will be added to support 2 browser versions
+ * behind all current browsers’ versions. Lastly, the final CSS file is passed
+ * through two levels of compression: “outputStyle” from Sass and compressCSS().
  */
 gulp.task('compileCSSForProd', function () {
     return gulp.src(sassSourceFileForProd)
@@ -139,7 +148,7 @@ gulp.task('compileCSSForProd', function () {
  */
 gulp.task('compileJSForDev', function () {
     return gulp.src(preCompiledJSFilesWithGrid)
-        .pipe(JSConcatenator(JSTargetFilename))
+        .pipe(JSConcatenator(filenames.js.main))
         .pipe(gulp.dest(baseFolders.dev + scaffoldFolders.js));
 });
 
@@ -147,14 +156,14 @@ gulp.task('compileJSForDev', function () {
  * COMPILE ALL JAVASCRIPT FILES INTO A SINGLE FILE FOR PRODUCTION
  *
  * This task compiles one or more JavaScript files into a single file whose name is
- * the value to the JSTargetFilename variable. The resulting file is compressed then
+ * the value to the filenames.js.main variable. The resulting file is compressed then
  * written to the baseFolders.prod + scaffoldFolders.js.
  *
  * Note: This task does not contain the grid used during development.
  */
 gulp.task('compileJSForProd', function () {
     return gulp.src(preCompiledJSFilesWithoutGrid)
-        .pipe(JSConcatenator(JSTargetFilename))
+        .pipe(JSConcatenator(filenames.js.main))
         .pipe(JSCompressor())
         .pipe(gulp.dest(baseFolders.prod + scaffoldFolders.js));
 });
@@ -172,7 +181,7 @@ gulp.task('compileJSForProd', function () {
  */
 gulp.task('lintJS', function () {
     return gulp.src(preCompiledJSFilesWithoutGrid)
-        .pipe(JSConcatenator(JSTargetFilename))
+        .pipe(JSConcatenator(filenames.js.main))
         .pipe(JSLinter({
             'rules': {
                 'indent': [
