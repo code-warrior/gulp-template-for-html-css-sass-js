@@ -42,11 +42,6 @@ var gulp                           = require('gulp'),
         sass: 'main.scss'
     },
 
-    preCompiledJSFilesWithoutGrid = [
-        baseFolders.src + scaffoldFolders.js + filenames.js.all,
-        '!' + baseFolders.src + scaffoldFolders.js + filenames.js.grid
-    ],
-
     sassSourceFileForDev = baseFolders.src + scaffoldFolders.styles +
                                    '00-main-dev' + filenames.sass,
     sassSourceFileForProd = baseFolders.src + scaffoldFolders.styles +
@@ -159,7 +154,10 @@ gulp.task('compileJSForDev', function () {
  * Note: This task does not contain the grid used during development.
  */
 gulp.task('compileJSForProd', function () {
-    return gulp.src(preCompiledJSFilesWithoutGrid)
+    return gulp.src([
+        baseFolders.src + scaffoldFolders.js + filenames.js.all,
+        '!' + baseFolders.src + scaffoldFolders.js + filenames.js.grid
+    ])
         .pipe(JSConcatenator(filenames.js.main))
         .pipe(JSCompressor())
         .pipe(gulp.dest(baseFolders.prod + scaffoldFolders.js));
@@ -170,14 +168,17 @@ gulp.task('compileJSForProd', function () {
  *
  * This task lints JavaScript using the linter defined by JSLinter, the second pipe
  * in this task. (ESLint is the linter in this case.) In order to generate a linting
- * report, the multiple JS files in the preCompiledJSFilesWithoutGrid are compiled
+ * report, the multiple JS files in the supplied array are compiled
  * into a single, memory-cached file with a temporary name, then sent to the linter
  * for processing.
  *
  * Note: The temporary file is *not* written to a destination folder.
  */
 gulp.task('lintJS', function () {
-    return gulp.src(preCompiledJSFilesWithoutGrid)
+    return gulp.src([
+        baseFolders.src + scaffoldFolders.js + filenames.js.all,
+        '!' + baseFolders.src + scaffoldFolders.js + filenames.js.grid
+    ])
         .pipe(JSConcatenator(filenames.js.main))
         .pipe(JSLinter({
             'rules': {
