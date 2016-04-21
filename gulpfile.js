@@ -4,7 +4,8 @@
 
 var baseFolders = {
     src: 'dev/',
-    dev: 'temp/'
+    dev: 'temp/',
+    prod: 'prod/'
 };
 
     // Gulp plugins
@@ -24,7 +25,6 @@ var gulp                           = require('gulp'),
     reload                         = browserSync.reload,
 
     // Folder name variables
-    prodTargetFolder               = 'prod/',
     HTMLSourceFolder               = 'html/',
     JSFolder                       = 'scripts/',
     imagesFolder                   = 'img/',
@@ -50,11 +50,11 @@ var gulp                           = require('gulp'),
                                    '00-main-prod/main.scss',
 
     // Folder paths
-    expendableFolders        = [baseFolders.dev, prodTargetFolder],
+    expendableFolders        = [baseFolders.dev, baseFolders.prod],
     JSDevTargetFolder        = baseFolders.dev  + JSFolder,
-    JSProdTargetFolder       = prodTargetFolder + JSFolder,
+    JSProdTargetFolder       = baseFolders.prod + JSFolder,
     cssDevDestinationFolder  = baseFolders.dev  + sassCSSFolder,
-    cssProdDestinationFolder = prodTargetFolder + sassCSSFolder;
+    cssProdDestinationFolder = baseFolders.prod + sassCSSFolder;
 
 /**
  * VALIDATE HTML
@@ -78,7 +78,7 @@ gulp.task('validateHTML', function () {
  * COMPRESS HTML
  *
  * This task compresses all the HTML files in the HTMLFiles array, then writes the
- * compressed files to the prodTargetFolder.
+ * compressed files to the baseFolders.prod.
  */
 gulp.task('compressHTML', function () {
     return gulp.src(HTMLFiles)
@@ -86,7 +86,7 @@ gulp.task('compressHTML', function () {
             removeComments: true,
             collapseWhitespace: true
         }))
-        .pipe(gulp.dest(prodTargetFolder));
+        .pipe(gulp.dest(baseFolders.prod));
 });
 
 /**
@@ -220,7 +220,7 @@ gulp.task('lintJS', function () {
  * COMPRESS THEN COPY IMAGES TO THE PRODUCTION FOLDER
  *
  * This task sources all the images in the baseFolders.src, compresses PNGs and JPGs,
- * then copies the final compressed images to the prodTargetFolder.
+ * then copies the final compressed images to the baseFolders.prod.
  */
 gulp.task('compressThenCopyImagesToProdFolder', function () {
     return gulp.src(baseFolders.src + imagesFolder + '**/*')
@@ -232,14 +232,14 @@ gulp.task('compressThenCopyImagesToProdFolder', function () {
                 interlaced: false     // For GIF files. Set to true for compression.
             })
         ))
-        .pipe(gulp.dest(prodTargetFolder + imagesFolder));
+        .pipe(gulp.dest(baseFolders.prod + imagesFolder));
 });
 
 /**
  * COPY UNPROCESSED ASSETS TO THE PRODUCTION FOLDER
  *
  * This task copies all unprocessed assets in the baseFolders.src to the
- * prodTargetFolder that aren’t images, JavaScript, or Sass/CSS. This is because
+ * baseFolders.prod that aren’t images, JavaScript, or Sass/CSS. This is because
  * those files are processed by other tasks, then copied after processing:
  *
  * — Images are compressed then copied by the compressThenCopyImagesToProdFolder task
@@ -254,7 +254,7 @@ gulp.task('copyUnprocessedAssetsToProdFolder', function () {
         '!' + baseFolders.src + imagesFolder,            // ignore images;
         '!' + baseFolders.src + '**/*.js',               // ignore JS;
         '!' + baseFolders.src + sassCSSFolder + '**'     // ignore Sass/CSS.
-    ], {dot: true}).pipe(gulp.dest(prodTargetFolder));
+    ], {dot: true}).pipe(gulp.dest(baseFolders.prod));
 });
 
 /**
@@ -262,7 +262,7 @@ gulp.task('copyUnprocessedAssetsToProdFolder', function () {
  *
  * This task validates HTML, lints JavaScript, compiles any files that require
  * pre-processing, then copies the pre-processed and unprocessed files to the
- * prodTargetFolder.
+ * baseFolders.prod.
  */
 gulp.task('build',
     [
