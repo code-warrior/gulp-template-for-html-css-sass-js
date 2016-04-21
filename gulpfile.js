@@ -47,12 +47,7 @@ var gulp                           = require('gulp'),
         '!' + baseFolders.src + scaffoldFolders.js + 'grid.js'
     ],
 
-    HTMLFiles = [
-        baseFolders.src + scaffoldFolders.html + '*.html',
-        baseFolders.src + scaffoldFolders.html + '**/*.html'
-    ],
-
-    sassSourceFileForDev = baseFolders.src  + scaffoldFolders.styles +
+    sassSourceFileForDev = baseFolders.src + scaffoldFolders.styles +
                                    '00-main-dev/main.scss',
     sassSourceFileForProd = baseFolders.src + scaffoldFolders.styles +
                                    '00-main-prod/main.scss';
@@ -60,8 +55,8 @@ var gulp                           = require('gulp'),
 /**
  * VALIDATE HTML
  *
- * This task validates HTML pages. If no errors are found, the Gulp task will simply
- * move down a line, reporting the task is done.
+ * This task validates all HTML files supplied in the array. If no errors are found,
+ * the Gulp task will simply move down a line, reporting the task is done.
  *
  * On error, however, you’ll receive one or more messages about your HTML errors.
  * These errors are reported as having been found at line and column values. For
@@ -71,18 +66,24 @@ var gulp                           = require('gulp'),
  * destination folder.
  */
 gulp.task('validateHTML', function () {
-    return gulp.src(HTMLFiles)
+    return gulp.src([
+        baseFolders.src + scaffoldFolders.html + '*.html',
+        baseFolders.src + scaffoldFolders.html + '**/*.html'
+    ])
         .pipe(HTMLValidator());
 });
 
 /**
  * COMPRESS HTML
  *
- * This task compresses all the HTML files in the HTMLFiles array, then writes the
- * compressed files to the baseFolders.prod.
+ * This task compresses all the HTML files in the supplied array, then writes the
+ * compressed files to the baseFolders.prod folder.
  */
 gulp.task('compressHTML', function () {
-    return gulp.src(HTMLFiles)
+    return gulp.src([
+        baseFolders.src + scaffoldFolders.html + '*.html',
+        baseFolders.src + scaffoldFolders.html + '**/*.html'
+    ])
         .pipe(HTMLMinifier({
             removeComments: true,
             collapseWhitespace: true
