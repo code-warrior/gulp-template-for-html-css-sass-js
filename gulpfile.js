@@ -68,9 +68,9 @@ gulp.task('firefox', function () {
     browserPref = 'firefox';
 });
 
-// Doesn’t work in Mac OS X 10.11
+// Works in Mac OS X 10.11
 gulp.task('chrome', function () {
-    browserPref = 'chrome';
+    browserPref = 'google chrome';
 });
 
 // Works in Mac OS X 10.11
