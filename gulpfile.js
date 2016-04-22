@@ -130,7 +130,7 @@ gulp.task('compressHTML', function () {
 gulp.task('compileCSSForDev', function () {
     return gulp.src(baseFolders.src +
                     scaffoldFolders.styles +
-                    '00-main-dev' +
+                    '00-main-dev/' +
                     filenames.sass)
         .pipe(sass({
             outputStyle: 'expanded',
@@ -155,7 +155,7 @@ gulp.task('compileCSSForDev', function () {
 gulp.task('compileCSSForProd', function () {
     return gulp.src(baseFolders.src +
                     scaffoldFolders.styles +
-                    '00-main-prod' +
+                    '00-main-prod/' +
                     filenames.sass)
         .pipe(sass({
             outputStyle: 'compressed',
