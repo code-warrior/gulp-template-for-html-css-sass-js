@@ -329,16 +329,15 @@ gulp.task('copyUnprocessedAssetsToProdFolder', function () {
  * pre-processing, then copies the pre-processed and unprocessed files to the
  * baseFolders.prod.
  */
-gulp.task('build',
-    [
-        'validateHTML',
-        'compressHTML',
-        'compileCSSForProd',
-        'lintJS',
-        'compileJSForProd',
-        'compressThenCopyImagesToProdFolder',
-        'copyUnprocessedAssetsToProdFolder'
-    ]);
+gulp.task('build', [
+    'validateHTML',
+    'compressHTML',
+    'compileCSSForProd',
+    'lintJS',
+    'compileJSForProd',
+    'compressThenCopyImagesToProdFolder',
+    'copyUnprocessedAssetsToProdFolder'
+]);
 
 /**
  * SERVE
@@ -364,53 +363,52 @@ gulp.task('build',
  *
  * Finally, changes to images also trigger a browser reload.
  */
-gulp.task('serve',
-    [
-        'compileCSSForDev',
-        'compileJSForDev',
-        'lintJS',
-        'validateHTML'
-    ],
-    function () {
+gulp.task('serve', [
+    'compileCSSForDev',
+    'compileJSForDev',
+    'lintJS',
+    'validateHTML'
+],
+        function () {
     'use strict';
 
-        browserSync({
-            notify: true,
-            port: 9000,
-            reloadDelay: 100,
-            browser: browserPref,
-            server: {
-                baseDir: [
-                    baseFolders.dev,
-                    baseFolders.src,
-                    baseFolders.src + scaffoldFolders.html
-                ]
-            }
-        });
-
-        gulp.watch(baseFolders.src + scaffoldFolders.js + '*.js',
-            ['compileJSForDev', 'lintJS']).on(
-            'change',
-            reload
-        );
-
-        gulp.watch(baseFolders.src + scaffoldFolders.images + '**/*').on(
-            'change',
-            reload
-        );
-
-        gulp.watch([baseFolders.src + scaffoldFolders.html + '**/*.html'],
-            ['validateHTML']).on(
-            'change',
-            reload
-        );
-
-        gulp.watch(baseFolders.src + scaffoldFolders.styles + '**/*.scss',
-            ['compileCSSForDev']).on(
-            'change',
-            reload
-        );
+    browserSync({
+        notify: true,
+        port: 9000,
+        reloadDelay: 100,
+        browser: browserPref,
+        server: {
+            baseDir: [
+                baseFolders.dev,
+                baseFolders.src,
+                baseFolders.src + scaffoldFolders.html
+            ]
+        }
     });
+
+    gulp.watch(baseFolders.src + scaffoldFolders.js + '*.js',
+            ['compileJSForDev', 'lintJS']).on(
+        'change',
+        reload
+    );
+
+    gulp.watch(baseFolders.src + scaffoldFolders.images + '**/*').on(
+        'change',
+        reload
+    );
+
+    gulp.watch([baseFolders.src + scaffoldFolders.html + '**/*.html'],
+            ['validateHTML']).on(
+        'change',
+        reload
+    );
+
+    gulp.watch(baseFolders.src + scaffoldFolders.styles + '**/*.scss',
+            ['compileCSSForDev']).on(
+        'change',
+        reload
+    );
+});
 
 /**
  * CLEAN
@@ -429,7 +427,7 @@ gulp.task('clean', function () {
         try {
             fs.accessSync(expendableFolders[i], fs.F_OK);
             process.stdout.write('\n\tThe ' + expendableFolders[i] +
-                ' directory was found and will be deleted.\n');
+                    ' directory was found and will be deleted.\n');
             del(expendableFolders[i]);
         } catch (e) {
             process.stdout.write('\n\tThe ' + expendableFolders[i] +
@@ -449,5 +447,5 @@ gulp.task('default', function () {
     'use strict';
 
     process.stdout.write('\n\tThis default gulp task does nothing except generate ' +
-        'this message.\n\tRun “gulp --tasks” to see the available tasks.\n\n');
+            'this message.\n\tRun “gulp --tasks” to see the available tasks.\n\n');
 });
