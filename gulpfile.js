@@ -1,6 +1,5 @@
 /*jslint node: true */
 
-    // Gulp plugins
 var gulp                           = require('gulp'),
     del                            = require('del'),
     sass                           = require('gulp-sass'),
@@ -314,12 +313,12 @@ gulp.task('copyUnprocessedAssetsToProdFolder', function () {
     'use strict';
 
     return gulp.src([
-        baseFolders.src + '*.*',                         // Source all files,
-        baseFolders.src + '**',                          // and all folders,
-                                                         // but
-        '!' + baseFolders.src + scaffoldFolders.images,            // ignore images;
-        '!' + baseFolders.src + '**/*.js',               // ignore JS;
-        '!' + baseFolders.src + scaffoldFolders.styles + '**'     // ignore Sass/CSS.
+        baseFolders.src + '*.*',                              // Source all files,
+        baseFolders.src + '**',                               // and all folders,
+                                                              // but
+        '!' + baseFolders.src + scaffoldFolders.images,       // ignore images;
+        '!' + baseFolders.src + '**/*.js',                    // ignore JS;
+        '!' + baseFolders.src + scaffoldFolders.styles + '**' // ignore Sass/CSS.
     ], {dot: true}).pipe(gulp.dest(baseFolders.prod));
 });
 
