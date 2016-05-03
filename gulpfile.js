@@ -235,15 +235,15 @@ gulp.task('lintJS', function () {
         baseFolders.src + scaffoldFolders.js + filenames.js.all,
         '!' + baseFolders.src + scaffoldFolders.js + filenames.js.grid
     ])
-            'rules': {
-                'indent': [
         .pipe(new JSConcatenator(filenames.js.main))
         .pipe(new JSLinter({
+            rules: {
+                indent: [
                     2,
                     4,
-                    {'SwitchCase': 1}
+                    {SwitchCase: 1}
                 ],
-                'quotes': [
+                quotes: [
                     2,
                     'single'
                 ],
@@ -251,7 +251,7 @@ gulp.task('lintJS', function () {
                     2,
                     'unix'
                 ],
-                'semi': [
+                semi: [
                     2,
                     'always'
                 ],
@@ -261,11 +261,11 @@ gulp.task('lintJS', function () {
                     4
                 ]
             },
-            'env': {
-                'node': true,
-                'browser': true
+            env: {
+                node: true,
+                browser: true
             },
-            'extends': 'eslint:recommended'
+            extends: 'eslint:recommended'
         }))
         .pipe(JSLinter.formatEach('compact', process.stderr))
         //
