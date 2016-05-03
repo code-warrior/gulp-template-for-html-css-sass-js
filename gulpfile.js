@@ -1,7 +1,5 @@
 /*jslint node: true */
 
-'use strict';
-
     // Gulp plugins
 var gulp                           = require('gulp'),
     del                            = require('del'),
