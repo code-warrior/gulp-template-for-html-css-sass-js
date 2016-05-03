@@ -364,7 +364,7 @@ gulp.task('serve',
         });
 
         gulp.watch(baseFolders.src + scaffoldFolders.js + '*.js',
-            ['compileJavaScriptForDev', 'lintJS']).on(
+            ['compileJSForDev', 'lintJS']).on(
             'change',
             reload
         );
