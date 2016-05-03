@@ -18,7 +18,7 @@ var gulp = require('gulp'),
 
     baseFolders = {
         src: 'dev/',
-        dev: 'temp/',
+        tmp: 'temp/',
         prod: 'prod/'
     },
     scaffoldFolders = {
@@ -130,7 +130,7 @@ gulp.task('compressHTML', function () {
  * COMPILE CSS FOR DEVELOPMENT WORK
  *
  * This task looks for a single Sass file, compiles the CSS
- * from it, and writes the resulting file to the baseFolders.dev +
+ * from it, and writes the resulting file to the baseFolders.tmp +
  * scaffoldFolders.styles. The final CSS file will be formatted with 2-space
  * indentations. Any floating-point calculations will be carried out 10 places, and
  * browser-specific prefixes will be added to support 2 browser versions behind all
@@ -150,7 +150,7 @@ gulp.task('compileCSSForDev', function () {
         .pipe(browserSpecificPrefixGenerator({
             browsers: ['last 2 versions']
         }))
-        .pipe(gulp.dest(baseFolders.dev + scaffoldFolders.styles));
+        .pipe(gulp.dest(baseFolders.tmp + scaffoldFolders.styles));
 });
 
 /**
@@ -193,7 +193,7 @@ gulp.task('compileJSForDev', function () {
 
     return gulp.src(baseFolders.src + scaffoldFolders.js + filenames.js.all)
         .pipe(new JSConcatenator(filenames.js.main))
-        .pipe(gulp.dest(baseFolders.dev + scaffoldFolders.js));
+        .pipe(gulp.dest(baseFolders.tmp + scaffoldFolders.js));
 });
 
 /**
@@ -347,12 +347,12 @@ gulp.task('build', [
  * validates HTML.
  *
  * The localhost server looks for index.html as the first page to load from either
- * the temporary folder (baseFolders.dev), the development folder (baseFolders.src),
+ * the temporary folder (baseFolders.tmp), the development folder (baseFolders.src),
  * or the folder containing HTML (baseFolders.src + '/' + scaffoldFolders.html).
  *
  * Files that require pre-processing must be written to a folder before being served.
  * Thus, this task serves CSS and JS from a temp folder, the development target
- * folder (baseFolders.dev), while un-processed files, such as fonts and images, are
+ * folder (baseFolders.tmp), while un-processed files, such as fonts and images, are
  * served from the development source folder (baseFolders.src).
  *
  * If a JS file is changed, all JS files are rebuilt, the resulting file is linted,
@@ -379,7 +379,7 @@ gulp.task('serve', [
         browser: browserPref,
         server: {
             baseDir: [
-                baseFolders.dev,
+                baseFolders.tmp,
                 baseFolders.src,
                 baseFolders.src + scaffoldFolders.html
             ]
@@ -413,7 +413,7 @@ gulp.task('serve', [
 /**
  * CLEAN
  *
- * This tasks deletes the baseFolders.dev and baseFolders.prod directories, both of
+ * This tasks deletes the baseFolders.tmp and baseFolders.prod directories, both of
  * which are expendable, since Gulp can re-build them at any moment.
  */
 gulp.task('clean', function () {
@@ -421,7 +421,7 @@ gulp.task('clean', function () {
 
     var fs = require('fs'),
         i,
-        expendableFolders = [baseFolders.dev, baseFolders.prod];
+        expendableFolders = [baseFolders.tmp, baseFolders.prod];
 
     for (i = 0; i < expendableFolders.length; i += 1) {
         try {
