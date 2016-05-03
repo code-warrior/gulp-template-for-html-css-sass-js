@@ -429,9 +429,11 @@ gulp.task('clean', function () {
             process.stdout.write('\n\tThe ' + expendableFolders[i] +
                     ' directory was found and will be deleted.\n');
             del(expendableFolders[i]);
-        } catch (e) {
-            process.stdout.write('\n\tThe ' + expendableFolders[i] +
-                ' directory does NOT exist or is NOT accessible.\n');
+        } catch (error) {
+            if (error) {
+                process.stdout.write('\n\tThe ' + expendableFolders[i] +
+                        ' directory does NOT exist or is NOT accessible.\n');
+            }
         }
     }
 
