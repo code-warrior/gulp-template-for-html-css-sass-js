@@ -141,9 +141,9 @@ gulp.task('compileCSSForDev', function () {
     'use strict';
 
     return gulp.src(baseFolders.src +
-                    scaffoldFolders.styles +
-                    '00-main-dev/' +
-                    filenames.sass)
+            scaffoldFolders.styles +
+            '00-main-dev/' +
+            filenames.sass)
         .pipe(sass({
             outputStyle: 'expanded',
             precision: 10
@@ -168,9 +168,9 @@ gulp.task('compileCSSForProd', function () {
     'use strict';
 
     return gulp.src(baseFolders.src +
-                    scaffoldFolders.styles +
-                    '00-main-prod/' +
-                    filenames.sass)
+            scaffoldFolders.styles +
+            '00-main-prod/' +
+            filenames.sass)
         .pipe(sass({
             outputStyle: 'compressed',
             precision: 10
