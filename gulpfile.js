@@ -103,7 +103,7 @@ gulp.task('validateHTML', function () {
         baseFolders.src + scaffoldFolders.html + filenames.html.all,
         baseFolders.src + scaffoldFolders.html + filenames.html.allNested
     ])
-        .pipe(HTMLValidator());
+        .pipe(new HTMLValidator());
 });
 
 /**
@@ -119,7 +119,7 @@ gulp.task('compressHTML', function () {
         baseFolders.src + scaffoldFolders.html + filenames.html.all,
         baseFolders.src + scaffoldFolders.html + filenames.html.allNested
     ])
-        .pipe(HTMLMinifier({
+        .pipe(new HTMLMinifier({
             removeComments: true,
             collapseWhitespace: true
         }))
@@ -177,7 +177,7 @@ gulp.task('compileCSSForProd', function () {
         .pipe(browserSpecificPrefixGenerator({
             browsers: ['last 2 versions']
         }))
-        .pipe(CSSCompressor())
+        .pipe(new CSSCompressor())
         .pipe(gulp.dest(baseFolders.prod + scaffoldFolders.styles));
 });
 
@@ -192,7 +192,7 @@ gulp.task('compileJSForDev', function () {
     'use strict';
 
     return gulp.src(baseFolders.src + scaffoldFolders.js + filenames.js.all)
-        .pipe(JSConcatenator(filenames.js.main))
+        .pipe(new JSConcatenator(filenames.js.main))
         .pipe(gulp.dest(baseFolders.dev + scaffoldFolders.js));
 });
 
@@ -212,8 +212,8 @@ gulp.task('compileJSForProd', function () {
         baseFolders.src + scaffoldFolders.js + filenames.js.all,
         '!' + baseFolders.src + scaffoldFolders.js + filenames.js.grid
     ])
-        .pipe(JSConcatenator(filenames.js.main))
-        .pipe(JSCompressor())
+        .pipe(new JSConcatenator(filenames.js.main))
+        .pipe(new JSCompressor())
         .pipe(gulp.dest(baseFolders.prod + scaffoldFolders.js));
 });
 
@@ -235,10 +235,10 @@ gulp.task('lintJS', function () {
         baseFolders.src + scaffoldFolders.js + filenames.js.all,
         '!' + baseFolders.src + scaffoldFolders.js + filenames.js.grid
     ])
-        .pipe(JSConcatenator(filenames.js.main))
-        .pipe(JSLinter({
             'rules': {
                 'indent': [
+        .pipe(new JSConcatenator(filenames.js.main))
+        .pipe(new JSLinter({
                     2,
                     4,
                     {'SwitchCase': 1}
