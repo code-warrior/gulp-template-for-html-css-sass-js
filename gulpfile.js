@@ -58,21 +58,29 @@ var gulp                           = require('gulp'),
 
 // Works in Mac OS X 10.11
 gulp.task('safari', function () {
+    'use strict';
+
     browserPref = 'safari';
 });
 
 // Unknown
 gulp.task('firefox', function () {
+    'use strict';
+
     browserPref = 'firefox';
 });
 
 // Works in Mac OS X 10.11
 gulp.task('chrome', function () {
+    'use strict';
+
     browserPref = 'google chrome';
 });
 
 // Works in Mac OS X 10.11
 gulp.task('opera', function () {
+    'use strict';
+
     browserPref = 'opera';
 });
 
@@ -90,6 +98,8 @@ gulp.task('opera', function () {
  * destination folder.
  */
 gulp.task('validateHTML', function () {
+    'use strict';
+
     return gulp.src([
         baseFolders.src + scaffoldFolders.html + filenames.html.all,
         baseFolders.src + scaffoldFolders.html + filenames.html.allNested
@@ -104,6 +114,8 @@ gulp.task('validateHTML', function () {
  * compressed files to the baseFolders.prod folder.
  */
 gulp.task('compressHTML', function () {
+    'use strict';
+
     return gulp.src([
         baseFolders.src + scaffoldFolders.html + filenames.html.all,
         baseFolders.src + scaffoldFolders.html + filenames.html.allNested
@@ -126,6 +138,8 @@ gulp.task('compressHTML', function () {
  * current browsers’ versions.
  */
 gulp.task('compileCSSForDev', function () {
+    'use strict';
+
     return gulp.src(baseFolders.src +
                     scaffoldFolders.styles +
                     '00-main-dev/' +
@@ -151,6 +165,8 @@ gulp.task('compileCSSForDev', function () {
  * through two levels of compression: “outputStyle” from Sass and compressCSS().
  */
 gulp.task('compileCSSForProd', function () {
+    'use strict';
+
     return gulp.src(baseFolders.src +
                     scaffoldFolders.styles +
                     '00-main-prod/' +
@@ -174,6 +190,8 @@ gulp.task('compileCSSForProd', function () {
  * javaScriptDevTargetFolder with filename javaScriptTargetFilename.
  */
 gulp.task('compileJSForDev', function () {
+    'use strict';
+
     return gulp.src(baseFolders.src + scaffoldFolders.js + filenames.js.all)
         .pipe(JSConcatenator(filenames.js.main))
         .pipe(gulp.dest(baseFolders.dev + scaffoldFolders.js));
@@ -189,6 +207,8 @@ gulp.task('compileJSForDev', function () {
  * Note: This task does not contain the grid used during development.
  */
 gulp.task('compileJSForProd', function () {
+    'use strict';
+
     return gulp.src([
         baseFolders.src + scaffoldFolders.js + filenames.js.all,
         '!' + baseFolders.src + scaffoldFolders.js + filenames.js.grid
@@ -210,6 +230,8 @@ gulp.task('compileJSForProd', function () {
  * Note: The temporary file is *not* written to a destination folder.
  */
 gulp.task('lintJS', function () {
+    'use strict';
+
     return gulp.src([
         baseFolders.src + scaffoldFolders.js + filenames.js.all,
         '!' + baseFolders.src + scaffoldFolders.js + filenames.js.grid
@@ -263,6 +285,8 @@ gulp.task('lintJS', function () {
  * then copies the final compressed images to the baseFolders.prod.
  */
 gulp.task('compressThenCopyImagesToProdFolder', function () {
+    'use strict';
+
     return gulp.src(baseFolders.src + scaffoldFolders.images + '**/*')
         .pipe(tempCache(
             imageCompressor({
@@ -287,6 +311,8 @@ gulp.task('compressThenCopyImagesToProdFolder', function () {
  * — Sass/CSS is concatenated and compressed by the compileCSSForProd task
  */
 gulp.task('copyUnprocessedAssetsToProdFolder', function () {
+    'use strict';
+
     return gulp.src([
         baseFolders.src + '*.*',                         // Source all files,
         baseFolders.src + '**',                          // and all folders,
@@ -347,6 +373,8 @@ gulp.task('serve',
         'validateHTML'
     ],
     function () {
+    'use strict';
+
         browserSync({
             notify: true,
             port: 9000,
@@ -392,6 +420,8 @@ gulp.task('serve',
  * which are expendable, since Gulp can re-build them at any moment.
  */
 gulp.task('clean', function () {
+    'use strict';
+
     var fs = require('fs'),
         i,
         expendableFolders = [baseFolders.dev, baseFolders.prod];
@@ -417,6 +447,8 @@ gulp.task('clean', function () {
  * This task does nothing. See the output message below.
  */
 gulp.task('default', function () {
+    'use strict';
+
     process.stdout.write('\n\tThis default gulp task does nothing except generate ' +
         'this message.\n\tRun “gulp --tasks” to see the available tasks.\n\n');
 });
