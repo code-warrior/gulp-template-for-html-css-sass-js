@@ -369,46 +369,46 @@ gulp.task('serve', [
     'lintJS',
     'validateHTML'
 ],
-        function () {
-    'use strict';
+    function () {
+        'use strict';
 
-    browserSync({
-        notify: true,
-        port: 9000,
-        reloadDelay: 100,
-        browser: browserPref,
-        server: {
-            baseDir: [
-                baseFolders.dev,
-                baseFolders.src,
-                baseFolders.src + scaffoldFolders.html
-            ]
-        }
+        browserSync({
+            notify: true,
+            port: 9000,
+            reloadDelay: 100,
+            browser: browserPref,
+            server: {
+                baseDir: [
+                    baseFolders.dev,
+                    baseFolders.src,
+                    baseFolders.src + scaffoldFolders.html
+                ]
+            }
+        });
+
+        gulp.watch(baseFolders.src + scaffoldFolders.js + '*.js',
+                ['compileJSForDev', 'lintJS']).on(
+            'change',
+            reload
+        );
+
+        gulp.watch(baseFolders.src + scaffoldFolders.images + '**/*').on(
+            'change',
+            reload
+        );
+
+        gulp.watch([baseFolders.src + scaffoldFolders.html + '**/*.html'],
+                ['validateHTML']).on(
+            'change',
+            reload
+        );
+
+        gulp.watch(baseFolders.src + scaffoldFolders.styles + '**/*.scss',
+                ['compileCSSForDev']).on(
+            'change',
+            reload
+        );
     });
-
-    gulp.watch(baseFolders.src + scaffoldFolders.js + '*.js',
-            ['compileJSForDev', 'lintJS']).on(
-        'change',
-        reload
-    );
-
-    gulp.watch(baseFolders.src + scaffoldFolders.images + '**/*').on(
-        'change',
-        reload
-    );
-
-    gulp.watch([baseFolders.src + scaffoldFolders.html + '**/*.html'],
-            ['validateHTML']).on(
-        'change',
-        reload
-    );
-
-    gulp.watch(baseFolders.src + scaffoldFolders.styles + '**/*.scss',
-            ['compileCSSForDev']).on(
-        'change',
-        reload
-    );
-});
 
 /**
  * CLEAN
