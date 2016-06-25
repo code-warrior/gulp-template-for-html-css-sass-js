@@ -4,8 +4,8 @@
 
 var gulp             = require('gulp'),
     devSourceFolder  = 'dev/',
-    prodTargetFolder = 'prod',
-    imagesFolder     = 'img',
+    prodTargetFolder = 'prod/',
+    imagesFolder     = 'img/',
     sassCSSFolder    = 'styles/';
 
 gulp.task('copyUnprocessedAssetsToProdFolder', function () {
