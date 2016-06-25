@@ -1,7 +1,5 @@
 /*jslint node: true */
 
-'use strict';
-
 var gulp             = require('gulp'),
     devSourceFolder  = 'dev/',
     prodTargetFolder = 'prod/',
@@ -10,6 +8,8 @@ var gulp             = require('gulp'),
     sassCSSFolder    = 'styles/';
 
 gulp.task('copyUnprocessedAssetsToProdFolder', function () {
+    'use strict';
+
     return gulp.src([
         devSourceFolder + '*.*',                           // Source all files,
         devSourceFolder + '**',                            // and all folders, but
