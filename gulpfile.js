@@ -34,9 +34,9 @@ var gulp                           = require('gulp'),
         devSourceFolder + HTMLSourceFolder + '/**/*.html'
     ],
 
-    sassSourceFileForDev     = devSourceFolder  + '/' + sassCSSFolder +
     JSDevTargetFolder        = devTargetFolder  + JSFolder,
     cssDevDestinationFolder  = devTargetFolder  + sassCSSFolder + '/',
+    sassSourceFileForDev     = devSourceFolder  + sassCSSFolder +
         '/00-main-dev/main.scss';
 
 gulp.task('validateHTML', function () {
