@@ -6,7 +6,7 @@ var gulp             = require('gulp'),
     devSourceFolder  = 'dev/',
     prodTargetFolder = 'prod',
     imagesFolder     = 'img',
-    sassCSSFolder    = 'styles';
+    sassCSSFolder    = 'styles/';
 
 gulp.task('copyUnprocessedAssetsToProdFolder', function () {
     return gulp.src([
@@ -14,6 +14,6 @@ gulp.task('copyUnprocessedAssetsToProdFolder', function () {
         devSourceFolder + '**',                            // and all folders, but
         '!' + devSourceFolder + imagesFolder,         // ignore images;
         '!' + devSourceFolder + '**/*.js',                 // ignore JS;
-        '!' + devSourceFolder + sassCSSFolder + '/**' // ignore Sass/CSS.
+        '!' + devSourceFolder + sassCSSFolder + '**' // ignore Sass/CSS.
     ], {dot: true}).pipe(gulp.dest(prodTargetFolder));
 });
