@@ -315,7 +315,10 @@ gulp.task('copyUnprocessedAssetsToProdFolder', function () {
     return gulp.src([
         baseFolders.dev + '*.*',                              // Source all files,
         baseFolders.dev + '**',                               // and all folders,
-                                                              // but
+                                                              // but not
+        '!' + baseFolders.dev + scaffoldFolders.html,         // the HTML folder
+        '!' + baseFolders.dev + scaffoldFolders.html + '*.*', // or any files in it
+        '!' + baseFolders.dev + scaffoldFolders.html + '**',  // or any sub folders
         '!' + baseFolders.dev + scaffoldFolders.images,       // ignore images;
         '!' + baseFolders.dev + '**/*.js',                    // ignore JS;
         '!' + baseFolders.dev + scaffoldFolders.styles + '**' // ignore Sass/CSS.
