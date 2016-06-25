@@ -13,7 +13,7 @@ var gulp                           = require('gulp'),
     reload                         = browserSync.reload,
 
     // Folder name variables
-    devSourceFolder                = 'dev',
+    devSourceFolder                = 'dev/',
     devTargetFolder                = 'temp',
     HTMLSourceFolder               = 'html',
     JSFolder                       = 'scripts',
@@ -23,15 +23,15 @@ var gulp                           = require('gulp'),
     // Filenames
     JSTargetFilename               = 'main.js',
 
-    preCompiledJSFilesWithGrid    = devSourceFolder + '/' + JSFolder + '/*.js',
+    preCompiledJSFilesWithGrid    = devSourceFolder + JSFolder + '/*.js',
     preCompiledJSFilesWithoutGrid = [
-        devSourceFolder + '/' + JSFolder + '/*.js',
-        '!' + devSourceFolder + '/' + JSFolder + '/grid.js'
+        devSourceFolder + JSFolder + '/*.js',
+        '!' + devSourceFolder + JSFolder + '/grid.js'
     ],
 
     HTMLFiles = [
-        devSourceFolder + '/' + HTMLSourceFolder + '/*.html',
-        devSourceFolder + '/' + HTMLSourceFolder + '/**/*.html'
+        devSourceFolder + HTMLSourceFolder + '/*.html',
+        devSourceFolder + HTMLSourceFolder + '/**/*.html'
     ],
 
     JSDevTargetFolder        = devTargetFolder  + '/' + JSFolder,
@@ -105,29 +105,29 @@ gulp.task('serve',
                 baseDir: [
                     devTargetFolder,
                     devSourceFolder,
-                    devSourceFolder + '/' + HTMLSourceFolder
+                    devSourceFolder + HTMLSourceFolder
                 ]
             }
         });
 
-        gulp.watch(devSourceFolder + '/' + JSFolder + '/*.js',
+        gulp.watch(devSourceFolder + JSFolder + '/*.js',
             ['compileJavaScriptForDev', 'lintJS']).on(
             'change',
             reload
         );
 
-        gulp.watch(devSourceFolder + '/' + imagesFolder + '/**/*').on(
+        gulp.watch(devSourceFolder + imagesFolder + '/**/*').on(
             'change',
             reload
         );
 
-        gulp.watch([devSourceFolder + '/' + HTMLSourceFolder + '/**/*.html'],
+        gulp.watch([devSourceFolder + HTMLSourceFolder + '/**/*.html'],
             ['validateHTML']).on(
             'change',
             reload
         );
 
-        gulp.watch(devSourceFolder + '/' + sassCSSFolder + '/**/*.scss',
+        gulp.watch(devSourceFolder + sassCSSFolder + '/**/*.scss',
             ['compileCSSForDev']).on(
             'change',
             reload
