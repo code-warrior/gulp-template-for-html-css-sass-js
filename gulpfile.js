@@ -16,8 +16,8 @@ gulp.task('copyUnprocessedAssetsToProdFolder', function () {
         '!' + devSourceFolder + htmlFolder,                // no the HTML folder,
         '!' + devSourceFolder + htmlFolder + '*.*',        // or any files in it,
         '!' + devSourceFolder + htmlFolder + '**',         // or any subfolders;
-        '!' + devSourceFolder + imagesFolder,         // ignore images;
+        '!' + devSourceFolder + imagesFolder,              // ignore images;
         '!' + devSourceFolder + '**/*.js',                 // ignore JS;
-        '!' + devSourceFolder + sassCSSFolder + '**' // ignore Sass/CSS.
+        '!' + devSourceFolder + sassCSSFolder + '**'       // ignore Sass/CSS.
     ], {dot: true}).pipe(gulp.dest(prodTargetFolder));
 });
