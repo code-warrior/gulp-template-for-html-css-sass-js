@@ -1,11 +1,11 @@
 /*jslint node: true */
 
-var gulp             = require('gulp'),
-    devSourceFolder  = 'dev/',
+var gulp = require('gulp'),
+    devSourceFolder = 'dev/',
     prodTargetFolder = 'prod/',
-    htmlFolder       = 'html/',
-    imagesFolder     = 'img/',
-    sassCSSFolder    = 'styles/';
+    htmlFolder = 'html/',
+    imagesFolder = 'img/',
+    sassCSSFolder = 'styles/';
 
 gulp.task('copyUnprocessedAssetsToProdFolder', function () {
     'use strict';
