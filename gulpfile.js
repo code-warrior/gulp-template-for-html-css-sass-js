@@ -251,8 +251,8 @@ gulp.task('lintJS', function () {
             rules: {
                 indent: [2, 4, {SwitchCase: 1}],
                 quotes: [2, 'single'],
-                'linebreak-style': [2, 'unix'],
                 semi: [2, 'always'],
+                'linebreak-style': [2, 'unix'],
                 'max-len': [2, 85, 4]
             },
             env: {
