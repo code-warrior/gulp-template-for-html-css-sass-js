@@ -63,28 +63,24 @@ var gulp = require('gulp'),
  * Testing in Windows and Linux is pending.
  */
 
-// Works in Mac OS X 10.11
 gulp.task('safari', function () {
     'use strict';
 
     browserPref = 'safari';
 });
 
-// Unknown
 gulp.task('firefox', function () {
     'use strict';
 
     browserPref = 'firefox';
 });
 
-// Works in Mac OS X 10.11
 gulp.task('chrome', function () {
     'use strict';
 
     browserPref = 'google chrome';
 });
 
-// Works in Mac OS X 10.11
 gulp.task('opera', function () {
     'use strict';
 
