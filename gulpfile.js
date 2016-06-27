@@ -38,6 +38,14 @@ var gulp = require('gulp'),
             allNested: '**/*.html'
         },
         sass: 'main.scss'
+    },
+
+    colors = {
+        black: '\033[0m',
+        red: '\033[31m',
+        boldred: '\033[31m\033[1m',
+        green: '\033[32m',
+        blue: '\033[34m'
     };
 
 /**
