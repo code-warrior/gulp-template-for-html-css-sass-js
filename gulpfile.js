@@ -16,6 +16,13 @@ var gulp = require('gulp'),
     reload = browserSync.reload,
     browserChoice = 'default',
 
+    browser = {
+        safari: 'safari',
+        firefox: 'firefox',
+        chrome: 'google chrome',
+        opera: 'opera'
+    },
+
     baseFolders = {
         dev: 'dev/',
         tmp: 'temp/',
@@ -66,25 +73,25 @@ var gulp = require('gulp'),
 gulp.task('safari', function () {
     'use strict';
 
-    browserChoice = 'safari';
+    browserChoice = browser.safari;
 });
 
 gulp.task('firefox', function () {
     'use strict';
 
-    browserChoice = 'firefox';
+    browserChoice = browser.firefox;
 });
 
 gulp.task('chrome', function () {
     'use strict';
 
-    browserChoice = 'google chrome';
+    browserChoice = browser.chrome;
 });
 
 gulp.task('opera', function () {
     'use strict';
 
-    browserChoice = 'opera';
+    browserChoice = browser.opera;
 });
 
 /**
