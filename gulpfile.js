@@ -14,7 +14,7 @@ var gulp = require('gulp'),
     tempCache = require('gulp-cache'),
     browserSync = require('browser-sync'),
     reload = browserSync.reload,
-    browserPref = 'default',
+    browserChoice = 'default',
 
     baseFolders = {
         dev: 'dev/',
@@ -51,7 +51,7 @@ var gulp = require('gulp'),
 /**
  * CHOOSE A BROWSER OTHER THAN THE DEFAULT
  *
- * The following four tasks set the browser preference variable (browserPref) in
+ * The following four tasks set the browser preference variable (browserChoice) in
  * the browserSync preferences read by the serve task. To use either of the four
  * browsers when serving this project, invoke Gulp as follows:
  *
@@ -66,25 +66,25 @@ var gulp = require('gulp'),
 gulp.task('safari', function () {
     'use strict';
 
-    browserPref = 'safari';
+    browserChoice = 'safari';
 });
 
 gulp.task('firefox', function () {
     'use strict';
 
-    browserPref = 'firefox';
+    browserChoice = 'firefox';
 });
 
 gulp.task('chrome', function () {
     'use strict';
 
-    browserPref = 'google chrome';
+    browserChoice = 'google chrome';
 });
 
 gulp.task('opera', function () {
     'use strict';
 
-    browserPref = 'opera';
+    browserChoice = 'opera';
 });
 
 /**
@@ -383,7 +383,7 @@ gulp.task('serve', [
         notify: true,
         port: 9000,
         reloadDelay: 100,
-        browser: browserPref,
+        browser: browserChoice,
         server: {
             baseDir: [
                 baseFolders.tmp,
