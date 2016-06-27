@@ -38,6 +38,14 @@ var gulp = require('gulp'),
             allNested: '**/*.html'
         },
         sass: 'main.scss'
+    },
+
+    colors = {
+        black: '\033[0m',
+        red: '\033[31m',
+        boldred: '\033[31m\033[1m',
+        green: '\033[32m',
+        blue: '\033[34m'
     };
 
 /**
@@ -429,13 +437,17 @@ gulp.task('clean', function () {
     for (i = 0; i < expendableFolders.length; i += 1) {
         try {
             fs.accessSync(expendableFolders[i], fs.F_OK);
-            process.stdout.write('\n\tThe ' + expendableFolders[i] +
-                    ' directory was found and will be deleted.\n');
+            process.stdout.write('\n\tThe ' + colors.green + expendableFolders[i] +
+                    colors.black + ' directory was found and ' + colors.green +
+                    'will' + colors.black + ' be deleted.\n');
             del(expendableFolders[i]);
         } catch (error) {
             if (error) {
-                process.stdout.write('\n\tThe ' + expendableFolders[i] +
-                        ' directory does NOT exist or is NOT accessible.\n');
+                process.stdout.write('\n\tThe ' + colors.red +
+                        expendableFolders[i] + colors.black +
+                        ' directory does ' + colors.red + 'not' + colors.black +
+                        ' exist or is ' + colors.red + 'not' + colors.black +
+                        ' accessible.\n');
             }
         }
     }
