@@ -249,28 +249,11 @@ gulp.task('lintJS', function () {
         .pipe(new JSConcatenator(filenames.js.main))
         .pipe(new JSLinter({
             rules: {
-                indent: [
-                    2,
-                    4,
-                    {SwitchCase: 1}
-                ],
-                quotes: [
-                    2,
-                    'single'
-                ],
-                'linebreak-style': [
-                    2,
-                    'unix'
-                ],
-                semi: [
-                    2,
-                    'always'
-                ],
-                'max-len': [
-                    2,
-                    85,
-                    4
-                ]
+                indent: [2, 4, {SwitchCase: 1}],
+                quotes: [2, 'single'],
+                'linebreak-style': [2, 'unix'],
+                semi: [2, 'always'],
+                'max-len': [2, 85, 4]
             },
             env: {
                 node: true,
