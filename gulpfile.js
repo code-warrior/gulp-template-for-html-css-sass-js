@@ -28,12 +28,14 @@ var gulp = require('gulp'),
         tmp: 'temp/',
         prod: 'prod/'
     },
+
     scaffoldFolders = {
         html: 'html/',
         js: 'scripts/',
         styles: 'styles/',
         images: 'img/'
     },
+
     filenames = {
         js: {
             main: 'app.js',
@@ -343,21 +345,24 @@ gulp.task('build', [
 /**
  * SERVE
  *
- * Used for development only, this task compiles CSS via Sass, concatenates one or
- * more JavaScript files into a single file, lints JavaScript, then, finally,
- * validates HTML.
+ * Used for development only, this task…
  *
- * The localhost server looks for index.html as the first page to load from either
+ *    — compiles CSS via Sass,
+ *    — concatenates one or more JavaScript files into a single file,
+ *    — lints JavaScript, and
+ *    — validates HTML.
+ *
+ * Your localhost server looks for index.html as the first page to load from either
  * the temporary folder (baseFolders.tmp), the development folder (baseFolders.dev),
- * or the folder containing HTML (baseFolders.dev + '/' + scaffoldFolders.html).
+ * or the folder containing HTML (baseFolders.dev + scaffoldFolders.html).
  *
  * Files that require pre-processing must be written to a folder before being served.
- * Thus, this task serves CSS and JS from a temp folder, the development target
- * folder (baseFolders.tmp), while un-processed files, such as fonts and images, are
- * served from the development source folder (baseFolders.dev).
+ * Thus, CSS and JS are served from a temp folder (baseFolders.tmp), while
+ * un-processed files, such as fonts and images, are served from the development
+ * source folder (baseFolders.dev).
  *
- * If a JS file is changed, all JS files are rebuilt, the resulting file is linted,
- * and the browser reloads.
+ * If a JavaScript file is changed, all JavaScript files are rebuilt, the resulting
+ * file is linted, and the browser reloads.
  *
  * If a Sass file is changed, a re-compilation of the primary CSS file is generated,
  * and the browser reloads.
