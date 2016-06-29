@@ -328,9 +328,7 @@ gulp.task('copyUnprocessedAssetsToProdFolder', function () {
 /**
  * BUILD
  *
- * This task validates HTML, lints JavaScript, compiles any files that require
- * pre-processing, then copies the pre-processed and unprocessed files to the
- * baseFolders.prod.
+ * This task simply invokes other pre-defined tasks.
  */
 gulp.task('build', [
     'validateHTML',
