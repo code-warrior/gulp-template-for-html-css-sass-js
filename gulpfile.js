@@ -120,8 +120,12 @@ gulp.task('validateHTML', function () {
 /**
  * COMPRESS HTML
  *
- * This task compresses all the HTML files in the supplied array, then writes the
- * compressed files to the baseFolders.prod folder.
+ * This task sources all the HTML files in the folder pointed to by the
+ * scaffoldFolders.html object, strips comments and whitespace from them, then writes
+ * the compressed files to the folder pointed to by the baseFolders.prod object.
+ *
+ * Note: You’ll need to enable the collapseWhitespace option to enable compression,
+ *       otherwise, no compression will be carried out on your HTML files.
  */
 gulp.task('compressHTML', function () {
     'use strict';
