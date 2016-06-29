@@ -414,8 +414,9 @@ gulp.task('serve', [
 /**
  * CLEAN
  *
- * This tasks deletes the baseFolders.tmp and baseFolders.prod directories, both of
- * which are expendable, since Gulp can re-build them at any moment.
+ * This task deletes the folders pointed to by the baseFolders.tmp and
+ * baseFolders.prod objects. Both of these folders are expendable, since Gulp creates
+ * them as temporary folders during the serve process and via the build task.
  */
 gulp.task('clean', function () {
     'use strict';
