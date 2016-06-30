@@ -81,8 +81,13 @@ gulp.task('validateHTML', function () {
     'use strict';
 
     return gulp.src([
-        config.baseFolders.dev + config.scaffoldFolders.html + config.filenames.html.all,
-        config.baseFolders.dev + config.scaffoldFolders.html + config.filenames.html.allNested
+        config.baseFolders.dev +
+                config.scaffoldFolders.html +
+                config.filenames.html.all,
+
+        config.baseFolders.dev +
+                config.scaffoldFolders.html +
+                config.filenames.html.allNested
     ])
         .pipe(new HTMLValidator());
 });
@@ -101,8 +106,13 @@ gulp.task('compressHTML', function () {
     'use strict';
 
     return gulp.src([
-        config.baseFolders.dev + config.scaffoldFolders.html + config.filenames.html.all,
-        config.baseFolders.dev + config.scaffoldFolders.html + config.filenames.html.allNested
+        config.baseFolders.dev +
+                config.scaffoldFolders.html +
+                config.filenames.html.all,
+
+        config.baseFolders.dev +
+                config.scaffoldFolders.html +
+                config.filenames.html.allNested
     ])
         .pipe(new HTMLMinifier({
             removeComments: true,
