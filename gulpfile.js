@@ -481,8 +481,8 @@ gulp.task('default', function () {
                     'when invoking the `exec` program in the default task.');
         }
 
-        process.stdout.write('\n\tThis default gulp task does ' + colors.red +
-                'nothing' + colors.black + ' except generate this message.\n\t' +
-                'The available tasks are:\n\n' + stdout);
+        process.stdout.write('\n\tThis default task does ' + colors.red +
+                'nothing' + colors.black + ' but generate this message. The ' +
+                'available tasks are:\n\n' + stdout);
     });
 });
