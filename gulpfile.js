@@ -202,8 +202,9 @@ gulp.task('compileJSForDev', function () {
  * COMPILE ALL JAVASCRIPT FILES INTO A SINGLE FILE FOR PRODUCTION
  *
  * This task compiles one or more JavaScript files into a single file whose name is
- * the value to the filenames.js.main variable. The resulting file is compressed then
- * written to the baseFolders.prod + scaffoldFolders.js.
+ * the value to the config.filenames.js.main JSON object. The resulting file is
+ * compressed then written to the folder pointed at by the JSON object
+ * compileJSForDevbaseFolders.prod + compileJSForDevscaffoldFolders.js.
  *
  * Note: This task does not contain the grid used during development.
  */
@@ -211,8 +212,13 @@ gulp.task('compileJSForProd', function () {
     'use strict';
 
     return gulp.src([
-        config.baseFolders.dev + config.scaffoldFolders.js + config.filenames.js.all,
-        '!' + config.baseFolders.dev + config.scaffoldFolders.js + config.filenames.js.grid
+        config.baseFolders.dev +
+                config.scaffoldFolders.js +
+                config.filenames.js.all,
+
+        '!' + config.baseFolders.dev +
+                config.scaffoldFolders.js +
+                config.filenames.js.grid
     ])
         .pipe(new JSConcatenator(config.filenames.js.main))
         .pipe(new JSCompressor())
