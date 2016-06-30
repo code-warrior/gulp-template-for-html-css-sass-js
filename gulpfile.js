@@ -67,8 +67,8 @@ gulp.task('opera', function () {
 /**
  * VALIDATE HTML
  *
- * This task sources all the HTML files pointed to by the scaffoldFolders.html
- * object, then feeds them to the HTMLValidator.
+ * This task sources all the HTML files pointed to by the config.scaffoldFolders.html
+ * JSON object, then feeds them to the HTMLValidator.
  *
  * On error, the validator will generate one or more incredibly ugly messages to the
  * console with line and column co-ordinates indicating where in your file the error
