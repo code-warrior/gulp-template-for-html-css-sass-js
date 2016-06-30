@@ -125,11 +125,11 @@ gulp.task('compressHTML', function () {
  * COMPILE CSS FOR DEVELOPMENT WORK
  *
  * This task looks for a single Sass file, compiles the CSS
- * from it, and writes the resulting file to the baseFolders.tmp +
- * scaffoldFolders.styles. The final CSS file will be formatted with 2-space
- * indentations. Any floating-point calculations will be carried out 10 places, and
- * browser-specific prefixes will be added to support 2 browser versions behind all
- * current browsers’ versions.
+ * from it, and writes the resulting file to the folder pointed at by the
+ * config.scaffoldFolders.styles JSON object. The final CSS file will be formatted
+ * with 2-space indentations. Any floating-point calculations will be carried out 10
+ * places, and browser-specific prefixes will be added to support 2 browser versions
+ * behind all current browsers’ versions.
  */
 gulp.task('compileCSSForDev', function () {
     'use strict';
