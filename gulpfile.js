@@ -12,42 +12,10 @@ var gulp = require('gulp'),
     JSCompressor = require('gulp-uglify'),
     imageCompressor = require('gulp-imagemin'),
     tempCache = require('gulp-cache'),
+    config = require('./config.json'),
     browserSync = require('browser-sync'),
     reload = browserSync.reload,
     browserChoice = 'default',
-
-    browser = {
-        safari: 'safari',
-        firefox: 'firefox',
-        chrome: 'google chrome',
-        opera: 'opera'
-    },
-
-    baseFolders = {
-        dev: 'dev/',
-        tmp: 'temp/',
-        prod: 'prod/'
-    },
-
-    scaffoldFolders = {
-        html: 'html/',
-        js: 'scripts/',
-        styles: 'styles/',
-        images: 'img/'
-    },
-
-    filenames = {
-        js: {
-            main: 'app.js',
-            all: '*.js',
-            grid: 'grid.js'
-        },
-        html: {
-            all: '*.html',
-            allNested: '**/*.html'
-        },
-        sass: 'main.scss'
-    },
 
     colors = {
         black: '\033[0m',
@@ -75,25 +43,25 @@ var gulp = require('gulp'),
 gulp.task('safari', function () {
     'use strict';
 
-    browserChoice = browser.safari;
+    browserChoice = config.browser.safari;
 });
 
 gulp.task('firefox', function () {
     'use strict';
 
-    browserChoice = browser.firefox;
+    browserChoice = config.browser.firefox;
 });
 
 gulp.task('chrome', function () {
     'use strict';
 
-    browserChoice = browser.chrome;
+    browserChoice = config.browser.chrome;
 });
 
 gulp.task('opera', function () {
     'use strict';
 
-    browserChoice = browser.opera;
+    browserChoice = config.browser.opera;
 });
 
 /**
@@ -113,8 +81,8 @@ gulp.task('validateHTML', function () {
     'use strict';
 
     return gulp.src([
-        baseFolders.dev + scaffoldFolders.html + filenames.html.all,
-        baseFolders.dev + scaffoldFolders.html + filenames.html.allNested
+        config.baseFolders.dev + config.scaffoldFolders.html + config.filenames.html.all,
+        config.baseFolders.dev + config.scaffoldFolders.html + config.filenames.html.allNested
     ])
         .pipe(new HTMLValidator());
 });
@@ -133,14 +101,14 @@ gulp.task('compressHTML', function () {
     'use strict';
 
     return gulp.src([
-        baseFolders.dev + scaffoldFolders.html + filenames.html.all,
-        baseFolders.dev + scaffoldFolders.html + filenames.html.allNested
+        config.baseFolders.dev + config.scaffoldFolders.html + config.filenames.html.all,
+        config.baseFolders.dev + config.scaffoldFolders.html + config.filenames.html.allNested
     ])
         .pipe(new HTMLMinifier({
             removeComments: true,
             collapseWhitespace: true
         }))
-        .pipe(gulp.dest(baseFolders.prod));
+        .pipe(gulp.dest(config.baseFolders.prod));
 });
 
 /**
@@ -156,10 +124,10 @@ gulp.task('compressHTML', function () {
 gulp.task('compileCSSForDev', function () {
     'use strict';
 
-    return gulp.src(baseFolders.dev +
-            scaffoldFolders.styles +
+    return gulp.src(config.baseFolders.dev +
+            config.scaffoldFolders.styles +
             '00-main-dev/' +
-            filenames.sass)
+            config.filenames.sass)
         .pipe(sass({
             outputStyle: 'expanded',
             precision: 10
@@ -167,7 +135,7 @@ gulp.task('compileCSSForDev', function () {
         .pipe(browserSpecificPrefixGenerator({
             browsers: ['last 2 versions']
         }))
-        .pipe(gulp.dest(baseFolders.tmp + scaffoldFolders.styles));
+        .pipe(gulp.dest(config.baseFolders.tmp + config.scaffoldFolders.styles));
 });
 
 /**
@@ -183,10 +151,10 @@ gulp.task('compileCSSForDev', function () {
 gulp.task('compileCSSForProd', function () {
     'use strict';
 
-    return gulp.src(baseFolders.dev +
-            scaffoldFolders.styles +
+    return gulp.src(config.baseFolders.dev +
+            config.scaffoldFolders.styles +
             '00-main-prod/' +
-            filenames.sass)
+            config.filenames.sass)
         .pipe(sass({
             outputStyle: 'compressed',
             precision: 10
@@ -195,7 +163,7 @@ gulp.task('compileCSSForProd', function () {
             browsers: ['last 2 versions']
         }))
         .pipe(new CSSCompressor())
-        .pipe(gulp.dest(baseFolders.prod + scaffoldFolders.styles));
+        .pipe(gulp.dest(config.baseFolders.prod + config.scaffoldFolders.styles));
 });
 
 /**
@@ -208,9 +176,9 @@ gulp.task('compileCSSForProd', function () {
 gulp.task('compileJSForDev', function () {
     'use strict';
 
-    return gulp.src(baseFolders.dev + scaffoldFolders.js + filenames.js.all)
-        .pipe(new JSConcatenator(filenames.js.main))
-        .pipe(gulp.dest(baseFolders.tmp + scaffoldFolders.js));
+    return gulp.src(config.baseFolders.dev + config.scaffoldFolders.js + config.filenames.js.all)
+        .pipe(new JSConcatenator(config.filenames.js.main))
+        .pipe(gulp.dest(config.baseFolders.tmp + config.scaffoldFolders.js));
 });
 
 /**
@@ -226,12 +194,12 @@ gulp.task('compileJSForProd', function () {
     'use strict';
 
     return gulp.src([
-        baseFolders.dev + scaffoldFolders.js + filenames.js.all,
-        '!' + baseFolders.dev + scaffoldFolders.js + filenames.js.grid
+        config.baseFolders.dev + config.scaffoldFolders.js + config.filenames.js.all,
+        '!' + config.baseFolders.dev + config.scaffoldFolders.js + config.filenames.js.grid
     ])
-        .pipe(new JSConcatenator(filenames.js.main))
+        .pipe(new JSConcatenator(config.filenames.js.main))
         .pipe(new JSCompressor())
-        .pipe(gulp.dest(baseFolders.prod + scaffoldFolders.js));
+        .pipe(gulp.dest(config.baseFolders.prod + config.scaffoldFolders.js));
 });
 
 /**
@@ -249,10 +217,10 @@ gulp.task('lintJS', function () {
     'use strict';
 
     return gulp.src([
-        baseFolders.dev + scaffoldFolders.js + filenames.js.all,
-        '!' + baseFolders.dev + scaffoldFolders.js + filenames.js.grid
+        config.baseFolders.dev + config.scaffoldFolders.js + config.filenames.js.all,
+        '!' + config.baseFolders.dev + config.scaffoldFolders.js + config.filenames.js.grid
     ])
-        .pipe(new JSConcatenator(filenames.js.main))
+        .pipe(new JSConcatenator(config.filenames.js.main))
         .pipe(new JSLinter({
             rules: {
                 indent: [2, 4, {SwitchCase: 1}],
@@ -287,7 +255,7 @@ gulp.task('lintJS', function () {
 gulp.task('compressThenCopyImagesToProdFolder', function () {
     'use strict';
 
-    return gulp.src(baseFolders.dev + scaffoldFolders.images + '**/*')
+    return gulp.src(config.baseFolders.dev + config.scaffoldFolders.images + '**/*')
         .pipe(tempCache(
             imageCompressor({
                 optimizationLevel: 3, // For PNG files. Accepts 0 – 7; 3 is default.
@@ -296,7 +264,7 @@ gulp.task('compressThenCopyImagesToProdFolder', function () {
                 interlaced: false     // For GIF files. Set to true for compression.
             })
         ))
-        .pipe(gulp.dest(baseFolders.prod + scaffoldFolders.images));
+        .pipe(gulp.dest(config.baseFolders.prod + config.scaffoldFolders.images));
 });
 
 /**
@@ -315,16 +283,16 @@ gulp.task('copyUnprocessedAssetsToProdFolder', function () {
     'use strict';
 
     return gulp.src([
-        baseFolders.dev + '*.*',                              // Source all files,
-        baseFolders.dev + '**',                               // and all folders,
-                                                              // but not
-        '!' + baseFolders.dev + scaffoldFolders.html,         // the HTML folder
-        '!' + baseFolders.dev + scaffoldFolders.html + '*.*', // or any files in it
-        '!' + baseFolders.dev + scaffoldFolders.html + '**',  // or any sub folders
-        '!' + baseFolders.dev + scaffoldFolders.images,       // ignore images;
-        '!' + baseFolders.dev + '**/*.js',                    // ignore JS;
-        '!' + baseFolders.dev + scaffoldFolders.styles + '**' // ignore Sass/CSS.
-    ], {dot: true}).pipe(gulp.dest(baseFolders.prod));
+        config.baseFolders.dev + '*.*',                                     // Source all files,
+        config.baseFolders.dev + '**',                                      // and all folders,
+                                                                            // but not
+        '!' + config.baseFolders.dev + config.scaffoldFolders.html,         // the HTML folder
+        '!' + config.baseFolders.dev + config.scaffoldFolders.html + '*.*', // or any files in it
+        '!' + config.baseFolders.dev + config.scaffoldFolders.html + '**',  // or any sub folders
+        '!' + config.baseFolders.dev + config.scaffoldFolders.images,       // ignore images;
+        '!' + config.baseFolders.dev + '**/*.js',                           // ignore JS;
+        '!' + config.baseFolders.dev + config.scaffoldFolders.styles + '**' // ignore Sass/CSS.
+    ], {dot: true}).pipe(gulp.dest(config.baseFolders.prod));
 });
 
 /**
@@ -385,31 +353,31 @@ gulp.task('serve', [
         browser: browserChoice,
         server: {
             baseDir: [
-                baseFolders.tmp,
-                baseFolders.dev,
-                baseFolders.dev + scaffoldFolders.html
+                config.baseFolders.tmp,
+                config.baseFolders.dev,
+                config.baseFolders.dev + config.scaffoldFolders.html
             ]
         }
     });
 
-    gulp.watch(baseFolders.dev + scaffoldFolders.js + '*.js',
+    gulp.watch(config.baseFolders.dev + config.scaffoldFolders.js + '*.js',
             ['compileJSForDev', 'lintJS']).on(
         'change',
         reload
     );
 
-    gulp.watch(baseFolders.dev + scaffoldFolders.images + '**/*').on(
+    gulp.watch(config.baseFolders.dev + config.scaffoldFolders.images + '**/*').on(
         'change',
         reload
     );
 
-    gulp.watch([baseFolders.dev + scaffoldFolders.html + '**/*.html'],
+    gulp.watch([config.baseFolders.dev + config.scaffoldFolders.html + '**/*.html'],
             ['validateHTML']).on(
         'change',
         reload
     );
 
-    gulp.watch(baseFolders.dev + scaffoldFolders.styles + '**/*.scss',
+    gulp.watch(config.baseFolders.dev + config.scaffoldFolders.styles + '**/*.scss',
             ['compileCSSForDev']).on(
         'change',
         reload
@@ -428,7 +396,7 @@ gulp.task('clean', function () {
 
     var fs = require('fs'),
         i,
-        expendableFolders = [baseFolders.tmp, baseFolders.prod];
+        expendableFolders = [config.baseFolders.tmp, config.baseFolders.prod];
 
     for (i = 0; i < expendableFolders.length; i += 1) {
         try {
