@@ -299,9 +299,9 @@ gulp.task('compressThenCopyImagesToProdFolder', function () {
  * COPY UNPROCESSED ASSETS TO THE PRODUCTION FOLDER
  *
  * This task copies all unprocessed assets that aren’t images, JavaScript, or
- * Sass/CSS in the folder pointed to by the baseFolders.dev object to the folder
- * pointed to by the baseFolders.prod object. This is because those files are
- * processed by other tasks, specifically:
+ * Sass/CSS in the folder pointed to by the config.baseFolders.dev object to the
+ * folder pointed to by the config.baseFolders.prod object. This is because those
+ * files are processed by other tasks, specifically:
  *
  * — Images are compressed then copied by the compressThenCopyImagesToProdFolder task
  * — JavaScript is concatenated and compressed by the compileJSForProd task
@@ -311,15 +311,26 @@ gulp.task('copyUnprocessedAssetsToProdFolder', function () {
     'use strict';
 
     return gulp.src([
-        config.baseFolders.dev + '*.*',                                     // Source all files,
-        config.baseFolders.dev + '**',                                      // and all folders,
-                                                                            // but not
-        '!' + config.baseFolders.dev + config.scaffoldFolders.html,         // the HTML folder
-        '!' + config.baseFolders.dev + config.scaffoldFolders.html + '*.*', // or any files in it
-        '!' + config.baseFolders.dev + config.scaffoldFolders.html + '**',  // or any sub folders
-        '!' + config.baseFolders.dev + config.scaffoldFolders.images,       // ignore images;
-        '!' + config.baseFolders.dev + '**/*.js',                           // ignore JS;
-        '!' + config.baseFolders.dev + config.scaffoldFolders.styles + '**' // ignore Sass/CSS.
+        config.baseFolders.dev + '*.*',              // Source all files,
+        config.baseFolders.dev + '**',               // and all folders,
+                                                     // but not
+        '!' + config.baseFolders.dev +
+                config.scaffoldFolders.html,         // the HTML folder
+
+        '!' + config.baseFolders.dev +
+                config.scaffoldFolders.html + '*.*', // or any files in it
+
+        '!' + config.baseFolders.dev +
+                config.scaffoldFolders.html + '**',  // or any sub folders
+
+        '!' + config.baseFolders.dev +
+                config.scaffoldFolders.images,       // ignore images;
+
+        '!' + config.baseFolders.dev +
+                '**/*.js',                           // ignore JS;
+
+        '!' + config.baseFolders.dev +
+                config.scaffoldFolders.styles + '**' // ignore Sass/CSS.
     ], {dot: true}).pipe(gulp.dest(config.baseFolders.prod));
 });
 
