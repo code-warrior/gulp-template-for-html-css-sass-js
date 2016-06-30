@@ -360,13 +360,14 @@ gulp.task('build', [
  *    — validates HTML.
  *
  * Your localhost server looks for index.html as the first page to load from either
- * the temporary folder (baseFolders.tmp), the development folder (baseFolders.dev),
- * or the folder containing HTML (baseFolders.dev + scaffoldFolders.html).
+ * the temporary folder (config.baseFolders.tmp), the development folder
+ * (config.baseFolders.dev), or the folder containing HTML
+ * (config.scaffoldFolders.html).
  *
  * Files that require pre-processing must be written to a folder before being served.
- * Thus, CSS and JS are served from a temp folder (baseFolders.tmp), while
+ * Thus, CSS and JS are served from a temp folder (config.baseFolders.tmp), while
  * un-processed files, such as fonts and images, are served from the development
- * source folder (baseFolders.dev).
+ * source folder (config.baseFolders.dev).
  *
  * If a JavaScript file is changed, all JavaScript files are rebuilt, the resulting
  * file is linted, and the browser reloads.
