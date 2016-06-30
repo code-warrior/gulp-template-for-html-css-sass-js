@@ -240,8 +240,13 @@ gulp.task('lintJS', function () {
     'use strict';
 
     return gulp.src([
-        config.baseFolders.dev + config.scaffoldFolders.js + config.filenames.js.all,
-        '!' + config.baseFolders.dev + config.scaffoldFolders.js + config.filenames.js.grid
+        config.baseFolders.dev +
+                config.scaffoldFolders.js +
+                config.filenames.js.all,
+
+        '!' + config.baseFolders.dev +
+                config.scaffoldFolders.js +
+                config.filenames.js.grid
     ])
         .pipe(new JSConcatenator(config.filenames.js.main))
         .pipe(new JSLinter({
