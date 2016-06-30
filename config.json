@@ -1,0 +1,34 @@
+{
+    "browser": {
+        "safari": "safari",
+        "firefox": "firefox",
+        "chrome": "google chrome",
+        "opera": "opera"
+    },
+
+    "baseFolders": {
+        "dev": "dev/",
+        "tmp": "temp/",
+        "prod": "prod/"
+    },
+
+    "scaffoldFolders": {
+        "html": "html/",
+        "js": "scripts/",
+        "styles": "styles/",
+        "images": "img/"
+    },
+
+    "filenames": {
+        "js": {
+            "main": "app.js",
+            "all": "*.js",
+            "grid": "grid.js"
+        },
+        "html": {
+            "all": "*.html",
+            "allNested": "**/*.html"
+        },
+        "sass": "main.scss"
+    }
+}
