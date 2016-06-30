@@ -180,14 +180,20 @@ gulp.task('compileCSSForProd', function () {
 /**
  * COMPILE ALL JAVASCRIPT FILES INTO ONE FILE FOR DEVELOPMENT WORK
  *
- * This task compiles preCompiledJavaScriptFilesWithGrid via the
- * compileJavaScript concatenator, then writes the result to the
- * javaScriptDevTargetFolder with filename javaScriptTargetFilename.
+ * This task sources all the JavaScript files in the folder pointed at by the JSON
+ * object config.baseFolders.dev + config.scaffoldFolders.js, gives the compiled
+ * JavaScript the name assigned to the JSON object config.filenames.js.main, then
+ * writes the result to the JSON object pointed at by config.baseFolders.tmp +
+ * config.scaffoldFolders.js.
  */
 gulp.task('compileJSForDev', function () {
     'use strict';
 
-    return gulp.src(config.baseFolders.dev + config.scaffoldFolders.js + config.filenames.js.all)
+    return gulp.src(
+        config.baseFolders.dev +
+            config.scaffoldFolders.js +
+            config.filenames.js.all
+    )
         .pipe(new JSConcatenator(config.filenames.js.main))
         .pipe(gulp.dest(config.baseFolders.tmp + config.scaffoldFolders.js));
 });
