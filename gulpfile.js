@@ -16,13 +16,7 @@ var gulp = require('gulp'),
     browserSync = require('browser-sync'),
     reload = browserSync.reload,
     browserChoice = 'default',
-
-    colors = {
-        black: '\033[0m',
-        red: '\033[31m',
-        green: '\033[32m',
-        blue: '\033[34m'
-    };
+    colors = config.colors;
 
 /**
  * CHOOSE A BROWSER OTHER THAN THE DEFAULT
