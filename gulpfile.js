@@ -437,15 +437,15 @@ gulp.task('clean', function () {
         try {
             fs.accessSync(expendableFolders[i], fs.F_OK);
             process.stdout.write('\n\tThe ' + colors.green + expendableFolders[i] +
-                    colors.black + ' directory was found and ' + colors.green +
-                    'will' + colors.black + ' be deleted.\n');
+                    colors.default + ' directory was found and ' + colors.green +
+                    'will' + colors.default + ' be deleted.\n');
             del(expendableFolders[i]);
         } catch (error) {
             if (error) {
                 process.stdout.write('\n\tThe ' + colors.red +
-                        expendableFolders[i] + colors.black +
-                        ' directory does ' + colors.red + 'not' + colors.black +
-                        ' exist or is ' + colors.red + 'not' + colors.black +
+                        expendableFolders[i] + colors.default +
+                        ' directory does ' + colors.red + 'not' + colors.default +
+                        ' exist or is ' + colors.red + 'not' + colors.default +
                         ' accessible.\n');
             }
         }
@@ -476,7 +476,7 @@ gulp.task('default', function () {
         }
 
         process.stdout.write('\n\tThis default task does ' + colors.red +
-                'nothing' + colors.black + ' but generate this message. The ' +
+                'nothing' + colors.default + ' but generate this message. The ' +
                 'available tasks are:\n\n' + stdout);
     });
 });
