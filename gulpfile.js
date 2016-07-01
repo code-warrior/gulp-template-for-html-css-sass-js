@@ -12,17 +12,11 @@ var gulp = require('gulp'),
     JSCompressor = require('gulp-uglify'),
     imageCompressor = require('gulp-imagemin'),
     tempCache = require('gulp-cache'),
-    config = require('./config.json'),
     browserSync = require('browser-sync'),
+    config = require('./config.json'),
+    colors = config.colors,
     reload = browserSync.reload,
-    browserChoice = 'default',
-
-    colors = {
-        black: '\033[0m',
-        red: '\033[31m',
-        green: '\033[32m',
-        blue: '\033[34m'
-    };
+    browserChoice = 'default';
 
 /**
  * CHOOSE A BROWSER OTHER THAN THE DEFAULT
@@ -443,15 +437,15 @@ gulp.task('clean', function () {
         try {
             fs.accessSync(expendableFolders[i], fs.F_OK);
             process.stdout.write('\n\tThe ' + colors.green + expendableFolders[i] +
-                    colors.black + ' directory was found and ' + colors.green +
-                    'will' + colors.black + ' be deleted.\n');
+                    colors.default + ' directory was found and ' + colors.green +
+                    'will' + colors.default + ' be deleted.\n');
             del(expendableFolders[i]);
         } catch (error) {
             if (error) {
                 process.stdout.write('\n\tThe ' + colors.red +
-                        expendableFolders[i] + colors.black +
-                        ' directory does ' + colors.red + 'not' + colors.black +
-                        ' exist or is ' + colors.red + 'not' + colors.black +
+                        expendableFolders[i] + colors.default +
+                        ' directory does ' + colors.red + 'not' + colors.default +
+                        ' exist or is ' + colors.red + 'not' + colors.default +
                         ' accessible.\n');
             }
         }
@@ -482,7 +476,7 @@ gulp.task('default', function () {
         }
 
         process.stdout.write('\n\tThis default task does ' + colors.red +
-                'nothing' + colors.black + ' but generate this message. The ' +
+                'nothing' + colors.default + ' but generate this message. The ' +
                 'available tasks are:\n\n' + stdout);
     });
 });
