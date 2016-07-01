@@ -12,11 +12,11 @@ var gulp = require('gulp'),
     JSCompressor = require('gulp-uglify'),
     imageCompressor = require('gulp-imagemin'),
     tempCache = require('gulp-cache'),
-    config = require('./config.json'),
     browserSync = require('browser-sync'),
+    config = require('./config.json'),
+    colors = config.colors,
     reload = browserSync.reload,
-    browserChoice = 'default',
-    colors = config.colors;
+    browserChoice = 'default';
 
 /**
  * CHOOSE A BROWSER OTHER THAN THE DEFAULT
