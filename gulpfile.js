@@ -371,52 +371,51 @@ gulp.task('build', [
  *
  * Finally, changes to images also trigger a browser reload.
  */
-gulp.task('serve', [
-    'compileCSSForDev',
-    'compileJSForDev',
-    'lintJS',
-    'validateHTML'
-],
-        function () {
-    'use strict';
+gulp.task('serve', ['compileCSSForDev', 'compileJSForDev', 'lintJS', 'validateHTML'],
+    function () {
+        'use strict';
 
-    browserSync({
-        notify: true,
-        port: 9000,
-        reloadDelay: 100,
-        browser: browserChoice,
-        server: {
-            baseDir: [
-                config.baseFolders.tmp,
-                config.baseFolders.dev,
-                config.baseFolders.dev + config.scaffoldFolders.html
-            ]
-        }
-    });
+        browserSync({
+            notify: true,
+            port: 9000,
+            reloadDelay: 100,
+            browser: browserChoice,
+            server: {
+                baseDir: [
+                    config.baseFolders.tmp,
+                    config.baseFolders.dev,
+                    config.baseFolders.dev + config.scaffoldFolders.html
+                ]
+            }
+        });
 
-    gulp.watch(config.baseFolders.dev + config.scaffoldFolders.js + '*.js',
+        gulp.watch(config.baseFolders.dev +
+            config.scaffoldFolders.js + '*.js',
             ['compileJSForDev', 'lintJS']).on(
-        'change',
-        reload
-    );
+            'change',
+            reload
+        );
 
-    gulp.watch(config.baseFolders.dev + config.scaffoldFolders.images + '**/*').on(
-        'change',
-        reload
-    );
+        gulp.watch(config.baseFolders.dev +
+            config.scaffoldFolders.images + '**/*').on(
+            'change',
+            reload
+        );
 
-    gulp.watch([config.baseFolders.dev + config.scaffoldFolders.html + '**/*.html'],
+        gulp.watch([config.baseFolders.dev +
+            config.scaffoldFolders.html + '**/*.html'],
             ['validateHTML']).on(
-        'change',
-        reload
-    );
+            'change',
+            reload
+        );
 
-    gulp.watch(config.baseFolders.dev + config.scaffoldFolders.styles + '**/*.scss',
+        gulp.watch(config.baseFolders.dev +
+            config.scaffoldFolders.styles + '**/*.scss',
             ['compileCSSForDev']).on(
-        'change',
-        reload
-    );
-});
+            'change',
+            reload
+        );
+    });
 
 /**
  * CLEAN
