@@ -2,7 +2,7 @@
 
 var gulp                           = require('gulp'),
     sass                           = require('gulp-sass'),
-    CSSCompressor                  = require('gulp-csso'),
+    cssCompressor                  = require('gulp-csso'),
     browserSpecificPrefixGenerator = require('gulp-autoprefixer'),
     cssProdDestinationFolder       = 'prod/styles/',
     sassSourceFileForProd          = 'dev/styles/00-main-prod/main.scss';
@@ -18,6 +18,6 @@ gulp.task('compileCSSForProd', function () {
         .pipe(browserSpecificPrefixGenerator({
             browsers: ['last 2 versions']
         }))
-        .pipe(CSSCompressor())
+        .pipe(cssCompressor())
         .pipe(gulp.dest(cssProdDestinationFolder));
 });
