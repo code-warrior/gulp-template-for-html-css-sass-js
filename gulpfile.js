@@ -1,7 +1,5 @@
 /*jslint node: true */
 
-'use strict';
-
 var gulp                               = require('gulp'),
     JSConcatenator                     = require('gulp-concat'),
     compressJS                         = require('gulp-uglify'),
@@ -16,6 +14,8 @@ var gulp                               = require('gulp'),
     ];
 
 gulp.task('compileJSForProd', function () {
+    'use strict';
+
     return gulp.src(preConcatenatedJSFilesWithoutGrid)
         .pipe(JSConcatenator(JSTargetFilename))
         .pipe(compressJS())
