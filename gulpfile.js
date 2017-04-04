@@ -2,9 +2,7 @@
 
 var gulp              = require('gulp'),
     del               = require('del'),
-    devTargetFolder   = 'temp',
-    prodTargetFolder  = 'prod',
-    expendableFolders = [devTargetFolder, prodTargetFolder];
+    expendableFolders = ['temp', 'prod'];
 
 gulp.task('clean', function () {
     'use strict';
