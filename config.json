@@ -1,11 +1,4 @@
 {
-    "browser": {
-        "safari": "safari",
-        "firefox": "firefox",
-        "chrome": "google chrome",
-        "opera": "opera"
-    },
-
     "baseFolders": {
         "dev": "dev/",
         "tmp": "temp/",

@@ -36,19 +36,19 @@ var gulp = require('gulp'),
 gulp.task('safari', function () {
     'use strict';
 
-    browserChoice = config.browser.safari;
+    browserChoice = 'safari';
 });
 
 gulp.task('firefox', function () {
     'use strict';
 
-    browserChoice = config.browser.firefox;
+    browserChoice = 'firefox';
 });
 
 gulp.task('chrome', function () {
     'use strict';
 
-    browserChoice = config.browser.chrome;
+    browserChoice = 'google chrome';
 });
 
 gulp.task('opera', function () {
