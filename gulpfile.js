@@ -198,7 +198,7 @@ gulp.task('compileJSForDev', function () {
     return gulp.src(
         'dev/' +
             'scripts/' +
-            config.filenames.js.all
+            '*.js'
     )
         .pipe(new JSConcatenator('app.js'))
         .pipe(gulp.dest('temp/' + 'scripts/'));
@@ -220,7 +220,7 @@ gulp.task('compileJSForProd', function () {
     return gulp.src([
         'dev/' +
                 'scripts/' +
-                config.filenames.js.all,
+                '*.js',
 
         '!' + 'dev/' +
                 'scripts/' +
@@ -248,7 +248,7 @@ gulp.task('lintJS', function () {
     return gulp.src([
         'dev/' +
                 'scripts/' +
-                config.filenames.js.all,
+                '*.js',
 
         '!' + 'dev/' +
                 'scripts/' +
