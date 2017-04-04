@@ -9,7 +9,7 @@ var gulp = require('gulp'),
     htmlValidator = require('gulp-html'),
     jsConcatenator = require('gulp-concat'),
     jsLinter = require('gulp-eslint'),
-    JSCompressor = require('gulp-uglify'),
+    jsCompressor = require('gulp-uglify'),
     imageCompressor = require('gulp-imagemin'),
     tempCache = require('gulp-cache'),
     browserSync = require('browser-sync'),
@@ -193,7 +193,7 @@ gulp.task('compileJSForProd', function () {
 
     return gulp.src(['dev/scripts/*.js', '!dev/scripts/grid.js'])
         .pipe(jsConcatenator('app.js'))
-        .pipe(new JSCompressor())
+        .pipe(jsCompressor())
         .pipe(gulp.dest('prod/scripts'));
 });
 
