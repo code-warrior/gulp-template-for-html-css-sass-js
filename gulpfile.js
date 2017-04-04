@@ -5,8 +5,8 @@ var gulp = require('gulp'),
     sass = require('gulp-sass'),
     cssCompressor = require('gulp-csso'),
     browserSpecificPrefixer = require('gulp-autoprefixer'),
-    HTMLMinifier = require('gulp-htmlmin'),
-    HTMLValidator = require('gulp-html'),
+    htmlMinifier = require('gulp-htmlmin'),
+    htmlValidator = require('gulp-html'),
     JSConcatenator = require('gulp-concat'),
     JSLinter = require('gulp-eslint'),
     JSCompressor = require('gulp-uglify'),
@@ -73,7 +73,7 @@ gulp.task('allBrowsers', function () {
  * VALIDATE HTML
  *
  * This task sources all the HTML files pointed to by the 'html/'
- * JSON object, then feeds them to the HTMLValidator.
+ * JSON object, then feeds them to the htmlValidator.
  *
  * On error, the validator will generate one or more incredibly ugly messages to the
  * console with line and column co-ordinates indicating where in your file the error
@@ -86,7 +86,7 @@ gulp.task('validateHTML', function () {
     'use strict';
 
     return gulp.src(['dev/html/*.html', 'dev/html/**/*.html'])
-        .pipe(new HTMLValidator());
+        .pipe(htmlValidator());
 });
 
 /**
@@ -104,7 +104,7 @@ gulp.task('compressHTML', function () {
     'use strict';
 
     return gulp.src(['dev/html/*.html', 'dev/html/**/*.html'])
-        .pipe(new HTMLMinifier({
+        .pipe(htmlMinifier({
             removeComments: true,
             collapseWhitespace: true
         }))
