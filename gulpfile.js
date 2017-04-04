@@ -1,23 +1,18 @@
 /*jslint node: true */
 
-var gulp = require('gulp'),
-    devSourceFolder = 'dev/',
-    prodTargetFolder = 'prod/',
-    htmlFolder = 'html/',
-    imagesFolder = 'img/',
-    sassCSSFolder = 'styles/';
+var gulp = require('gulp');
 
 gulp.task('copyUnprocessedAssetsToProdFolder', function () {
     'use strict';
 
     return gulp.src([
-        devSourceFolder + '*.*',                           // Source all files,
-        devSourceFolder + '**',                            // and all folders, but
-        '!' + devSourceFolder + htmlFolder,                // no the HTML folder,
-        '!' + devSourceFolder + htmlFolder + '*.*',        // or any files in it,
-        '!' + devSourceFolder + htmlFolder + '**',         // or any subfolders;
-        '!' + devSourceFolder + imagesFolder,              // ignore images;
-        '!' + devSourceFolder + '**/*.js',                 // ignore JS;
-        '!' + devSourceFolder + sassCSSFolder + '**'       // ignore Sass/CSS.
-    ], {dot: true}).pipe(gulp.dest(prodTargetFolder));
+        'dev/*.*',       // Source all files,
+        'dev/**',        // and all folders, but
+        '!dev/html/',    // no the HTML folder,
+        '!dev/html/*.*', // or any files in it,
+        '!dev/html/**',  // or any subfolders;
+        '!dev/img/',     // ignore images;
+        '!dev/**/*.js',  // ignore JS;
+        '!dev/styles/**' // ignore Sass/CSS.
+    ], {dot: true}).pipe(gulp.dest('prod'));
 });
