@@ -64,14 +64,14 @@ gulp.task('compileJSForDev', function () {
 });
 
 gulp.task('compileJSForProd', function () {
-    return gulp.src(['dev/scripts/*.js','!dev/scripts/grid.js'])
+    return gulp.src('dev/scripts/*.js')
         .pipe(JSConcatenator('app.js'))
         .pipe(JSCompressor())
         .pipe(gulp.dest('prod/scripts'));
 });
 
 gulp.task('lintJS', function () {
-    return gulp.src(['dev/scripts/*.js','!dev/scripts/grid.js'])
+    return gulp.src('dev/scripts/*.js')
         .pipe(JSConcatenator('app.js'))
         .pipe(JSLinter({
             'rules': {
