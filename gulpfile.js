@@ -294,14 +294,12 @@ gulp.task('build', [
  *    — validates HTML.
  *
  * Your localhost server looks for index.html as the first page to load from either
- * the temporary folder ('temp/'), the development folder
- * ('dev/'), or the folder containing HTML
- * ('html/').
+ * the temporary folder (temp), the development folder (dev), or the folder
+ * containing HTML (html).
  *
  * Files that require pre-processing must be written to a folder before being served.
- * Thus, CSS and JS are served from a temp folder ('temp/'), while
- * un-processed files, such as fonts and images, are served from the development
- * source folder ('dev/').
+ * Thus, CSS and JS are served from a temp folder (temp), while un-processed files,
+ * such as fonts and images, are served from the development source folder (dev).
  *
  * If a JavaScript file is changed, all JavaScript files are rebuilt, the resulting
  * file is linted, and the browser reloads.
@@ -321,9 +319,9 @@ gulp.task('serve', ['compileCSSForDev', 'compileJSForDev', 'lintJS', 'validateHT
         browser: browserChoice,
         server: {
             baseDir: [
-                'temp/',
-                'dev/',
-                'dev/html/'
+                'temp',
+                'dev',
+                'dev/html'
             ]
         }
     });
