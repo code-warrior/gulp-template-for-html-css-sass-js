@@ -1,4 +1,4 @@
-/*jslint node: true */
+/*jslint node: true, for */
 
 var gulp = require('gulp'),
     del = require('del'),
@@ -85,15 +85,7 @@ gulp.task('allBrowsers', function () {
 gulp.task('validateHTML', function () {
     'use strict';
 
-    return gulp.src([
-        'dev/' +
-                'html/' +
-                '*.html',
-
-        'dev/' +
-                'html/' +
-                '**/*.html'
-    ])
+    return gulp.src(['dev/html/*.html', 'dev/html/**/*.html'])
         .pipe(new HTMLValidator());
 });
 
@@ -111,15 +103,7 @@ gulp.task('validateHTML', function () {
 gulp.task('compressHTML', function () {
     'use strict';
 
-    return gulp.src([
-        'dev/' +
-                'html/' +
-                '*.html',
-
-        'dev/' +
-                'html/' +
-                '**/*.html'
-    ])
+    return gulp.src(['dev/html/*.html', 'dev/html/**/*.html'])
         .pipe(new HTMLMinifier({
             removeComments: true,
             collapseWhitespace: true
@@ -140,10 +124,7 @@ gulp.task('compressHTML', function () {
 gulp.task('compileCSSForDev', function () {
     'use strict';
 
-    return gulp.src('dev/' +
-            'styles/' +
-            '00-main-dev/' +
-            'main.scss')
+    return gulp.src('dev/styles/00-main-dev/main.scss')
         .pipe(sass({
             outputStyle: 'expanded',
             precision: 10
@@ -151,7 +132,7 @@ gulp.task('compileCSSForDev', function () {
         .pipe(browserSpecificPrefixGenerator({
             browsers: ['last 2 versions']
         }))
-        .pipe(gulp.dest('temp/' + 'styles/'));
+        .pipe(gulp.dest('temp/styles'));
 });
 
 /**
@@ -168,10 +149,7 @@ gulp.task('compileCSSForDev', function () {
 gulp.task('compileCSSForProd', function () {
     'use strict';
 
-    return gulp.src('dev/' +
-            'styles/' +
-            '00-main-prod/' +
-            'main.scss')
+    return gulp.src('dev/styles/00-main-prod/main.scss')
         .pipe(sass({
             outputStyle: 'compressed',
             precision: 10
@@ -180,7 +158,7 @@ gulp.task('compileCSSForProd', function () {
             browsers: ['last 2 versions']
         }))
         .pipe(new CSSCompressor())
-        .pipe(gulp.dest('prod/' + 'styles/'));
+        .pipe(gulp.dest('prod/styles'));
 });
 
 /**
@@ -195,13 +173,9 @@ gulp.task('compileCSSForProd', function () {
 gulp.task('compileJSForDev', function () {
     'use strict';
 
-    return gulp.src(
-        'dev/' +
-            'scripts/' +
-            '*.js'
-    )
+    return gulp.src('dev/scripts/*.js')
         .pipe(new JSConcatenator('app.js'))
-        .pipe(gulp.dest('temp/' + 'scripts/'));
+        .pipe(gulp.dest('temp/scripts'));
 });
 
 /**
@@ -217,18 +191,10 @@ gulp.task('compileJSForDev', function () {
 gulp.task('compileJSForProd', function () {
     'use strict';
 
-    return gulp.src([
-        'dev/' +
-                'scripts/' +
-                '*.js',
-
-        '!' + 'dev/' +
-                'scripts/' +
-                'grid.js'
-    ])
+    return gulp.src(['dev/scripts/*.js', '!dev/scripts/grid.js'])
         .pipe(new JSConcatenator('app.js'))
         .pipe(new JSCompressor())
-        .pipe(gulp.dest('prod/' + 'scripts/'));
+        .pipe(gulp.dest('prod/scripts'));
 });
 
 /**
@@ -245,15 +211,7 @@ gulp.task('compileJSForProd', function () {
 gulp.task('lintJS', function () {
     'use strict';
 
-    return gulp.src([
-        'dev/' +
-                'scripts/' +
-                '*.js',
-
-        '!' + 'dev/' +
-                'scripts/' +
-                'grid.js'
-    ])
+    return gulp.src(['dev/scripts/*.js', '!dev/scripts/grid.js'])
         .pipe(new JSConcatenator('app.js'))
         .pipe(new JSLinter({
             rules: {
@@ -289,7 +247,7 @@ gulp.task('lintJS', function () {
 gulp.task('compressThenCopyImagesToProdFolder', function () {
     'use strict';
 
-    return gulp.src('dev/' + 'img/' + '**/*')
+    return gulp.src('dev/img/**/*')
         .pipe(tempCache(
             imageCompressor({
                 optimizationLevel: 3, // For PNG files. Accepts 0 – 7; 3 is default.
@@ -298,7 +256,7 @@ gulp.task('compressThenCopyImagesToProdFolder', function () {
                 interlaced: false     // For GIF files. Set to true for compression.
             })
         ))
-        .pipe(gulp.dest('prod/' + 'img/'));
+        .pipe(gulp.dest('prod/img'));
 });
 
 /**
@@ -317,27 +275,15 @@ gulp.task('copyUnprocessedAssetsToProdFolder', function () {
     'use strict';
 
     return gulp.src([
-        'dev/' + '*.*',              // Source all files,
-        'dev/' + '**',               // and all folders,
-                                                     // but not
-        '!' + 'dev/' +
-                'html/',         // the HTML folder
-
-        '!' + 'dev/' +
-                'html/' + '*.*', // or any files in it
-
-        '!' + 'dev/' +
-                'html/' + '**',  // or any sub folders
-
-        '!' + 'dev/' +
-                'img/',       // ignore images;
-
-        '!' + 'dev/' +
-                '**/*.js',                           // ignore JS;
-
-        '!' + 'dev/' +
-                'styles/' + '**' // ignore Sass/CSS.
-    ], {dot: true}).pipe(gulp.dest('prod/'));
+        'dev/*.*',       // Source all files,
+        'dev/**',        // and all folders,
+        '!dev/html/',    // but not the HTML folder
+        '!dev/html/*.*', // or any files in it
+        '!dev/html/**',  // or any sub folders
+        '!dev/img/',     // ignore images;
+        '!dev/**/*.js',  // ignore JS;
+        '!dev/styles/**' // ignore Sass/CSS.
+    ], {dot: true}).pipe(gulp.dest('prod'));
 });
 
 /**
@@ -383,51 +329,35 @@ gulp.task('build', [
  *
  * Finally, changes to images also trigger a browser reload.
  */
-gulp.task('serve', ['compileCSSForDev', 'compileJSForDev', 'lintJS', 'validateHTML'],
-    function () {
-        'use strict';
+gulp.task('serve', ['compileCSSForDev', 'compileJSForDev', 'lintJS', 'validateHTML'], function () {
+    'use strict';
 
-        browserSync({
-            notify: true,
-            port: 9000,
-            reloadDelay: 100,
-            browser: browserChoice,
-            server: {
-                baseDir: [
-                    'temp/',
-                    'dev/',
-                    'dev/' + 'html/'
-                ]
-            }
-        });
-
-        gulp.watch('dev/' +
-            'scripts/' + '*.js',
-            ['compileJSForDev', 'lintJS']).on(
-            'change',
-            reload
-        );
-
-        gulp.watch('dev/' +
-            'img/' + '**/*').on(
-            'change',
-            reload
-        );
-
-        gulp.watch(['dev/' +
-            'html/' + '**/*.html'],
-            ['validateHTML']).on(
-            'change',
-            reload
-        );
-
-        gulp.watch('dev/' +
-            'styles/' + '**/*.scss',
-            ['compileCSSForDev']).on(
-            'change',
-            reload
-        );
+    browserSync({
+        notify: true,
+        port: 9000,
+        reloadDelay: 100,
+        browser: browserChoice,
+        server: {
+            baseDir: [
+                'temp/',
+                'dev/',
+                'dev/html/'
+            ]
+        }
     });
+
+    gulp.watch('dev/scripts/*.js', ['compileJSForDev', 'lintJS'])
+        .on('change', reload);
+
+    gulp.watch('dev/styles/**/*.scss', ['compileCSSForDev'])
+        .on('change', reload);
+
+    gulp.watch(['dev/html/**/*.html'], ['validateHTML'])
+        .on('change', reload);
+
+    gulp.watch('dev/img/**/*')
+        .on('change', reload);
+});
 
 /**
  * CLEAN
@@ -442,7 +372,7 @@ gulp.task('clean', function () {
 
     var fs = require('fs'),
         i,
-        expendableFolders = ['temp/', 'prod/'];
+        expendableFolders = ['temp', 'prod'];
 
     for (i = 0; i < expendableFolders.length; i += 1) {
         try {
