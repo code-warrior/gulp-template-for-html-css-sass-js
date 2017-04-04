@@ -86,11 +86,11 @@ gulp.task('validateHTML', function () {
     'use strict';
 
     return gulp.src([
-        config.baseFolders.dev +
+        'dev/' +
                 config.scaffoldFolders.html +
                 config.filenames.html.all,
 
-        config.baseFolders.dev +
+        'dev/' +
                 config.scaffoldFolders.html +
                 config.filenames.html.allNested
     ])
@@ -112,11 +112,11 @@ gulp.task('compressHTML', function () {
     'use strict';
 
     return gulp.src([
-        config.baseFolders.dev +
+        'dev/' +
                 config.scaffoldFolders.html +
                 config.filenames.html.all,
 
-        config.baseFolders.dev +
+        'dev/' +
                 config.scaffoldFolders.html +
                 config.filenames.html.allNested
     ])
@@ -140,7 +140,7 @@ gulp.task('compressHTML', function () {
 gulp.task('compileCSSForDev', function () {
     'use strict';
 
-    return gulp.src(config.baseFolders.dev +
+    return gulp.src('dev/' +
             config.scaffoldFolders.styles +
             '00-main-dev/' +
             config.filenames.sass)
@@ -168,7 +168,7 @@ gulp.task('compileCSSForDev', function () {
 gulp.task('compileCSSForProd', function () {
     'use strict';
 
-    return gulp.src(config.baseFolders.dev +
+    return gulp.src('dev/' +
             config.scaffoldFolders.styles +
             '00-main-prod/' +
             config.filenames.sass)
@@ -187,7 +187,7 @@ gulp.task('compileCSSForProd', function () {
  * COMPILE ALL JAVASCRIPT FILES INTO ONE FILE FOR DEVELOPMENT WORK
  *
  * This task sources all the JavaScript files in the folder pointed at by the JSON
- * object config.baseFolders.dev + config.scaffoldFolders.js, gives the compiled
+ * object 'dev/' + config.scaffoldFolders.js, gives the compiled
  * JavaScript the name assigned to the JSON object config.filenames.js.main, then
  * writes the result to the JSON object pointed at by config.baseFolders.tmp +
  * config.scaffoldFolders.js.
@@ -196,7 +196,7 @@ gulp.task('compileJSForDev', function () {
     'use strict';
 
     return gulp.src(
-        config.baseFolders.dev +
+        'dev/' +
             config.scaffoldFolders.js +
             config.filenames.js.all
     )
@@ -218,11 +218,11 @@ gulp.task('compileJSForProd', function () {
     'use strict';
 
     return gulp.src([
-        config.baseFolders.dev +
+        'dev/' +
                 config.scaffoldFolders.js +
                 config.filenames.js.all,
 
-        '!' + config.baseFolders.dev +
+        '!' + 'dev/' +
                 config.scaffoldFolders.js +
                 config.filenames.js.grid
     ])
@@ -246,11 +246,11 @@ gulp.task('lintJS', function () {
     'use strict';
 
     return gulp.src([
-        config.baseFolders.dev +
+        'dev/' +
                 config.scaffoldFolders.js +
                 config.filenames.js.all,
 
-        '!' + config.baseFolders.dev +
+        '!' + 'dev/' +
                 config.scaffoldFolders.js +
                 config.filenames.js.grid
     ])
@@ -282,14 +282,14 @@ gulp.task('lintJS', function () {
 /**
  * COMPRESS THEN COPY IMAGES TO THE PRODUCTION FOLDER
  *
- * This task sources all the images pointed to by the config.baseFolders.dev object,
+ * This task sources all the images pointed to by the 'dev/' object,
  * compresses PNGs and JPGs, then copies the final compressed images to the
  * config.baseFolders.prod.
  */
 gulp.task('compressThenCopyImagesToProdFolder', function () {
     'use strict';
 
-    return gulp.src(config.baseFolders.dev + config.scaffoldFolders.images + '**/*')
+    return gulp.src('dev/' + config.scaffoldFolders.images + '**/*')
         .pipe(tempCache(
             imageCompressor({
                 optimizationLevel: 3, // For PNG files. Accepts 0 – 7; 3 is default.
@@ -305,7 +305,7 @@ gulp.task('compressThenCopyImagesToProdFolder', function () {
  * COPY UNPROCESSED ASSETS TO THE PRODUCTION FOLDER
  *
  * This task copies all unprocessed assets that aren’t images, JavaScript, or
- * Sass/CSS in the folder pointed to by the config.baseFolders.dev object to the
+ * Sass/CSS in the folder pointed to by the 'dev/' object to the
  * folder pointed to by the config.baseFolders.prod object. This is because those
  * files are processed by other tasks, specifically:
  *
@@ -317,25 +317,25 @@ gulp.task('copyUnprocessedAssetsToProdFolder', function () {
     'use strict';
 
     return gulp.src([
-        config.baseFolders.dev + '*.*',              // Source all files,
-        config.baseFolders.dev + '**',               // and all folders,
+        'dev/' + '*.*',              // Source all files,
+        'dev/' + '**',               // and all folders,
                                                      // but not
-        '!' + config.baseFolders.dev +
+        '!' + 'dev/' +
                 config.scaffoldFolders.html,         // the HTML folder
 
-        '!' + config.baseFolders.dev +
+        '!' + 'dev/' +
                 config.scaffoldFolders.html + '*.*', // or any files in it
 
-        '!' + config.baseFolders.dev +
+        '!' + 'dev/' +
                 config.scaffoldFolders.html + '**',  // or any sub folders
 
-        '!' + config.baseFolders.dev +
+        '!' + 'dev/' +
                 config.scaffoldFolders.images,       // ignore images;
 
-        '!' + config.baseFolders.dev +
+        '!' + 'dev/' +
                 '**/*.js',                           // ignore JS;
 
-        '!' + config.baseFolders.dev +
+        '!' + 'dev/' +
                 config.scaffoldFolders.styles + '**' // ignore Sass/CSS.
     ], {dot: true}).pipe(gulp.dest(config.baseFolders.prod));
 });
@@ -367,13 +367,13 @@ gulp.task('build', [
  *
  * Your localhost server looks for index.html as the first page to load from either
  * the temporary folder (config.baseFolders.tmp), the development folder
- * (config.baseFolders.dev), or the folder containing HTML
+ * ('dev/'), or the folder containing HTML
  * (config.scaffoldFolders.html).
  *
  * Files that require pre-processing must be written to a folder before being served.
  * Thus, CSS and JS are served from a temp folder (config.baseFolders.tmp), while
  * un-processed files, such as fonts and images, are served from the development
- * source folder (config.baseFolders.dev).
+ * source folder ('dev/').
  *
  * If a JavaScript file is changed, all JavaScript files are rebuilt, the resulting
  * file is linted, and the browser reloads.
@@ -395,33 +395,33 @@ gulp.task('serve', ['compileCSSForDev', 'compileJSForDev', 'lintJS', 'validateHT
             server: {
                 baseDir: [
                     config.baseFolders.tmp,
-                    config.baseFolders.dev,
-                    config.baseFolders.dev + config.scaffoldFolders.html
+                    'dev/',
+                    'dev/' + config.scaffoldFolders.html
                 ]
             }
         });
 
-        gulp.watch(config.baseFolders.dev +
+        gulp.watch('dev/' +
             config.scaffoldFolders.js + '*.js',
             ['compileJSForDev', 'lintJS']).on(
             'change',
             reload
         );
 
-        gulp.watch(config.baseFolders.dev +
+        gulp.watch('dev/' +
             config.scaffoldFolders.images + '**/*').on(
             'change',
             reload
         );
 
-        gulp.watch([config.baseFolders.dev +
+        gulp.watch(['dev/' +
             config.scaffoldFolders.html + '**/*.html'],
             ['validateHTML']).on(
             'change',
             reload
         );
 
-        gulp.watch(config.baseFolders.dev +
+        gulp.watch('dev/' +
             config.scaffoldFolders.styles + '**/*.scss',
             ['compileCSSForDev']).on(
             'change',
