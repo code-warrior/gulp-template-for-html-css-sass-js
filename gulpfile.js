@@ -4,10 +4,8 @@ var gulp                           = require('gulp'),
     sass                           = require('gulp-sass'),
     CSSCompressor                  = require('gulp-csso'),
     browserSpecificPrefixGenerator = require('gulp-autoprefixer'),
-    prodTargetFolder               = 'prod',
-    sassCSSFolder                  = 'styles',
-    cssProdDestinationFolder       = prodTargetFolder + '/' + sassCSSFolder + '/',
-    sassSourceFileForProd          = 'dev'  + '/' + sassCSSFolder +
+    cssProdDestinationFolder       = 'prod' + '/' + 'styles' + '/',
+    sassSourceFileForProd          = 'dev'  + '/' + 'styles' +
                                      '/00-main-prod/main.scss';
 
 gulp.task('compileCSSForProd', function () {
