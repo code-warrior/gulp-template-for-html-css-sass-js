@@ -54,7 +54,19 @@ gulp.task('chrome', function () {
 gulp.task('opera', function () {
     'use strict';
 
-    browserChoice = config.browser.opera;
+    browserChoice = 'opera';
+});
+
+gulp.task('edge', function () {
+    'use strict';
+
+    browserChoice = 'microsoft-edge';
+});
+
+gulp.task('allBrowsers', function () {
+    'use strict';
+
+    browserChoice = ['safari', 'firefox', 'google chrome', 'opera', 'microsoft-edge'];
 });
 
 /**
