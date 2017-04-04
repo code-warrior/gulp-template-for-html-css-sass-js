@@ -1,6 +1,5 @@
 /*jslint node: true */
 
-'use strict';
 
 var gulp             = require('gulp'),
     HTMLValidator    = require('gulp-html'),
@@ -9,6 +8,8 @@ var gulp             = require('gulp'),
                  'dev/html/**/*.html'];
 
 gulp.task('validateHTML', function () {
+    'use strict';
+
     return gulp.src(HTMLFiles)
         .pipe(HTMLValidator());
 });
