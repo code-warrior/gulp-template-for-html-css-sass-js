@@ -88,7 +88,7 @@ gulp.task('validateHTML', function () {
     return gulp.src([
         'dev/' +
                 'html/' +
-                config.filenames.html.all,
+                '*.html',
 
         'dev/' +
                 'html/' +
@@ -114,7 +114,7 @@ gulp.task('compressHTML', function () {
     return gulp.src([
         'dev/' +
                 'html/' +
-                config.filenames.html.all,
+                '*.html',
 
         'dev/' +
                 'html/' +

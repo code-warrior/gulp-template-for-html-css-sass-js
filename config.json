@@ -1,8 +1,5 @@
 {
     "filenames": {
-        "html": {
-            "all": "*.html"
-        },
         "sass": "main.scss"
     },
 
