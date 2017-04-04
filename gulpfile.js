@@ -289,7 +289,7 @@ gulp.task('lintJS', function () {
 gulp.task('compressThenCopyImagesToProdFolder', function () {
     'use strict';
 
-    return gulp.src('dev/' + config.scaffoldFolders.images + '**/*')
+    return gulp.src('dev/' + 'img/' + '**/*')
         .pipe(tempCache(
             imageCompressor({
                 optimizationLevel: 3, // For PNG files. Accepts 0 – 7; 3 is default.
@@ -298,7 +298,7 @@ gulp.task('compressThenCopyImagesToProdFolder', function () {
                 interlaced: false     // For GIF files. Set to true for compression.
             })
         ))
-        .pipe(gulp.dest('prod/' + config.scaffoldFolders.images));
+        .pipe(gulp.dest('prod/' + 'img/'));
 });
 
 /**
@@ -330,7 +330,7 @@ gulp.task('copyUnprocessedAssetsToProdFolder', function () {
                 'html/' + '**',  // or any sub folders
 
         '!' + 'dev/' +
-                config.scaffoldFolders.images,       // ignore images;
+                'img/',       // ignore images;
 
         '!' + 'dev/' +
                 '**/*.js',                           // ignore JS;
@@ -409,7 +409,7 @@ gulp.task('serve', ['compileCSSForDev', 'compileJSForDev', 'lintJS', 'validateHT
         );
 
         gulp.watch('dev/' +
-            config.scaffoldFolders.images + '**/*').on(
+            'img/' + '**/*').on(
             'change',
             reload
         );

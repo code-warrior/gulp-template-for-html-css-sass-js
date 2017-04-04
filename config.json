@@ -1,8 +1,4 @@
 {
-    "scaffoldFolders": {
-        "images": "img/"
-    },
-
     "filenames": {
         "js": {
             "main": "app.js",
