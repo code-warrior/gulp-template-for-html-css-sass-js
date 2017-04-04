@@ -245,10 +245,9 @@ gulp.task('compressThenCopyImagesToProdFolder', function () {
 /**
  * COPY UNPROCESSED ASSETS TO THE PRODUCTION FOLDER
  *
- * This task copies all unprocessed assets that aren’t images, JavaScript, or
- * Sass/CSS in the folder pointed to by the 'dev/' object to the
- * folder pointed to by the 'prod/' object. This is because those
- * files are processed by other tasks, specifically:
+ * This task copies all unprocessed assets that aren’t images, JavaScript,
+ * Sass/CSS to the production folder, because those files are processed by other
+ * tasks, specifically:
  *
  * — Images are compressed then copied by the compressThenCopyImagesToProdFolder task
  * — JavaScript is concatenated and compressed by the compileJSForProd task
