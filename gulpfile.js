@@ -1,13 +1,13 @@
 /*jslint node: true */
 
-var gulp = require('gulp'),
-    del = require('del'),
-    expendableFolders = ['temp', 'prod'];
+var gulp = require('gulp');
 
 gulp.task('clean', function () {
     'use strict';
 
-    var fs = require('fs'),
+    var del = require('del'),
+        expendableFolders = ['temp', 'prod'],
+        fs = require('fs'),
         i;
 
     for (i = 0; i < expendableFolders.length; i += 1) {
