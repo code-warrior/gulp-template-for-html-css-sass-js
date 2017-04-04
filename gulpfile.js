@@ -21,16 +21,16 @@ var gulp = require('gulp'),
 /**
  * CHOOSE A BROWSER OTHER THAN THE DEFAULT
  *
- * The following four tasks set the browser preference variable (browserChoice) in
- * the browserSync preferences read by the serve task. To use either of the four
- * browsers when serving this project, invoke Gulp as follows:
+ * Each of the following tasks sets the browser preference variable (browserChoice)
+ * in the browserSync preferences read by the serve task. To preview your project in
+ * either or all of your browsers, invoke Gulp as follows:
  *
  *    gulp safari serve
  *    gulp firefox serve
  *    gulp chrome serve
  *    gulp opera serve
- *
- * Testing in Windows and Linux is pending.
+ *    gulp edge serve
+ *    gulp allBrowsers serve
  */
 
 gulp.task('safari', function () {
