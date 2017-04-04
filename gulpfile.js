@@ -72,14 +72,13 @@ gulp.task('allBrowsers', function () {
 /**
  * VALIDATE HTML
  *
- * This task sources all the HTML files pointed to by the 'html/'
- * JSON object, then feeds them to the htmlValidator.
+ * This task sources all the HTML files in the dev/html folder, then validates them.
  *
- * On error, the validator will generate one or more incredibly ugly messages to the
- * console with line and column co-ordinates indicating where in your file the error
- * was generated.
+ * On error, the validator will generate one or more messages to the console with
+ * line and column co-ordinates indicating where in your file the error was
+ * generated.
  *
- * Note: Regardless of whether your HTML validates or not, no files are copied to any
+ * Note: Regardless of whether your HTML validates or not, no files are copied to a
  * destination folder.
  */
 gulp.task('validateHTML', function () {
