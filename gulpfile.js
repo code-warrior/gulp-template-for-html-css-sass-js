@@ -3,7 +3,7 @@
 var gulp                           = require('gulp'),
     sass                           = require('gulp-sass'),
     cssCompressor                  = require('gulp-csso'),
-    browserSpecificPrefixGenerator = require('gulp-autoprefixer');
+    browserSpecificPrefixer = require('gulp-autoprefixer');
 
 gulp.task('compileCSSForProd', function () {
     'use strict';
@@ -13,7 +13,7 @@ gulp.task('compileCSSForProd', function () {
             outputStyle: 'compressed',
             precision: 10
         }).on('error', sass.logError))
-        .pipe(browserSpecificPrefixGenerator({
+        .pipe(browserSpecificPrefixer({
             browsers: ['last 2 versions']
         }))
         .pipe(cssCompressor())
