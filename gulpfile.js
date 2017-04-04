@@ -88,12 +88,12 @@ gulp.task('serve', ['compileCSSForDev', 'compileJSForDev', 'lintJS', 'validateHT
     gulp.watch('dev/scripts/*.js', ['compileJavaScriptForDev', 'lintJS'])
         .on('change', reload);
 
-    gulp.watch('dev/img/**/*')
+    gulp.watch('dev/styles/**/*.scss', ['compileCSSForDev'])
         .on('change', reload);
 
     gulp.watch(['dev/html/**/*.html'], ['validateHTML'])
         .on('change', reload);
 
-    gulp.watch('dev/styles/**/*.scss', ['compileCSSForDev'])
+    gulp.watch('dev/img/**/*')
         .on('change', reload);
 });
