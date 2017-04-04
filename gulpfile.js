@@ -2,11 +2,9 @@
 
 'use strict';
 
-    // Gulp plugins
 var gulp             = require('gulp'),
     HTMLValidator    = require('gulp-html'),
 
-    // Folder names
     devSourceFolder  = 'dev',
     htmlSourceFolder = 'html',
 
