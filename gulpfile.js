@@ -1,35 +1,25 @@
 /*jslint node: true */
 
-'use strict';
-
-var gulp             = require('gulp'),
-    JSConcatenator   = require('gulp-concat'),
-    JSLinter         = require('gulp-eslint'),
-
-    // Folder name variables
-    devSourceFolder  = 'dev',
-    devTargetFolder  = 'temp',
-    prodTargetFolder = 'prod',
-    JSFolder         = 'scripts',
-
-    // Filenames
-    JSTargetFilename = 'main.js',
-
-    preCompiledJSFilesWithoutGrid = [
-        devSourceFolder + '/' + JSFolder + '/*.js',
-        '!' + devSourceFolder + '/' + JSFolder + '/grid.js'
-    ];
+var gulp = require('gulp');
 
 gulp.task('lintJS', function () {
-    return gulp.src(preCompiledJSFilesWithoutGrid)
-        .pipe(JSConcatenator(JSTargetFilename))
-        .pipe(JSLinter({
-            'rules': {
-                'indent': [
+    'use strict';
+
+    var jsConcatenator = require('gulp-concat'),
+        jsLinter = require('gulp-eslint');
+
+    return gulp.src([
+        'dev/scripts/*.js',
+        '!dev/scripts/grid.js'
+    ])
+        .pipe(jsConcatenator('main.js'))
+        .pipe(jsLinter({
+            rules: {
+                indent: [
                     2,
                     4
                 ],
-                'quotes': [
+                quotes: [
                     2,
                     'single'
                 ],
@@ -37,7 +27,7 @@ gulp.task('lintJS', function () {
                     2,
                     'unix'
                 ],
-                'semi': [
+                semi: [
                     2,
                     'always'
                 ],
@@ -47,19 +37,19 @@ gulp.task('lintJS', function () {
                     4
                 ]
             },
-            'env': {
-                'node': true,
-                'browser': true
+            env: {
+                node: true,
+                browser: true
             },
-            'extends': 'eslint:recommended'
+            extends: 'eslint:recommended'
         }))
-        .pipe(JSLinter.formatEach('compact', process.stderr))
+        .pipe(jsLinter.formatEach('compact', process.stderr))
         //
         // “To have the process exit with an error code (1) on lint error, return
         // the stream and pipe to failAfterError last.”
         //
         //     — https://github.com/adametry/gulp-eslint
         //
-        .pipe(JSLinter.failAfterError())
-        .pipe(gulp.dest(prodTargetFolder + '/' + JSFolder));
+        .pipe(jsLinter.failAfterError())
+        .pipe(gulp.dest('prod/scripts'));
 });
