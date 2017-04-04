@@ -10,7 +10,7 @@ gulp.task('clean', function () {
     var fs = require('fs'),
         i;
 
-    for (i = 0; i < expendableFolders.length; i++ ) {
+    for (i = 0; i < expendableFolders.length; i += 1) {
         try {
             fs.accessSync(expendableFolders[i], fs.F_OK);
             process.stdout.write('\n\tThe ' + expendableFolders[i] +
