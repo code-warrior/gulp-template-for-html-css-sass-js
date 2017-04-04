@@ -187,21 +187,21 @@ gulp.task('compileCSSForProd', function () {
  * COMPILE ALL JAVASCRIPT FILES INTO ONE FILE FOR DEVELOPMENT WORK
  *
  * This task sources all the JavaScript files in the folder pointed at by the JSON
- * object 'dev/' + config.scaffoldFolders.js, gives the compiled
+ * object 'dev/' + 'scripts/', gives the compiled
  * JavaScript the name assigned to the JSON object config.filenames.js.main, then
  * writes the result to the JSON object pointed at by 'temp/' +
- * config.scaffoldFolders.js.
+ * 'scripts/'.
  */
 gulp.task('compileJSForDev', function () {
     'use strict';
 
     return gulp.src(
         'dev/' +
-            config.scaffoldFolders.js +
+            'scripts/' +
             config.filenames.js.all
     )
         .pipe(new JSConcatenator(config.filenames.js.main))
-        .pipe(gulp.dest('temp/' + config.scaffoldFolders.js));
+        .pipe(gulp.dest('temp/' + 'scripts/'));
 });
 
 /**
@@ -219,16 +219,16 @@ gulp.task('compileJSForProd', function () {
 
     return gulp.src([
         'dev/' +
-                config.scaffoldFolders.js +
+                'scripts/' +
                 config.filenames.js.all,
 
         '!' + 'dev/' +
-                config.scaffoldFolders.js +
+                'scripts/' +
                 config.filenames.js.grid
     ])
         .pipe(new JSConcatenator(config.filenames.js.main))
         .pipe(new JSCompressor())
-        .pipe(gulp.dest('prod/' + config.scaffoldFolders.js));
+        .pipe(gulp.dest('prod/' + 'scripts/'));
 });
 
 /**
@@ -247,11 +247,11 @@ gulp.task('lintJS', function () {
 
     return gulp.src([
         'dev/' +
-                config.scaffoldFolders.js +
+                'scripts/' +
                 config.filenames.js.all,
 
         '!' + 'dev/' +
-                config.scaffoldFolders.js +
+                'scripts/' +
                 config.filenames.js.grid
     ])
         .pipe(new JSConcatenator(config.filenames.js.main))
@@ -402,7 +402,7 @@ gulp.task('serve', ['compileCSSForDev', 'compileJSForDev', 'lintJS', 'validateHT
         });
 
         gulp.watch('dev/' +
-            config.scaffoldFolders.js + '*.js',
+            'scripts/' + '*.js',
             ['compileJSForDev', 'lintJS']).on(
             'change',
             reload
