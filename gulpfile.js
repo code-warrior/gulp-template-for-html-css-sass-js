@@ -223,9 +223,9 @@ gulp.task('lintJS', function () {
 /**
  * COMPRESS THEN COPY IMAGES TO THE PRODUCTION FOLDER
  *
- * This task sources all the images pointed to by the 'dev/' object,
- * compresses PNGs and JPGs, then copies the final compressed images to the
- * 'prod/'.
+ * This task sources all the images in the dev/img folder, compresses them based on
+ * the settings in the object passed to imageCompressor, then copies the final
+ * compressed images to the prod/img folder.
  */
 gulp.task('compressThenCopyImagesToProdFolder', function () {
     'use strict';
