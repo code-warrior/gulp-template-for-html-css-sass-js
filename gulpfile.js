@@ -1,7 +1,5 @@
 /*jslint node: true */
 
-'use strict';
-
 var gulp                   = require('gulp'),
     JSConcatenator         = require('gulp-concat'),
     devSourceFolder        = 'dev',
@@ -12,6 +10,8 @@ var gulp                   = require('gulp'),
     JSDevTargetFolder      = devTargetFolder + '/' + JSFolder;
 
 gulp.task('compileJSForDev', function () {
+    'use strict';
+
     return gulp.src(preConcatenatedJSFiles)
         .pipe(JSConcatenator(JSTargetFilename))
         .pipe(gulp.dest(JSDevTargetFolder));
