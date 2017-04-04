@@ -1,15 +1,15 @@
-/*jslint node: true */
+/*jslint node: true, for */
 
 var gulp = require('gulp'),
     del = require('del'),
     sass = require('gulp-sass'),
-    CSSCompressor = require('gulp-csso'),
-    browserSpecificPrefixGenerator = require('gulp-autoprefixer'),
-    HTMLMinifier = require('gulp-htmlmin'),
-    HTMLValidator = require('gulp-html'),
-    JSConcatenator = require('gulp-concat'),
-    JSLinter = require('gulp-eslint'),
-    JSCompressor = require('gulp-uglify'),
+    cssCompressor = require('gulp-csso'),
+    browserSpecificPrefixer = require('gulp-autoprefixer'),
+    htmlMinifier = require('gulp-htmlmin'),
+    htmlValidator = require('gulp-html'),
+    jsConcatenator = require('gulp-concat'),
+    jsLinter = require('gulp-eslint'),
+    jsCompressor = require('gulp-uglify'),
     imageCompressor = require('gulp-imagemin'),
     tempCache = require('gulp-cache'),
     browserSync = require('browser-sync'),
@@ -21,229 +21,182 @@ var gulp = require('gulp'),
 /**
  * CHOOSE A BROWSER OTHER THAN THE DEFAULT
  *
- * The following four tasks set the browser preference variable (browserChoice) in
- * the browserSync preferences read by the serve task. To use either of the four
- * browsers when serving this project, invoke Gulp as follows:
+ * Each of the following tasks sets the browser preference variable (browserChoice)
+ * in the browserSync preferences read by the serve task. To preview your project in
+ * either or all of your browsers, invoke Gulp as follows:
  *
  *    gulp safari serve
  *    gulp firefox serve
  *    gulp chrome serve
  *    gulp opera serve
- *
- * Testing in Windows and Linux is pending.
+ *    gulp edge serve
+ *    gulp allBrowsers serve
  */
 
 gulp.task('safari', function () {
     'use strict';
 
-    browserChoice = config.browser.safari;
+    browserChoice = 'safari';
 });
 
 gulp.task('firefox', function () {
     'use strict';
 
-    browserChoice = config.browser.firefox;
+    browserChoice = 'firefox';
 });
 
 gulp.task('chrome', function () {
     'use strict';
 
-    browserChoice = config.browser.chrome;
+    browserChoice = 'google chrome';
 });
 
 gulp.task('opera', function () {
     'use strict';
 
-    browserChoice = config.browser.opera;
+    browserChoice = 'opera';
+});
+
+gulp.task('edge', function () {
+    'use strict';
+
+    browserChoice = 'microsoft-edge';
+});
+
+gulp.task('allBrowsers', function () {
+    'use strict';
+
+    browserChoice = ['safari', 'firefox', 'google chrome', 'opera', 'microsoft-edge'];
 });
 
 /**
  * VALIDATE HTML
  *
- * This task sources all the HTML files pointed to by the config.scaffoldFolders.html
- * JSON object, then feeds them to the HTMLValidator.
+ * This task sources all the HTML files in the dev/html folder, then validates them.
  *
- * On error, the validator will generate one or more incredibly ugly messages to the
- * console with line and column co-ordinates indicating where in your file the error
- * was generated.
+ * On error, the validator will generate one or more messages to the console with
+ * line and column co-ordinates indicating where in your file the error was
+ * generated.
  *
- * Note: Regardless of whether your HTML validates or not, no files are copied to any
+ * Note: Regardless of whether your HTML validates or not, no files are copied to a
  * destination folder.
  */
 gulp.task('validateHTML', function () {
     'use strict';
 
-    return gulp.src([
-        config.baseFolders.dev +
-                config.scaffoldFolders.html +
-                config.filenames.html.all,
-
-        config.baseFolders.dev +
-                config.scaffoldFolders.html +
-                config.filenames.html.allNested
-    ])
-        .pipe(new HTMLValidator());
+    return gulp.src(['dev/html/*.html', 'dev/html/**/*.html'])
+        .pipe(htmlValidator());
 });
 
 /**
  * COMPRESS HTML
  *
- * This task sources all the HTML files in the folder pointed to by the
- * config.scaffoldFolders.html JSON object, strips comments and whitespace from them,
- * then writes the compressed files to the folder pointed to by the
- * config.baseFolders.prod JSON object.
- *
- * Note: You’ll need to enable the collapseWhitespace option to enable compression,
- *       otherwise, no compression will be carried out on your HTML files.
+ * This task sources all the HTML files in the dev/html folder, strips comments and
+ * whitespace from them, then writes the compressed files to the production folder.
  */
 gulp.task('compressHTML', function () {
     'use strict';
 
-    return gulp.src([
-        config.baseFolders.dev +
-                config.scaffoldFolders.html +
-                config.filenames.html.all,
-
-        config.baseFolders.dev +
-                config.scaffoldFolders.html +
-                config.filenames.html.allNested
-    ])
-        .pipe(new HTMLMinifier({
+    return gulp.src(['dev/html/*.html', 'dev/html/**/*.html'])
+        .pipe(htmlMinifier({
             removeComments: true,
             collapseWhitespace: true
         }))
-        .pipe(gulp.dest(config.baseFolders.prod));
+        .pipe(gulp.dest('prod'));
 });
 
 /**
  * COMPILE CSS FOR DEVELOPMENT WORK
  *
- * This task looks for a single Sass file, compiles the CSS
- * from it, and writes the resulting file to the folder pointed at by the
- * config.scaffoldFolders.styles JSON object. The final CSS file will be formatted
- * with 2-space indentations. Any floating-point calculations will be carried out 10
- * places, and browser-specific prefixes will be added to support 2 browser versions
- * behind all current browsers’ versions.
+ * This task looks for a single Sass file, compiles the CSS from it, and writes the
+ * resulting CSS file to the temporary folder temp/styles. The file will be
+ * formatted with 2-space indentations. Any floating-point calculations will be
+ * carried out 10 places, and browser-specific prefixes will be added to support 2
+ * browser versions behind all current browsers’ versions.
  */
 gulp.task('compileCSSForDev', function () {
     'use strict';
 
-    return gulp.src(config.baseFolders.dev +
-            config.scaffoldFolders.styles +
-            '00-main-dev/' +
-            config.filenames.sass)
+    return gulp.src('dev/styles/00-main-dev/main.scss')
         .pipe(sass({
             outputStyle: 'expanded',
             precision: 10
         }).on('error', sass.logError))
-        .pipe(browserSpecificPrefixGenerator({
+        .pipe(browserSpecificPrefixer({
             browsers: ['last 2 versions']
         }))
-        .pipe(gulp.dest(config.baseFolders.tmp + config.scaffoldFolders.styles));
+        .pipe(gulp.dest('temp/styles'));
 });
 
 /**
  * COMPILE CSS FOR PRODUCTION
  *
  * This task looks for a single Sass file, compiles the CSS from it, and writes the
- * resulting single CSS file to the folder pointed at by the
- * config.scaffoldFolders.styles JSON object. Any floating-point calculations will be
- * carried out 10 places, and browser-specific prefixes will be added to support 2
- * browser versions behind all current browsers’ versions. Lastly, the final CSS file
- * is passed through two levels of compression: “outputStyle” from Sass and
- * compressCSS().
+ * resulting single CSS file to the production folder. Any floating-point
+ * calculations will be carried out 10 places, and browser-specific prefixes will be
+ * added to support 2 browser versions behind all current browsers’ versions.
+ * Lastly, the final CSS file is passed through two levels of compression:
+ * “outputStyle” from Sass and compressCSS().
  */
 gulp.task('compileCSSForProd', function () {
     'use strict';
 
-    return gulp.src(config.baseFolders.dev +
-            config.scaffoldFolders.styles +
-            '00-main-prod/' +
-            config.filenames.sass)
+    return gulp.src('dev/styles/00-main-prod/main.scss')
         .pipe(sass({
             outputStyle: 'compressed',
             precision: 10
         }).on('error', sass.logError))
-        .pipe(browserSpecificPrefixGenerator({
+        .pipe(browserSpecificPrefixer({
             browsers: ['last 2 versions']
         }))
-        .pipe(new CSSCompressor())
-        .pipe(gulp.dest(config.baseFolders.prod + config.scaffoldFolders.styles));
+        .pipe(cssCompressor())
+        .pipe(gulp.dest('prod/styles'));
 });
 
 /**
  * COMPILE ALL JAVASCRIPT FILES INTO ONE FILE FOR DEVELOPMENT WORK
  *
- * This task sources all the JavaScript files in the folder pointed at by the JSON
- * object config.baseFolders.dev + config.scaffoldFolders.js, gives the compiled
- * JavaScript the name assigned to the JSON object config.filenames.js.main, then
- * writes the result to the JSON object pointed at by config.baseFolders.tmp +
- * config.scaffoldFolders.js.
+ * This task sources all the JavaScript files in dev/scripts, concatenates them,
+ * names the compiled file app.js, then writes the result to the temp/scripts folder.
  */
 gulp.task('compileJSForDev', function () {
     'use strict';
 
-    return gulp.src(
-        config.baseFolders.dev +
-            config.scaffoldFolders.js +
-            config.filenames.js.all
-    )
-        .pipe(new JSConcatenator(config.filenames.js.main))
-        .pipe(gulp.dest(config.baseFolders.tmp + config.scaffoldFolders.js));
+    return gulp.src('dev/scripts/*.js')
+        .pipe(jsConcatenator('app.js'))
+        .pipe(gulp.dest('temp/scripts'));
 });
 
 /**
  * COMPILE ALL JAVASCRIPT FILES INTO A SINGLE FILE FOR PRODUCTION
  *
- * This task compiles one or more JavaScript files into a single file whose name is
- * the value to the config.filenames.js.main JSON object. The resulting file is
- * compressed then written to the folder pointed at by the JSON object
- * compileJSForDevbaseFolders.prod + compileJSForDevscaffoldFolders.js.
- *
- * Note: This task does not contain the grid used during development.
+ * This task compiles one or more JavaScript files into a single file, app.js. The
+ * resulting file is compressed then written to the production folder.
  */
 gulp.task('compileJSForProd', function () {
     'use strict';
 
-    return gulp.src([
-        config.baseFolders.dev +
-                config.scaffoldFolders.js +
-                config.filenames.js.all,
-
-        '!' + config.baseFolders.dev +
-                config.scaffoldFolders.js +
-                config.filenames.js.grid
-    ])
-        .pipe(new JSConcatenator(config.filenames.js.main))
-        .pipe(new JSCompressor())
-        .pipe(gulp.dest(config.baseFolders.prod + config.scaffoldFolders.js));
+    return gulp.src('dev/scripts/*.js')
+        .pipe(jsConcatenator('app.js'))
+        .pipe(jsCompressor())
+        .pipe(gulp.dest('prod/scripts'));
 });
 
 /**
  * LINT JAVASCRIPT
  *
- * This task lints JavaScript using the linter defined by JSLinter, the second pipe
- * in this task. (ESLint is the linter in this case.) In order to generate a linting
- * report, the multiple JS files in the supplied array are compiled
- * into a single, memory-cached file with a temporary name, then sent to the linter
- * for processing.
+ * This task concatenates all the JS files in the dev/scripts folder into a single
+ * file called app.js, then lints the file according to options listed in the object
+ * passed to the linter. (ESLint is the linter in this file.)
  *
- * Note: The temporary file is *not* written to a destination folder.
+ * Note: The concatenated file app.js is *not* written to a destination folder.
  */
 gulp.task('lintJS', function () {
     'use strict';
 
-    return gulp.src([
-        config.baseFolders.dev +
-                config.scaffoldFolders.js +
-                config.filenames.js.all,
-
-        '!' + config.baseFolders.dev +
-                config.scaffoldFolders.js +
-                config.filenames.js.grid
-    ])
-        .pipe(new JSConcatenator(config.filenames.js.main))
-        .pipe(new JSLinter({
+    return gulp.src('dev/scripts/*.js')
+        .pipe(jsConcatenator('app.js'))
+        .pipe(jsLinter({
             rules: {
                 indent: [2, 4, {SwitchCase: 1}],
                 quotes: [2, 'single'],
@@ -257,27 +210,27 @@ gulp.task('lintJS', function () {
             },
             extends: 'eslint:recommended'
         }))
-        .pipe(JSLinter.formatEach('compact', process.stderr))
+        .pipe(jsLinter.formatEach('compact', process.stderr))
         //
         // “To have the process exit with an error code (1) on lint error, return
         // the stream and pipe to failAfterError last.”
         //
         //     — https://github.com/adametry/gulp-eslint
         //
-        .pipe(JSLinter.failAfterError());
+        .pipe(jsLinter.failAfterError());
 });
 
 /**
  * COMPRESS THEN COPY IMAGES TO THE PRODUCTION FOLDER
  *
- * This task sources all the images pointed to by the config.baseFolders.dev object,
- * compresses PNGs and JPGs, then copies the final compressed images to the
- * config.baseFolders.prod.
+ * This task sources all the images in the dev/img folder, compresses them based on
+ * the settings in the object passed to imageCompressor, then copies the final
+ * compressed images to the prod/img folder.
  */
 gulp.task('compressThenCopyImagesToProdFolder', function () {
     'use strict';
 
-    return gulp.src(config.baseFolders.dev + config.scaffoldFolders.images + '**/*')
+    return gulp.src('dev/img/**/*')
         .pipe(tempCache(
             imageCompressor({
                 optimizationLevel: 3, // For PNG files. Accepts 0 – 7; 3 is default.
@@ -286,16 +239,15 @@ gulp.task('compressThenCopyImagesToProdFolder', function () {
                 interlaced: false     // For GIF files. Set to true for compression.
             })
         ))
-        .pipe(gulp.dest(config.baseFolders.prod + config.scaffoldFolders.images));
+        .pipe(gulp.dest('prod/img'));
 });
 
 /**
  * COPY UNPROCESSED ASSETS TO THE PRODUCTION FOLDER
  *
- * This task copies all unprocessed assets that aren’t images, JavaScript, or
- * Sass/CSS in the folder pointed to by the config.baseFolders.dev object to the
- * folder pointed to by the config.baseFolders.prod object. This is because those
- * files are processed by other tasks, specifically:
+ * This task copies all unprocessed assets that aren’t images, JavaScript,
+ * Sass/CSS to the production folder, because those files are processed by other
+ * tasks, specifically:
  *
  * — Images are compressed then copied by the compressThenCopyImagesToProdFolder task
  * — JavaScript is concatenated and compressed by the compileJSForProd task
@@ -305,27 +257,15 @@ gulp.task('copyUnprocessedAssetsToProdFolder', function () {
     'use strict';
 
     return gulp.src([
-        config.baseFolders.dev + '*.*',              // Source all files,
-        config.baseFolders.dev + '**',               // and all folders,
-                                                     // but not
-        '!' + config.baseFolders.dev +
-                config.scaffoldFolders.html,         // the HTML folder
-
-        '!' + config.baseFolders.dev +
-                config.scaffoldFolders.html + '*.*', // or any files in it
-
-        '!' + config.baseFolders.dev +
-                config.scaffoldFolders.html + '**',  // or any sub folders
-
-        '!' + config.baseFolders.dev +
-                config.scaffoldFolders.images,       // ignore images;
-
-        '!' + config.baseFolders.dev +
-                '**/*.js',                           // ignore JS;
-
-        '!' + config.baseFolders.dev +
-                config.scaffoldFolders.styles + '**' // ignore Sass/CSS.
-    ], {dot: true}).pipe(gulp.dest(config.baseFolders.prod));
+        'dev/*.*',       // Source all files,
+        'dev/**',        // and all folders,
+        '!dev/html/',    // but not the HTML folder
+        '!dev/html/*.*', // or any files in it
+        '!dev/html/**',  // or any sub folders
+        '!dev/img/',     // ignore images;
+        '!dev/**/*.js',  // ignore JS;
+        '!dev/styles/**' // ignore Sass/CSS.
+    ], {dot: true}).pipe(gulp.dest('prod'));
 });
 
 /**
@@ -354,14 +294,12 @@ gulp.task('build', [
  *    — validates HTML.
  *
  * Your localhost server looks for index.html as the first page to load from either
- * the temporary folder (config.baseFolders.tmp), the development folder
- * (config.baseFolders.dev), or the folder containing HTML
- * (config.scaffoldFolders.html).
+ * the temporary folder (temp), the development folder (dev), or the folder
+ * containing HTML (html).
  *
  * Files that require pre-processing must be written to a folder before being served.
- * Thus, CSS and JS are served from a temp folder (config.baseFolders.tmp), while
- * un-processed files, such as fonts and images, are served from the development
- * source folder (config.baseFolders.dev).
+ * Thus, CSS and JS are served from a temp folder (temp), while un-processed files,
+ * such as fonts and images, are served from the development source folder (dev).
  *
  * If a JavaScript file is changed, all JavaScript files are rebuilt, the resulting
  * file is linted, and the browser reloads.
@@ -371,57 +309,40 @@ gulp.task('build', [
  *
  * Finally, changes to images also trigger a browser reload.
  */
-gulp.task('serve', ['compileCSSForDev', 'compileJSForDev', 'lintJS', 'validateHTML'],
-    function () {
-        'use strict';
+gulp.task('serve', ['compileCSSForDev', 'compileJSForDev', 'lintJS', 'validateHTML'], function () {
+    'use strict';
 
-        browserSync({
-            notify: true,
-            port: 9000,
-            reloadDelay: 100,
-            browser: browserChoice,
-            server: {
-                baseDir: [
-                    config.baseFolders.tmp,
-                    config.baseFolders.dev,
-                    config.baseFolders.dev + config.scaffoldFolders.html
-                ]
-            }
-        });
-
-        gulp.watch(config.baseFolders.dev +
-            config.scaffoldFolders.js + '*.js',
-            ['compileJSForDev', 'lintJS']).on(
-            'change',
-            reload
-        );
-
-        gulp.watch(config.baseFolders.dev +
-            config.scaffoldFolders.images + '**/*').on(
-            'change',
-            reload
-        );
-
-        gulp.watch([config.baseFolders.dev +
-            config.scaffoldFolders.html + '**/*.html'],
-            ['validateHTML']).on(
-            'change',
-            reload
-        );
-
-        gulp.watch(config.baseFolders.dev +
-            config.scaffoldFolders.styles + '**/*.scss',
-            ['compileCSSForDev']).on(
-            'change',
-            reload
-        );
+    browserSync({
+        notify: true,
+        port: 9000,
+        reloadDelay: 100,
+        browser: browserChoice,
+        server: {
+            baseDir: [
+                'temp',
+                'dev',
+                'dev/html'
+            ]
+        }
     });
+
+    gulp.watch('dev/scripts/*.js', ['compileJSForDev', 'lintJS'])
+        .on('change', reload);
+
+    gulp.watch('dev/styles/**/*.scss', ['compileCSSForDev'])
+        .on('change', reload);
+
+    gulp.watch(['dev/html/**/*.html'], ['validateHTML'])
+        .on('change', reload);
+
+    gulp.watch('dev/img/**/*')
+        .on('change', reload);
+});
 
 /**
  * CLEAN
  *
- * This task deletes the folders pointed to by the config.baseFolders.tmp and
- * config.baseFolders.prod JSON objects. Both of these folders are expendable, since
+ * This task deletes the temp and prod folders, both of which are expendable, since
  * Gulp creates them as temporary folders during the serve process and via the build
  * task.
  */
@@ -430,7 +351,7 @@ gulp.task('clean', function () {
 
     var fs = require('fs'),
         i,
-        expendableFolders = [config.baseFolders.tmp, config.baseFolders.prod];
+        expendableFolders = ['temp', 'prod'];
 
     for (i = 0; i < expendableFolders.length; i += 1) {
         try {
