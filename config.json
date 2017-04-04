@@ -1,8 +1,5 @@
 {
     "filenames": {
-        "js": {
-            "grid": "grid.js"
-        },
         "html": {
             "all": "*.html",
             "allNested": "**/*.html"

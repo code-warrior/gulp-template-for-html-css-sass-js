@@ -224,7 +224,7 @@ gulp.task('compileJSForProd', function () {
 
         '!' + 'dev/' +
                 'scripts/' +
-                config.filenames.js.grid
+                'grid.js'
     ])
         .pipe(new JSConcatenator('app.js'))
         .pipe(new JSCompressor())
@@ -252,7 +252,7 @@ gulp.task('lintJS', function () {
 
         '!' + 'dev/' +
                 'scripts/' +
-                config.filenames.js.grid
+                'grid.js'
     ])
         .pipe(new JSConcatenator('app.js'))
         .pipe(new JSLinter({
