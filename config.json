@@ -1,7 +1,6 @@
 {
     "filenames": {
         "js": {
-            "main": "app.js",
             "all": "*.js",
             "grid": "grid.js"
         },

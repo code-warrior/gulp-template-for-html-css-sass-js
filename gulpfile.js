@@ -188,7 +188,7 @@ gulp.task('compileCSSForProd', function () {
  *
  * This task sources all the JavaScript files in the folder pointed at by the JSON
  * object 'dev/' + 'scripts/', gives the compiled
- * JavaScript the name assigned to the JSON object config.filenames.js.main, then
+ * JavaScript the name assigned to the JSON object 'app.js', then
  * writes the result to the JSON object pointed at by 'temp/' +
  * 'scripts/'.
  */
@@ -200,7 +200,7 @@ gulp.task('compileJSForDev', function () {
             'scripts/' +
             config.filenames.js.all
     )
-        .pipe(new JSConcatenator(config.filenames.js.main))
+        .pipe(new JSConcatenator('app.js'))
         .pipe(gulp.dest('temp/' + 'scripts/'));
 });
 
@@ -208,7 +208,7 @@ gulp.task('compileJSForDev', function () {
  * COMPILE ALL JAVASCRIPT FILES INTO A SINGLE FILE FOR PRODUCTION
  *
  * This task compiles one or more JavaScript files into a single file whose name is
- * the value to the config.filenames.js.main JSON object. The resulting file is
+ * the value to the 'app.js' JSON object. The resulting file is
  * compressed then written to the folder pointed at by the JSON object
  * compileJSForDevbaseFolders.prod + compileJSForDevscaffoldFolders.js.
  *
@@ -226,7 +226,7 @@ gulp.task('compileJSForProd', function () {
                 'scripts/' +
                 config.filenames.js.grid
     ])
-        .pipe(new JSConcatenator(config.filenames.js.main))
+        .pipe(new JSConcatenator('app.js'))
         .pipe(new JSCompressor())
         .pipe(gulp.dest('prod/' + 'scripts/'));
 });
@@ -254,7 +254,7 @@ gulp.task('lintJS', function () {
                 'scripts/' +
                 config.filenames.js.grid
     ])
-        .pipe(new JSConcatenator(config.filenames.js.main))
+        .pipe(new JSConcatenator('app.js'))
         .pipe(new JSLinter({
             rules: {
                 indent: [2, 4, {SwitchCase: 1}],
