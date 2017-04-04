@@ -1,7 +1,5 @@
 /*jslint node: true */
 
-'use strict';
-
 var gulp              = require('gulp'),
     del               = require('del'),
     devTargetFolder   = 'temp',
@@ -9,6 +7,8 @@ var gulp              = require('gulp'),
     expendableFolders = [devTargetFolder, prodTargetFolder];
 
 gulp.task('clean', function () {
+    'use strict';
+
     var fs = require('fs');
 
     for (var i = 0; i < expendableFolders.length; i++ ) {
