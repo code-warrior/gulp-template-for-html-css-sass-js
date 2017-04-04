@@ -143,7 +143,7 @@ gulp.task('compileCSSForDev', function () {
     return gulp.src('dev/' +
             'styles/' +
             '00-main-dev/' +
-            config.filenames.sass)
+            'main.scss')
         .pipe(sass({
             outputStyle: 'expanded',
             precision: 10
@@ -171,7 +171,7 @@ gulp.task('compileCSSForProd', function () {
     return gulp.src('dev/' +
             'styles/' +
             '00-main-prod/' +
-            config.filenames.sass)
+            'main.scss')
         .pipe(sass({
             outputStyle: 'compressed',
             precision: 10

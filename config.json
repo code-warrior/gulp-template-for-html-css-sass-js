@@ -1,8 +1,4 @@
 {
-    "filenames": {
-        "sass": "main.scss"
-    },
-
     "colors": {
         "default": "\u001b[39m",
         "red": "\u001b[31m",
