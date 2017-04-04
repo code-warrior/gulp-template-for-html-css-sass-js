@@ -132,7 +132,7 @@ gulp.task('compressHTML', function () {
  *
  * This task looks for a single Sass file, compiles the CSS
  * from it, and writes the resulting file to the folder pointed at by the
- * config.scaffoldFolders.styles JSON object. The final CSS file will be formatted
+ * 'styles/' JSON object. The final CSS file will be formatted
  * with 2-space indentations. Any floating-point calculations will be carried out 10
  * places, and browser-specific prefixes will be added to support 2 browser versions
  * behind all current browsers’ versions.
@@ -141,7 +141,7 @@ gulp.task('compileCSSForDev', function () {
     'use strict';
 
     return gulp.src('dev/' +
-            config.scaffoldFolders.styles +
+            'styles/' +
             '00-main-dev/' +
             config.filenames.sass)
         .pipe(sass({
@@ -151,7 +151,7 @@ gulp.task('compileCSSForDev', function () {
         .pipe(browserSpecificPrefixGenerator({
             browsers: ['last 2 versions']
         }))
-        .pipe(gulp.dest('temp/' + config.scaffoldFolders.styles));
+        .pipe(gulp.dest('temp/' + 'styles/'));
 });
 
 /**
@@ -159,7 +159,7 @@ gulp.task('compileCSSForDev', function () {
  *
  * This task looks for a single Sass file, compiles the CSS from it, and writes the
  * resulting single CSS file to the folder pointed at by the
- * config.scaffoldFolders.styles JSON object. Any floating-point calculations will be
+ * 'styles/' JSON object. Any floating-point calculations will be
  * carried out 10 places, and browser-specific prefixes will be added to support 2
  * browser versions behind all current browsers’ versions. Lastly, the final CSS file
  * is passed through two levels of compression: “outputStyle” from Sass and
@@ -169,7 +169,7 @@ gulp.task('compileCSSForProd', function () {
     'use strict';
 
     return gulp.src('dev/' +
-            config.scaffoldFolders.styles +
+            'styles/' +
             '00-main-prod/' +
             config.filenames.sass)
         .pipe(sass({
@@ -180,7 +180,7 @@ gulp.task('compileCSSForProd', function () {
             browsers: ['last 2 versions']
         }))
         .pipe(new CSSCompressor())
-        .pipe(gulp.dest('prod/' + config.scaffoldFolders.styles));
+        .pipe(gulp.dest('prod/' + 'styles/'));
 });
 
 /**
@@ -336,7 +336,7 @@ gulp.task('copyUnprocessedAssetsToProdFolder', function () {
                 '**/*.js',                           // ignore JS;
 
         '!' + 'dev/' +
-                config.scaffoldFolders.styles + '**' // ignore Sass/CSS.
+                'styles/' + '**' // ignore Sass/CSS.
     ], {dot: true}).pipe(gulp.dest('prod/'));
 });
 
@@ -422,7 +422,7 @@ gulp.task('serve', ['compileCSSForDev', 'compileJSForDev', 'lintJS', 'validateHT
         );
 
         gulp.watch('dev/' +
-            config.scaffoldFolders.styles + '**/*.scss',
+            'styles/' + '**/*.scss',
             ['compileCSSForDev']).on(
             'change',
             reload
