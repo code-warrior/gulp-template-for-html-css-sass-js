@@ -1,7 +1,7 @@
 /*jslint node: true */
 
-var gulp              = require('gulp'),
-    del               = require('del'),
+var gulp = require('gulp'),
+    del = require('del'),
     expendableFolders = ['temp', 'prod'];
 
 gulp.task('clean', function () {
