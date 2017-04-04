@@ -8,7 +8,7 @@ var gulp = require('gulp'),
     htmlMinifier = require('gulp-htmlmin'),
     htmlValidator = require('gulp-html'),
     JSConcatenator = require('gulp-concat'),
-    JSLinter = require('gulp-eslint'),
+    jsLinter = require('gulp-eslint'),
     JSCompressor = require('gulp-uglify'),
     imageCompressor = require('gulp-imagemin'),
     tempCache = require('gulp-cache'),
@@ -200,7 +200,7 @@ gulp.task('compileJSForProd', function () {
 /**
  * LINT JAVASCRIPT
  *
- * This task lints JavaScript using the linter defined by JSLinter, the second pipe
+ * This task lints JavaScript using the linter defined by jsLinter, the second pipe
  * in this task. (ESLint is the linter in this case.) In order to generate a linting
  * report, the multiple JS files in the supplied array are compiled
  * into a single, memory-cached file with a temporary name, then sent to the linter
@@ -213,7 +213,7 @@ gulp.task('lintJS', function () {
 
     return gulp.src(['dev/scripts/*.js', '!dev/scripts/grid.js'])
         .pipe(new JSConcatenator('app.js'))
-        .pipe(new JSLinter({
+        .pipe(jsLinter({
             rules: {
                 indent: [2, 4, {SwitchCase: 1}],
                 quotes: [2, 'single'],
@@ -227,14 +227,14 @@ gulp.task('lintJS', function () {
             },
             extends: 'eslint:recommended'
         }))
-        .pipe(JSLinter.formatEach('compact', process.stderr))
+        .pipe(jsLinter.formatEach('compact', process.stderr))
         //
         // “To have the process exit with an error code (1) on lint error, return
         // the stream and pipe to failAfterError last.”
         //
         //     — https://github.com/adametry/gulp-eslint
         //
-        .pipe(JSLinter.failAfterError());
+        .pipe(jsLinter.failAfterError());
 });
 
 /**
