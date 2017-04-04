@@ -92,7 +92,7 @@ gulp.task('validateHTML', function () {
 
         'dev/' +
                 'html/' +
-                config.filenames.html.allNested
+                '**/*.html'
     ])
         .pipe(new HTMLValidator());
 });
@@ -118,7 +118,7 @@ gulp.task('compressHTML', function () {
 
         'dev/' +
                 'html/' +
-                config.filenames.html.allNested
+                '**/*.html'
     ])
         .pipe(new HTMLMinifier({
             removeComments: true,

@@ -1,8 +1,7 @@
 {
     "filenames": {
         "html": {
-            "all": "*.html",
-            "allNested": "**/*.html"
+            "all": "*.html"
         },
         "sass": "main.scss"
     },
