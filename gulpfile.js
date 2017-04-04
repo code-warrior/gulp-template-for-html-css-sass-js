@@ -151,7 +151,7 @@ gulp.task('compileCSSForDev', function () {
         .pipe(browserSpecificPrefixGenerator({
             browsers: ['last 2 versions']
         }))
-        .pipe(gulp.dest(config.baseFolders.tmp + config.scaffoldFolders.styles));
+        .pipe(gulp.dest('temp/' + config.scaffoldFolders.styles));
 });
 
 /**
@@ -189,7 +189,7 @@ gulp.task('compileCSSForProd', function () {
  * This task sources all the JavaScript files in the folder pointed at by the JSON
  * object 'dev/' + config.scaffoldFolders.js, gives the compiled
  * JavaScript the name assigned to the JSON object config.filenames.js.main, then
- * writes the result to the JSON object pointed at by config.baseFolders.tmp +
+ * writes the result to the JSON object pointed at by 'temp/' +
  * config.scaffoldFolders.js.
  */
 gulp.task('compileJSForDev', function () {
@@ -201,7 +201,7 @@ gulp.task('compileJSForDev', function () {
             config.filenames.js.all
     )
         .pipe(new JSConcatenator(config.filenames.js.main))
-        .pipe(gulp.dest(config.baseFolders.tmp + config.scaffoldFolders.js));
+        .pipe(gulp.dest('temp/' + config.scaffoldFolders.js));
 });
 
 /**
@@ -366,12 +366,12 @@ gulp.task('build', [
  *    — validates HTML.
  *
  * Your localhost server looks for index.html as the first page to load from either
- * the temporary folder (config.baseFolders.tmp), the development folder
+ * the temporary folder ('temp/'), the development folder
  * ('dev/'), or the folder containing HTML
  * (config.scaffoldFolders.html).
  *
  * Files that require pre-processing must be written to a folder before being served.
- * Thus, CSS and JS are served from a temp folder (config.baseFolders.tmp), while
+ * Thus, CSS and JS are served from a temp folder ('temp/'), while
  * un-processed files, such as fonts and images, are served from the development
  * source folder ('dev/').
  *
@@ -394,7 +394,7 @@ gulp.task('serve', ['compileCSSForDev', 'compileJSForDev', 'lintJS', 'validateHT
             browser: browserChoice,
             server: {
                 baseDir: [
-                    config.baseFolders.tmp,
+                    'temp/',
                     'dev/',
                     'dev/' + config.scaffoldFolders.html
                 ]
@@ -432,7 +432,7 @@ gulp.task('serve', ['compileCSSForDev', 'compileJSForDev', 'lintJS', 'validateHT
 /**
  * CLEAN
  *
- * This task deletes the folders pointed to by the config.baseFolders.tmp and
+ * This task deletes the folders pointed to by the 'temp/' and
  * config.baseFolders.prod JSON objects. Both of these folders are expendable, since
  * Gulp creates them as temporary folders during the serve process and via the build
  * task.
@@ -442,7 +442,7 @@ gulp.task('clean', function () {
 
     var fs = require('fs'),
         i,
-        expendableFolders = [config.baseFolders.tmp, config.baseFolders.prod];
+        expendableFolders = ['temp/', config.baseFolders.prod];
 
     for (i = 0; i < expendableFolders.length; i += 1) {
         try {
