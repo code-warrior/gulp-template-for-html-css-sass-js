@@ -7,7 +7,7 @@ var gulp = require('gulp'),
     browserSpecificPrefixer = require('gulp-autoprefixer'),
     htmlMinifier = require('gulp-htmlmin'),
     htmlValidator = require('gulp-html'),
-    JSConcatenator = require('gulp-concat'),
+    jsConcatenator = require('gulp-concat'),
     jsLinter = require('gulp-eslint'),
     JSCompressor = require('gulp-uglify'),
     imageCompressor = require('gulp-imagemin'),
@@ -174,7 +174,7 @@ gulp.task('compileJSForDev', function () {
     'use strict';
 
     return gulp.src('dev/scripts/*.js')
-        .pipe(new JSConcatenator('app.js'))
+        .pipe(jsConcatenator('app.js'))
         .pipe(gulp.dest('temp/scripts'));
 });
 
@@ -192,7 +192,7 @@ gulp.task('compileJSForProd', function () {
     'use strict';
 
     return gulp.src(['dev/scripts/*.js', '!dev/scripts/grid.js'])
-        .pipe(new JSConcatenator('app.js'))
+        .pipe(jsConcatenator('app.js'))
         .pipe(new JSCompressor())
         .pipe(gulp.dest('prod/scripts'));
 });
@@ -212,7 +212,7 @@ gulp.task('lintJS', function () {
     'use strict';
 
     return gulp.src(['dev/scripts/*.js', '!dev/scripts/grid.js'])
-        .pipe(new JSConcatenator('app.js'))
+        .pipe(jsConcatenator('app.js'))
         .pipe(jsLinter({
             rules: {
                 indent: [2, 4, {SwitchCase: 1}],
