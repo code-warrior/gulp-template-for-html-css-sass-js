@@ -156,11 +156,8 @@ gulp.task('compileCSSForProd', function () {
 /**
  * COMPILE ALL JAVASCRIPT FILES INTO ONE FILE FOR DEVELOPMENT WORK
  *
- * This task sources all the JavaScript files in the folder pointed at by the JSON
- * object 'dev/' + 'scripts/', gives the compiled
- * JavaScript the name assigned to the JSON object 'app.js', then
- * writes the result to the JSON object pointed at by 'temp/' +
- * 'scripts/'.
+ * This task sources all the JavaScript files in dev/scripts, concatenates them,
+ * names the compiled file app.js, then writes the result to the temp/scripts folder.
  */
 gulp.task('compileJSForDev', function () {
     'use strict';
