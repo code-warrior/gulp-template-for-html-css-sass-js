@@ -3,7 +3,7 @@
 var gulp = require('gulp'),
     del = require('del'),
     sass = require('gulp-sass'),
-    CSSCompressor = require('gulp-csso'),
+    cssCompressor = require('gulp-csso'),
     browserSpecificPrefixGenerator = require('gulp-autoprefixer'),
     HTMLMinifier = require('gulp-htmlmin'),
     HTMLValidator = require('gulp-html'),
@@ -157,7 +157,7 @@ gulp.task('compileCSSForProd', function () {
         .pipe(browserSpecificPrefixGenerator({
             browsers: ['last 2 versions']
         }))
-        .pipe(new CSSCompressor())
+        .pipe(cssCompressor())
         .pipe(gulp.dest('prod/styles'));
 });
 
