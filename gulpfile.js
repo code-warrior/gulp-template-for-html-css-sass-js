@@ -15,27 +15,11 @@ gulp.task('lintJS', function () {
         .pipe(jsConcatenator('main.js'))
         .pipe(jsLinter({
             rules: {
-                indent: [
-                    2,
-                    4
-                ],
-                quotes: [
-                    2,
-                    'single'
-                ],
-                'linebreak-style': [
-                    2,
-                    'unix'
-                ],
-                semi: [
-                    2,
-                    'always'
-                ],
-                'max-len': [
-                    2,
-                    85,
-                    4
-                ]
+                indent: [2, 4],
+                quotes: [2, 'single'],
+                'linebreak-style': [2, 'unix'],
+                semi: [2, 'always'],
+                'max-len': [2, 85, 4]
             },
             env: {
                 node: true,
