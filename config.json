@@ -1,6 +1,5 @@
 {
     "scaffoldFolders": {
-        "html": "html/",
         "js": "scripts/",
         "styles": "styles/",
         "images": "img/"

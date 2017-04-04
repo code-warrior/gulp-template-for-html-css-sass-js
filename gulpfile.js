@@ -72,7 +72,7 @@ gulp.task('allBrowsers', function () {
 /**
  * VALIDATE HTML
  *
- * This task sources all the HTML files pointed to by the config.scaffoldFolders.html
+ * This task sources all the HTML files pointed to by the 'html/'
  * JSON object, then feeds them to the HTMLValidator.
  *
  * On error, the validator will generate one or more incredibly ugly messages to the
@@ -87,11 +87,11 @@ gulp.task('validateHTML', function () {
 
     return gulp.src([
         'dev/' +
-                config.scaffoldFolders.html +
+                'html/' +
                 config.filenames.html.all,
 
         'dev/' +
-                config.scaffoldFolders.html +
+                'html/' +
                 config.filenames.html.allNested
     ])
         .pipe(new HTMLValidator());
@@ -101,7 +101,7 @@ gulp.task('validateHTML', function () {
  * COMPRESS HTML
  *
  * This task sources all the HTML files in the folder pointed to by the
- * config.scaffoldFolders.html JSON object, strips comments and whitespace from them,
+ * 'html/' JSON object, strips comments and whitespace from them,
  * then writes the compressed files to the folder pointed to by the
  * 'prod/' JSON object.
  *
@@ -113,11 +113,11 @@ gulp.task('compressHTML', function () {
 
     return gulp.src([
         'dev/' +
-                config.scaffoldFolders.html +
+                'html/' +
                 config.filenames.html.all,
 
         'dev/' +
-                config.scaffoldFolders.html +
+                'html/' +
                 config.filenames.html.allNested
     ])
         .pipe(new HTMLMinifier({
@@ -321,13 +321,13 @@ gulp.task('copyUnprocessedAssetsToProdFolder', function () {
         'dev/' + '**',               // and all folders,
                                                      // but not
         '!' + 'dev/' +
-                config.scaffoldFolders.html,         // the HTML folder
+                'html/',         // the HTML folder
 
         '!' + 'dev/' +
-                config.scaffoldFolders.html + '*.*', // or any files in it
+                'html/' + '*.*', // or any files in it
 
         '!' + 'dev/' +
-                config.scaffoldFolders.html + '**',  // or any sub folders
+                'html/' + '**',  // or any sub folders
 
         '!' + 'dev/' +
                 config.scaffoldFolders.images,       // ignore images;
@@ -368,7 +368,7 @@ gulp.task('build', [
  * Your localhost server looks for index.html as the first page to load from either
  * the temporary folder ('temp/'), the development folder
  * ('dev/'), or the folder containing HTML
- * (config.scaffoldFolders.html).
+ * ('html/').
  *
  * Files that require pre-processing must be written to a folder before being served.
  * Thus, CSS and JS are served from a temp folder ('temp/'), while
@@ -396,7 +396,7 @@ gulp.task('serve', ['compileCSSForDev', 'compileJSForDev', 'lintJS', 'validateHT
                 baseDir: [
                     'temp/',
                     'dev/',
-                    'dev/' + config.scaffoldFolders.html
+                    'dev/' + 'html/'
                 ]
             }
         });
@@ -415,7 +415,7 @@ gulp.task('serve', ['compileCSSForDev', 'compileJSForDev', 'lintJS', 'validateHT
         );
 
         gulp.watch(['dev/' +
-            config.scaffoldFolders.html + '**/*.html'],
+            'html/' + '**/*.html'],
             ['validateHTML']).on(
             'change',
             reload
