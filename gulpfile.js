@@ -1,13 +1,13 @@
 /*jslint node: true */
 
-'use strict';
-
 var gulp                           = require('gulp'),
     sass                           = require('gulp-sass'),
     browserSpecificPrefixGenerator = require('gulp-autoprefixer'),
     sassSourceFileForDev           = 'dev/styles/00-main-dev/main.scss';
 
 gulp.task('compileCSSForDev', function () {
+    'use strict';
+
     return gulp.src(sassSourceFileForDev)
         .pipe(sass({
             outputStyle: 'expanded',
