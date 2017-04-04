@@ -132,12 +132,11 @@ gulp.task('compileCSSForDev', function () {
  * COMPILE CSS FOR PRODUCTION
  *
  * This task looks for a single Sass file, compiles the CSS from it, and writes the
- * resulting single CSS file to the folder pointed at by the
- * 'styles/' JSON object. Any floating-point calculations will be
- * carried out 10 places, and browser-specific prefixes will be added to support 2
- * browser versions behind all current browsers’ versions. Lastly, the final CSS file
- * is passed through two levels of compression: “outputStyle” from Sass and
- * compressCSS().
+ * resulting single CSS file to the production folder. Any floating-point
+ * calculations will be carried out 10 places, and browser-specific prefixes will be
+ * added to support 2 browser versions behind all current browsers’ versions.
+ * Lastly, the final CSS file is passed through two levels of compression:
+ * “outputStyle” from Sass and compressCSS().
  */
 gulp.task('compileCSSForProd', function () {
     'use strict';
