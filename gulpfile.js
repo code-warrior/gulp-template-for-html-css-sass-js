@@ -1,7 +1,5 @@
 /*jslint node: true */
 
-'use strict';
-
 var gulp                           = require('gulp'),
     sass                           = require('gulp-sass'),
     CSSCompressor                  = require('gulp-csso'),
@@ -14,6 +12,8 @@ var gulp                           = require('gulp'),
                                      '/00-main-prod/main.scss';
 
 gulp.task('compileCSSForProd', function () {
+    'use strict';
+
     return gulp.src(sassSourceFileForProd)
         .pipe(sass({
             outputStyle: 'compressed',
