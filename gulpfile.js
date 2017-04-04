@@ -5,10 +5,9 @@
 var gulp                           = require('gulp'),
     sass                           = require('gulp-sass'),
     browserSpecificPrefixGenerator = require('gulp-autoprefixer'),
-    sassCSSFolder                  = 'styles',
-    sassSourceFileForDev           = 'dev' + '/' + sassCSSFolder +
+    sassSourceFileForDev           = 'dev' + '/' + 'styles' +
                                      '/00-main-dev/main.scss',
-    cssDevDestinationFolder        = 'temp' + '/' + sassCSSFolder +
+    cssDevDestinationFolder        = 'temp' + '/' + 'styles' +
                                      '/';
 
 gulp.task('compileCSSForDev', function () {
