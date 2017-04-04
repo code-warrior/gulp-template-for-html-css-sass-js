@@ -185,18 +185,16 @@ gulp.task('compileJSForProd', function () {
 /**
  * LINT JAVASCRIPT
  *
- * This task lints JavaScript using the linter defined by jsLinter, the second pipe
- * in this task. (ESLint is the linter in this case.) In order to generate a linting
- * report, the multiple JS files in the supplied array are compiled
- * into a single, memory-cached file with a temporary name, then sent to the linter
- * for processing.
+ * This task concatenates all the JS files in the dev/scripts folder into a single
+ * file called app.js, then lints the file according to options listed in the object
+ * passed to the linter. (ESLint is the linter in this file.)
  *
- * Note: The temporary file is *not* written to a destination folder.
+ * Note: The concatenated file app.js is *not* written to a destination folder.
  */
 gulp.task('lintJS', function () {
     'use strict';
 
-    return gulp.src(['dev/scripts/*.js', '!dev/scripts/grid.js'])
+    return gulp.src('dev/scripts/*.js')
         .pipe(jsConcatenator('app.js'))
         .pipe(jsLinter({
             rules: {
