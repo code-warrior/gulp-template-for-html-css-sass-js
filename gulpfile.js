@@ -344,8 +344,7 @@ gulp.task('serve', ['compileCSSForDev', 'compileJSForDev', 'lintJS', 'validateHT
 /**
  * CLEAN
  *
- * This task deletes the folders pointed to by the 'temp/' and
- * 'prod/' JSON objects. Both of these folders are expendable, since
+ * This task deletes the temp and prod folders, both of which are expendable, since
  * Gulp creates them as temporary folders during the serve process and via the build
  * task.
  */
