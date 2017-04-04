@@ -1,8 +1,4 @@
 {
-    "baseFolders": {
-        "prod": "prod/"
-    },
-
     "scaffoldFolders": {
         "html": "html/",
         "js": "scripts/",

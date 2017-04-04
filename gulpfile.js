@@ -103,7 +103,7 @@ gulp.task('validateHTML', function () {
  * This task sources all the HTML files in the folder pointed to by the
  * config.scaffoldFolders.html JSON object, strips comments and whitespace from them,
  * then writes the compressed files to the folder pointed to by the
- * config.baseFolders.prod JSON object.
+ * 'prod/' JSON object.
  *
  * Note: You’ll need to enable the collapseWhitespace option to enable compression,
  *       otherwise, no compression will be carried out on your HTML files.
@@ -124,7 +124,7 @@ gulp.task('compressHTML', function () {
             removeComments: true,
             collapseWhitespace: true
         }))
-        .pipe(gulp.dest(config.baseFolders.prod));
+        .pipe(gulp.dest('prod/'));
 });
 
 /**
@@ -180,7 +180,7 @@ gulp.task('compileCSSForProd', function () {
             browsers: ['last 2 versions']
         }))
         .pipe(new CSSCompressor())
-        .pipe(gulp.dest(config.baseFolders.prod + config.scaffoldFolders.styles));
+        .pipe(gulp.dest('prod/' + config.scaffoldFolders.styles));
 });
 
 /**
@@ -228,7 +228,7 @@ gulp.task('compileJSForProd', function () {
     ])
         .pipe(new JSConcatenator(config.filenames.js.main))
         .pipe(new JSCompressor())
-        .pipe(gulp.dest(config.baseFolders.prod + config.scaffoldFolders.js));
+        .pipe(gulp.dest('prod/' + config.scaffoldFolders.js));
 });
 
 /**
@@ -284,7 +284,7 @@ gulp.task('lintJS', function () {
  *
  * This task sources all the images pointed to by the 'dev/' object,
  * compresses PNGs and JPGs, then copies the final compressed images to the
- * config.baseFolders.prod.
+ * 'prod/'.
  */
 gulp.task('compressThenCopyImagesToProdFolder', function () {
     'use strict';
@@ -298,7 +298,7 @@ gulp.task('compressThenCopyImagesToProdFolder', function () {
                 interlaced: false     // For GIF files. Set to true for compression.
             })
         ))
-        .pipe(gulp.dest(config.baseFolders.prod + config.scaffoldFolders.images));
+        .pipe(gulp.dest('prod/' + config.scaffoldFolders.images));
 });
 
 /**
@@ -306,7 +306,7 @@ gulp.task('compressThenCopyImagesToProdFolder', function () {
  *
  * This task copies all unprocessed assets that aren’t images, JavaScript, or
  * Sass/CSS in the folder pointed to by the 'dev/' object to the
- * folder pointed to by the config.baseFolders.prod object. This is because those
+ * folder pointed to by the 'prod/' object. This is because those
  * files are processed by other tasks, specifically:
  *
  * — Images are compressed then copied by the compressThenCopyImagesToProdFolder task
@@ -337,7 +337,7 @@ gulp.task('copyUnprocessedAssetsToProdFolder', function () {
 
         '!' + 'dev/' +
                 config.scaffoldFolders.styles + '**' // ignore Sass/CSS.
-    ], {dot: true}).pipe(gulp.dest(config.baseFolders.prod));
+    ], {dot: true}).pipe(gulp.dest('prod/'));
 });
 
 /**
@@ -433,7 +433,7 @@ gulp.task('serve', ['compileCSSForDev', 'compileJSForDev', 'lintJS', 'validateHT
  * CLEAN
  *
  * This task deletes the folders pointed to by the 'temp/' and
- * config.baseFolders.prod JSON objects. Both of these folders are expendable, since
+ * 'prod/' JSON objects. Both of these folders are expendable, since
  * Gulp creates them as temporary folders during the serve process and via the build
  * task.
  */
@@ -442,7 +442,7 @@ gulp.task('clean', function () {
 
     var fs = require('fs'),
         i,
-        expendableFolders = ['temp/', config.baseFolders.prod];
+        expendableFolders = ['temp/', 'prod/'];
 
     for (i = 0; i < expendableFolders.length; i += 1) {
         try {
