@@ -7,9 +7,7 @@ var gulp = require('gulp'),
     jsConcatenator = require('gulp-concat'),
     jsLinter = require('gulp-eslint'),
     browserSync = require('browser-sync'),
-    reload = browserSync.reload,
-    jsTargetFilename = 'main.js',
-    preCompiledJSFiles = 'dev/scripts/*.js';
+    reload = browserSync.reload;
 
 gulp.task('validateHTML', function () {
     'use strict';
@@ -35,16 +33,16 @@ gulp.task('compileCSSForDev', function () {
 gulp.task('compileJSForDev', function () {
     'use strict';
 
-    return gulp.src(preCompiledJSFiles)
-        .pipe(jsConcatenator(jsTargetFilename))
+    return gulp.src('dev/scripts/*.js')
+        .pipe(jsConcatenator('main.js'))
         .pipe(gulp.dest('temp/scripts'));
 });
 
 gulp.task('lintJS', function () {
     'use strict';
 
-    return gulp.src(preCompiledJSFiles)
-        .pipe(jsConcatenator(jsTargetFilename))
+    return gulp.src('dev/scripts/*.js')
+        .pipe(jsConcatenator('main.js'))
         .pipe(jsLinter({
             rules: {
                 indent: [2, 4],
