@@ -1,12 +1,14 @@
 /*jslint node: true */
 
-var gulp                           = require('gulp'),
-    sass                           = require('gulp-sass'),
-    cssCompressor                  = require('gulp-csso'),
-    browserSpecificPrefixer = require('gulp-autoprefixer');
+var gulp                           = require('gulp');
 
 gulp.task('compileCSSForProd', function () {
     'use strict';
+
+    var sass                           = require('gulp-sass'),
+        cssCompressor                  = require('gulp-csso'),
+        browserSpecificPrefixer = require('gulp-autoprefixer');
+
 
     return gulp.src('dev/styles/00-main-prod/main.scss')
         .pipe(sass({
