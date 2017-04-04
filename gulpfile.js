@@ -3,13 +3,12 @@
 var gulp                           = require('gulp'),
     sass                           = require('gulp-sass'),
     cssCompressor                  = require('gulp-csso'),
-    browserSpecificPrefixGenerator = require('gulp-autoprefixer'),
-    sassSourceFileForProd          = 'dev/styles/00-main-prod/main.scss';
+    browserSpecificPrefixGenerator = require('gulp-autoprefixer');
 
 gulp.task('compileCSSForProd', function () {
     'use strict';
 
-    return gulp.src(sassSourceFileForProd)
+    return gulp.src('dev/styles/00-main-prod/main.scss')
         .pipe(sass({
             outputStyle: 'compressed',
             precision: 10
