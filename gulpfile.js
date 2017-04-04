@@ -1,11 +1,12 @@
 /*jslint node: true */
 
-var gulp = require('gulp'),
-    sass                           = require('gulp-sass'),
-    browserSpecificPrefixGenerator = require('gulp-autoprefixer');
+var gulp = require('gulp');
 
 gulp.task('compileCSSForDev', function () {
     'use strict';
+
+    var sass = require('gulp-sass'),
+        browserSpecificPrefixGenerator = require('gulp-autoprefixer');
 
     return gulp.src('dev/styles/00-main-dev/main.scss')
         .pipe(sass({
