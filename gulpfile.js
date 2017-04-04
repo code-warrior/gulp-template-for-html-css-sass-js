@@ -91,13 +91,8 @@ gulp.task('validateHTML', function () {
 /**
  * COMPRESS HTML
  *
- * This task sources all the HTML files in the folder pointed to by the
- * 'html/' JSON object, strips comments and whitespace from them,
- * then writes the compressed files to the folder pointed to by the
- * 'prod/' JSON object.
- *
- * Note: You’ll need to enable the collapseWhitespace option to enable compression,
- *       otherwise, no compression will be carried out on your HTML files.
+ * This task sources all the HTML files in the dev/html folder, strips comments and
+ * whitespace from them, then writes the compressed files to the production folder.
  */
 gulp.task('compressHTML', function () {
     'use strict';
@@ -107,7 +102,7 @@ gulp.task('compressHTML', function () {
             removeComments: true,
             collapseWhitespace: true
         }))
-        .pipe(gulp.dest('prod/'));
+        .pipe(gulp.dest('prod'));
 });
 
 /**
