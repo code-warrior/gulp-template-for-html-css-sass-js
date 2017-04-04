@@ -17,8 +17,7 @@ gulp.task('clean', function () {
                     ' directory was found and will be deleted.\n');
             del(expendableFolders[i]);
         } catch (e) {
-            process.stdout.write('\n\tThe ' + expendableFolders[i] +
-                ' directory does NOT exist or is NOT accessible.\n');
+            process.stdout.write('\n\t' + e.toString() + '\n');
         }
     }
 
