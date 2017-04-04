@@ -1,21 +1,16 @@
 /*jslint node: true */
 
-'use strict';
+var gulp = require('gulp');
 
-var gulp             = require('gulp'),
-    HTMLMinifier     = require('gulp-htmlmin'),
-    devSourceFolder  = 'dev',
-    htmlSourceFolder = 'html',
-    prodTargetFolder = 'prod',
+gulp.task('compressHTML', function () {
+    'use strict';
 
-    HTMLFiles = [devSourceFolder + '/' + htmlSourceFolder + '/*.html',
-                 devSourceFolder + '/' + htmlSourceFolder + '/**/*.html'];
+    var htmlMinifier = require('gulp-htmlmin');
 
-gulp.task('compressHTML', function() {
-    return gulp.src(HTMLFiles)
-        .pipe(HTMLMinifier({
+    return gulp.src(['dev/html/*.html', 'dev/html/**/*.html'])
+        .pipe(htmlMinifier({
             removeComments: true,
             collapseWhitespace: true
         }))
-        .pipe(gulp.dest(prodTargetFolder));
+        .pipe(gulp.dest('prod'));
 });
