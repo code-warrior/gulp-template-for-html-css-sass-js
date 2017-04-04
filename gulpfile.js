@@ -1,4 +1,4 @@
-/*jslint node: true */
+/*jslint node: true, for */
 
 var gulp = require('gulp');
 
