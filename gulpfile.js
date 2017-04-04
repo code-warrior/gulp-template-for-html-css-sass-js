@@ -1,12 +1,12 @@
 /*jslint node: true */
 
 var gulp = require('gulp'),
-    HTMLValidator = require('gulp-html'),
-    HTMLFiles = ['dev/html/*.html', 'dev/html/**/*.html'];
+    htmlValidator = require('gulp-html'),
+    htmlFiles = ['dev/html/*.html', 'dev/html/**/*.html'];
 
 gulp.task('validateHTML', function () {
     'use strict';
 
-    return gulp.src(HTMLFiles)
-        .pipe(HTMLValidator());
+    return gulp.src(htmlFiles)
+        .pipe(htmlValidator());
 });
