@@ -170,17 +170,13 @@ gulp.task('compileJSForDev', function () {
 /**
  * COMPILE ALL JAVASCRIPT FILES INTO A SINGLE FILE FOR PRODUCTION
  *
- * This task compiles one or more JavaScript files into a single file whose name is
- * the value to the 'app.js' JSON object. The resulting file is
- * compressed then written to the folder pointed at by the JSON object
- * compileJSForDevbaseFolders.prod + compileJSForDevscaffoldFolders.js.
- *
- * Note: This task does not contain the grid used during development.
+ * This task compiles one or more JavaScript files into a single file, app.js. The
+ * resulting file is compressed then written to the production folder.
  */
 gulp.task('compileJSForProd', function () {
     'use strict';
 
-    return gulp.src(['dev/scripts/*.js', '!dev/scripts/grid.js'])
+    return gulp.src('dev/scripts/*.js')
         .pipe(jsConcatenator('app.js'))
         .pipe(jsCompressor())
         .pipe(gulp.dest('prod/scripts'));
