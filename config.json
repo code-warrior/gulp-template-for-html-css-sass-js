@@ -1,6 +1,5 @@
 {
     "baseFolders": {
-        "dev": "dev/",
         "tmp": "temp/",
         "prod": "prod/"
     },
