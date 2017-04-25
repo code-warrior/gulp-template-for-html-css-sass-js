@@ -8,10 +8,7 @@ gulp.task('lintJS', function () {
     var jsConcatenator = require('gulp-concat'),
         jsLinter = require('gulp-eslint');
 
-    return gulp.src([
-        'dev/scripts/*.js',
-        '!dev/scripts/grid.js'
-    ])
+    return gulp.src('dev/scripts/*.js')
         .pipe(jsConcatenator('main.js'))
         .pipe(jsLinter({
             rules: {
