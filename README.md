@@ -1,16 +1,21 @@
 # An Elaborate Gulp Task for HTML, Sass/CSS, and JavaScript
 
-## Installation
-All the node modules need to be installed before you can use this template. From the root of this project, type `npm install`, which will create a folder called `node_modules` and download myriad JavaScript files. If you encounter an `ERR!` message about `EACCES`, then you’ll need to run the command as the super user: `sudo npm install`.
+(v1.1.4)
 
-Because the 13 Gulp tasks amount to about 220MB, expect to wait.
+---
+
+## Installation
+All the required Node modules need to be installed before you can use this template. From the root folder of this project, type `npm install`. This will create a folder called `node_modules` and download the plugins listed under the `devDependencies` section in the `package.json` file. If you encounter an `ERR!` message about `EACCES`, then you’ll need to run the command as the super user: `sudo npm install`. Because the 13 Gulp tasks amount to about 220MB, expect to wait.
 
 ## Tasks
-Typing `gulp --tasks` will provide you with a list of tasks included in `gulpfile.js`. Tasks such as `build` and `serve` invoke other tasks, which are nested in the output of `gulp --tasks`.
+Typing `gulp --tasks`, or simply `gulp`, will provide you with a list of tasks included in `gulpfile.js`. Tasks such as `build` and `serve` invoke other tasks and are nested in the output of `gulp --tasks`.
 
 Each task can be run on its own. For example, if all you want to do is validate your HTML, you can type `gulp validateHTML`, and if the task runs to completion without any messages, it means your HTML is valid and W3-compliant.
 
 Above each task in the `gulpfile.js` file is an elaborate comment discussing what each task does.
+
+## Individual Tasks as Branches
+Each of the 13 tasks has been broken out into its own branch, and the full `gulpfile` is available without comments and without variables. You can view all the branches with `git branch -a`.
 
 ## Running the Project
 For development, run `gulp serve`, which runs multiple development-related tasks, then launches your default browser and listens for changes. Gulp keeps you informed via The Terminal. You can now work on your project as you normally would. Each time you save a file, your browser will refresh so you don’t have to.
