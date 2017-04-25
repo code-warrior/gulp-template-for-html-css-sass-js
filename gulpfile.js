@@ -117,7 +117,7 @@ gulp.task('compressHTML', function () {
 gulp.task('compileCSSForDev', function () {
     'use strict';
 
-    return gulp.src('dev/styles/00-main-dev/main.scss')
+    return gulp.src('dev/styles/main.scss')
         .pipe(sass({
             outputStyle: 'expanded',
             precision: 10
@@ -141,7 +141,7 @@ gulp.task('compileCSSForDev', function () {
 gulp.task('compileCSSForProd', function () {
     'use strict';
 
-    return gulp.src('dev/styles/00-main-prod/main.scss')
+    return gulp.src('dev/styles/main.scss')
         .pipe(sass({
             outputStyle: 'compressed',
             precision: 10
