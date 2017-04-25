@@ -8,7 +8,7 @@ gulp.task('compileCSSForDev', function () {
     var sass = require('gulp-sass'),
         browserSpecificPrefixer = require('gulp-autoprefixer');
 
-    return gulp.src('dev/styles/00-main-dev/main.scss')
+    return gulp.src('dev/styles/main.scss')
         .pipe(sass({
             outputStyle: 'expanded',
             precision: 10
@@ -16,5 +16,5 @@ gulp.task('compileCSSForDev', function () {
         .pipe(browserSpecificPrefixer({
             browsers: ['last 2 versions']
         }))
-        .pipe(gulp.dest('temp/styles/'));
+        .pipe(gulp.dest('temp/styles'));
 });
