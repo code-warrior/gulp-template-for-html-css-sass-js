@@ -1,6 +1,6 @@
 # An Elaborate Gulp Task for HTML, Sass/CSS, and JavaScript
 
-(v1.1.4)
+(v1.1.5)
 
 ---
 
