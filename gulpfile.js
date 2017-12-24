@@ -209,6 +209,7 @@ gulp.task('lintJS', function () {
                 'max-len': [2, 85, 4]
             },
             env: {
+                es6: true,
                 node: true,
                 browser: true
             },
