@@ -180,6 +180,7 @@ gulp.task('compileJSForProd', function () {
 
     return gulp.src('dev/scripts/*.js')
         .pipe(jsConcatenator('app.js'))
+        .pipe(babel())
         .pipe(jsCompressor())
         .pipe(gulp.dest('prod/scripts'));
 });
