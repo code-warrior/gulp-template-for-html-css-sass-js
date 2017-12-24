@@ -165,6 +165,7 @@ gulp.task('compileJSForDev', function () {
 
     return gulp.src('dev/scripts/*.js')
         .pipe(jsConcatenator('app.js'))
+        .pipe(babel())
         .pipe(gulp.dest('temp/scripts'));
 });
 
