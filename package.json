@@ -33,10 +33,13 @@
   },
   "homepage": "https://github.com/code-warrior/gulp-template-for-html-css-sass-js#readme",
   "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
     "browser-sync": "^2.10.1",
     "del": "^2.2.0",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^3.1.0",
+    "gulp-babel": "^7.0.0",
     "gulp-cache": "^0.4.1",
     "gulp-concat": "^2.6.0",
     "gulp-csso": "^1.0.1",

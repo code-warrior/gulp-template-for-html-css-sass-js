@@ -3,6 +3,7 @@
 var gulp = require('gulp'),
     del = require('del'),
     sass = require('gulp-sass'),
+    babel = require("gulp-babel"),
     cssCompressor = require('gulp-csso'),
     browserSpecificPrefixer = require('gulp-autoprefixer'),
     htmlMinifier = require('gulp-htmlmin'),
@@ -164,6 +165,7 @@ gulp.task('compileJSForDev', function () {
 
     return gulp.src('dev/scripts/*.js')
         .pipe(jsConcatenator('app.js'))
+        .pipe(babel())
         .pipe(gulp.dest('temp/scripts'));
 });
 
@@ -178,6 +180,7 @@ gulp.task('compileJSForProd', function () {
 
     return gulp.src('dev/scripts/*.js')
         .pipe(jsConcatenator('app.js'))
+        .pipe(babel())
         .pipe(jsCompressor())
         .pipe(gulp.dest('prod/scripts'));
 });
@@ -196,6 +199,7 @@ gulp.task('lintJS', function () {
 
     return gulp.src('dev/scripts/*.js')
         .pipe(jsConcatenator('app.js'))
+        .pipe(babel())
         .pipe(jsLinter({
             rules: {
                 indent: [2, 4, {SwitchCase: 1}],
@@ -205,6 +209,7 @@ gulp.task('lintJS', function () {
                 'max-len': [2, 85, 4]
             },
             env: {
+                es6: true,
                 node: true,
                 browser: true
             },
