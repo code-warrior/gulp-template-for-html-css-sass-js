@@ -3,6 +3,7 @@
 var gulp = require('gulp'),
     del = require('del'),
     sass = require('gulp-sass'),
+    babel = require("gulp-babel"),
     cssCompressor = require('gulp-csso'),
     browserSpecificPrefixer = require('gulp-autoprefixer'),
     htmlMinifier = require('gulp-htmlmin'),
