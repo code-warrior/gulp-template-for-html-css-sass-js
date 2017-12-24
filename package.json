@@ -34,6 +34,7 @@
   "homepage": "https://github.com/code-warrior/gulp-template-for-html-css-sass-js#readme",
   "devDependencies": {
     "babel-core": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
     "browser-sync": "^2.10.1",
     "del": "^2.2.0",
     "gulp": "^3.9.0",
