@@ -199,7 +199,6 @@ gulp.task('lintJS', function () {
 
     return gulp.src('dev/scripts/*.js')
         .pipe(jsConcatenator('app.js'))
-        .pipe(babel())
         .pipe(jsLinter({
             rules: {
                 indent: [2, 4, {SwitchCase: 1}],
@@ -222,7 +221,8 @@ gulp.task('lintJS', function () {
         //
         //     — https://github.com/adametry/gulp-eslint
         //
-        .pipe(jsLinter.failAfterError());
+        .pipe(jsLinter.failAfterError())
+        .pipe(babel());
 });
 
 /**
