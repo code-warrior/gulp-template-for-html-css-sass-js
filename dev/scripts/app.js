@@ -1,5 +1,6 @@
 /*jslint browser, es6 */
 /*global window */
+
 window.onload = function () {
     const CSSPreProcessor = `Sass`;
     const JSVersion = `ES6`;
