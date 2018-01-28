@@ -205,7 +205,7 @@ gulp.task('lintJS', function () {
                 quotes: [2, 'single'],
                 semi: [2, 'always'],
                 'linebreak-style': [2, 'unix'],
-                'max-len': [2, 85, 4]
+                'max-len': [1, 85, 4]
             },
             env: {
                 es6: true,
