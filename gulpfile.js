@@ -10,7 +10,6 @@ let gulp = require(`gulp`),
     browserSpecificPrefixer = require(`gulp-autoprefixer`),
     htmlMinifier = require(`gulp-htmlmin`),
     htmlValidator = require(`gulp-html`),
-    jsConcatenator = require(`gulp-concat`),
     jsLinter = require(`gulp-eslint`),
     jsCompressor = require(`gulp-uglify`),
     imageCompressor = require(`gulp-imagemin`),
@@ -144,7 +143,6 @@ gulp.task(`compileCSSForProd`, function () {
  */
 gulp.task(`compileJSForDev`, function () {
     return gulp.src(`dev/scripts/*.js`)
-        .pipe(jsConcatenator(`app.js`))
         .pipe(babel())
         .pipe(gulp.dest(`temp/scripts`));
 });
@@ -157,7 +155,6 @@ gulp.task(`compileJSForDev`, function () {
  */
 gulp.task(`compileJSForProd`, function () {
     return gulp.src(`dev/scripts/*.js`)
-        .pipe(jsConcatenator(`app.js`))
         .pipe(babel())
         .pipe(jsCompressor())
         .pipe(gulp.dest(`prod/scripts`));
@@ -174,7 +171,6 @@ gulp.task(`compileJSForProd`, function () {
  */
 gulp.task(`lintJS`, function () {
     return gulp.src(`dev/scripts/*.js`)
-        .pipe(jsConcatenator(`app.js`))
         .pipe(babel())
         .pipe(jsLinter({
             rules: {
