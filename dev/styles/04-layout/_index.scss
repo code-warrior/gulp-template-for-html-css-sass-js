@@ -1,11 +1,6 @@
 //
 // Layout
 //
-// Larger layout items, such as, <header>, <main>, and <footer> elements, are styled
-// here.
+// Larger layout items that contain base elements are styled here. BEM is a good
+// example.
 //
-@import 'body';
-@import 'nav';
-@import 'header';
-@import 'main';
-@import 'footer';
