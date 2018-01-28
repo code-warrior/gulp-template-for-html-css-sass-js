@@ -179,7 +179,7 @@ gulp.task(`lintJS`, function () {
         .pipe(jsLinter({
             rules: {
                 indent: [2, 4, {SwitchCase: 1}],
-                quotes: [2, `single`],
+                quotes: [2, `backtick`],
                 semi: [2, `always`],
                 'linebreak-style': [2, `unix`],
                 'max-len': [1, 85, 4]
