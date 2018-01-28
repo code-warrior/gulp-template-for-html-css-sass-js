@@ -215,14 +215,7 @@ gulp.task('lintJS', function () {
             },
             extends: 'eslint:recommended'
         }))
-        .pipe(jsLinter.formatEach('compact', process.stderr))
-        //
-        // “To have the process exit with an error code (1) on lint error, return
-        // the stream and pipe to failAfterError last.”
-        //
-        //     — https://github.com/adametry/gulp-eslint
-        //
-        .pipe(jsLinter.failAfterError());
+        .pipe(jsLinter.formatEach('compact', process.stderr));
 });
 
 /**
