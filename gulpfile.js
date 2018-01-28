@@ -171,7 +171,6 @@ gulp.task(`compileJSForProd`, function () {
  */
 gulp.task(`lintJS`, function () {
     return gulp.src(`dev/scripts/*.js`)
-        .pipe(babel())
         .pipe(jsLinter({
             rules: {
                 indent: [2, 4, {SwitchCase: 1}],
@@ -187,7 +186,8 @@ gulp.task(`lintJS`, function () {
             },
             extends: `eslint:recommended`
         }))
-        .pipe(jsLinter.formatEach(`compact`, process.stderr));
+        .pipe(jsLinter.formatEach(`compact`, process.stderr))
+        .pipe(babel());
 });
 
 /**
