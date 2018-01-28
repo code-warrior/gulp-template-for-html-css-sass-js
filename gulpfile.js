@@ -37,38 +37,26 @@ var gulp = require(`gulp`),
  */
 
 gulp.task(`safari`, function () {
-    'use strict';
-
     browserChoice = `safari`;
 });
 
 gulp.task(`firefox`, function () {
-    'use strict';
-
     browserChoice = `firefox`;
 });
 
 gulp.task(`chrome`, function () {
-    'use strict';
-
     browserChoice = `google chrome`;
 });
 
 gulp.task(`opera`, function () {
-    'use strict';
-
     browserChoice = `opera`;
 });
 
 gulp.task(`edge`, function () {
-    'use strict';
-
     browserChoice = `microsoft-edge`;
 });
 
 gulp.task(`allBrowsers`, function () {
-    'use strict';
-
     browserChoice = [`safari`, `firefox`, `google chrome`, `opera`, `microsoft-edge`];
 });
 
@@ -85,8 +73,6 @@ gulp.task(`allBrowsers`, function () {
  * destination folder.
  */
 gulp.task(`validateHTML`, function () {
-    'use strict';
-
     return gulp.src([`dev/html/*.html`, `dev/html/**/*.html`])
         .pipe(htmlValidator());
 });
@@ -98,8 +84,6 @@ gulp.task(`validateHTML`, function () {
  * whitespace from them, then writes the compressed files to the production folder.
  */
 gulp.task(`compressHTML`, function () {
-    'use strict';
-
     return gulp.src([`dev/html/*.html`, `dev/html/**/*.html`])
         .pipe(htmlMinifier({
             removeComments: true,
@@ -118,8 +102,6 @@ gulp.task(`compressHTML`, function () {
  * browser versions behind all current browsers’ versions.
  */
 gulp.task(`compileCSSForDev`, function () {
-    'use strict';
-
     return gulp.src(`dev/styles/main.scss`)
         .pipe(sass({
             outputStyle: `expanded`,
@@ -142,8 +124,6 @@ gulp.task(`compileCSSForDev`, function () {
  * “outputStyle” from Sass and compressCSS().
  */
 gulp.task(`compileCSSForProd`, function () {
-    'use strict';
-
     return gulp.src(`dev/styles/main.scss`)
         .pipe(sass({
             outputStyle: `compressed`,
@@ -163,8 +143,6 @@ gulp.task(`compileCSSForProd`, function () {
  * names the compiled file app.js, then writes the result to the temp/scripts folder.
  */
 gulp.task(`compileJSForDev`, function () {
-    'use strict';
-
     return gulp.src(`dev/scripts/*.js`)
         .pipe(jsConcatenator(`app.js`))
         .pipe(babel())
@@ -178,8 +156,6 @@ gulp.task(`compileJSForDev`, function () {
  * resulting file is compressed then written to the production folder.
  */
 gulp.task(`compileJSForProd`, function () {
-    'use strict';
-
     return gulp.src(`dev/scripts/*.js`)
         .pipe(jsConcatenator(`app.js`))
         .pipe(babel())
@@ -197,8 +173,6 @@ gulp.task(`compileJSForProd`, function () {
  * Note: The concatenated file app.js is *not* written to a destination folder.
  */
 gulp.task(`lintJS`, function () {
-    'use strict';
-
     return gulp.src(`dev/scripts/*.js`)
         .pipe(jsConcatenator(`app.js`))
         .pipe(babel())
@@ -228,8 +202,6 @@ gulp.task(`lintJS`, function () {
  * compressed images to the prod/img folder.
  */
 gulp.task(`compressThenCopyImagesToProdFolder`, function () {
-    'use strict';
-
     return gulp.src(`dev/img/**/*`)
         .pipe(tempCache(
             imageCompressor({
@@ -254,8 +226,6 @@ gulp.task(`compressThenCopyImagesToProdFolder`, function () {
  * — Sass/CSS is concatenated and compressed by the compileCSSForProd task
  */
 gulp.task(`copyUnprocessedAssetsToProdFolder`, function () {
-    'use strict';
-
     return gulp.src([
         `dev/*.*`,       // Source all files,
         `dev/**`,        // and all folders,
@@ -310,8 +280,6 @@ gulp.task(`build`, [
  * Finally, changes to images also trigger a browser reload.
  */
 gulp.task(`serve`, [`compileCSSForDev`, `compileJSForDev`, `lintJS`, `validateHTML`], function () {
-    'use strict';
-
     browserSync({
         notify: true,
         port: 9000,
@@ -347,8 +315,6 @@ gulp.task(`serve`, [`compileCSSForDev`, `compileJSForDev`, `lintJS`, `validateHT
  * task.
  */
 gulp.task(`clean`, function () {
-    'use strict';
-
     var fs = require(`fs`),
         i,
         expendableFolders = [`temp`, `prod`];
@@ -380,8 +346,6 @@ gulp.task(`clean`, function () {
  * This task does nothing but list the available tasks in this file.
  */
 gulp.task(`default`, function () {
-    'use strict';
-
     var exec = require(`child_process`).exec;
 
     exec(`gulp --tasks`, function (error, stdout, stderr) {
