@@ -2,7 +2,7 @@
 
 'use strict';
 
-var gulp = require(`gulp`),
+let gulp = require(`gulp`),
     del = require(`del`),
     sass = require(`gulp-sass`),
     babel = require(`gulp-babel`),
@@ -315,7 +315,7 @@ gulp.task(`serve`, [`compileCSSForDev`, `compileJSForDev`, `lintJS`, `validateHT
  * task.
  */
 gulp.task(`clean`, function () {
-    var fs = require(`fs`),
+    let fs = require(`fs`),
         i,
         expendableFolders = [`temp`, `prod`];
 
@@ -346,7 +346,7 @@ gulp.task(`clean`, function () {
  * This task does nothing but list the available tasks in this file.
  */
 gulp.task(`default`, function () {
-    var exec = require(`child_process`).exec;
+    let exec = require(`child_process`).exec;
 
     exec(`gulp --tasks`, function (error, stdout, stderr) {
         if (null !== error) {
