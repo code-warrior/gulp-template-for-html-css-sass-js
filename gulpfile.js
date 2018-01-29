@@ -136,7 +136,7 @@ gulp.task(`compileCSSForProd`, function () {
 });
 
 /**
- * TRANSPILE ALL JAVASCRIPT FILES FOR DEVELOPMENT WORK
+ * TRANSPILE JAVASCRIPT FILES FOR DEVELOPMENT
  *
  * This task sources all the JavaScript files in dev/scripts, transpiles them to ES6,
  * then writes the result to the temp/scripts folder.
@@ -148,7 +148,7 @@ gulp.task(`transpileJSForDev`, function () {
 });
 
 /**
- * COMPILE ALL JAVASCRIPT FILES INTO A SINGLE FILE FOR PRODUCTION
+ * TRANSPILE JAVASCRIPT FILES FOR PRODUCTION
  *
  * This task sources all the JavaScript files in dev/scripts, transpiles them to ES6,
  * compresses the output, then writes the result to the prod/scripts folder.
