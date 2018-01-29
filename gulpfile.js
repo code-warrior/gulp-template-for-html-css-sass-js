@@ -23,9 +23,9 @@ let gulp = require(`gulp`),
 /**
  * CHOOSE A BROWSER OTHER THAN THE DEFAULT
  *
- * Each of the following tasks sets the browser preference variable (browserChoice)
- * in the browserSync preferences read by the serve task. To preview your project in
- * either or all of your browsers, invoke Gulp as follows:
+ * Each of the following tasks sets the browser preference variable “browserChoice”
+ * used by the “serve” task. To preview your project in either or all of your
+ * browsers, invoke Gulp as follows:
  *
  *    gulp safari serve
  *    gulp firefox serve
@@ -65,7 +65,7 @@ gulp.task(`allBrowsers`, function () {
  * This task sources all the HTML files in the dev/html folder, then validates them.
  *
  * On error, the validator will generate one or more messages to the console with
- * line and column co-ordinates indicating where in your file the error was
+ * line and column co-ordinates, indicating where in your file the error was
  * generated.
  *
  * Note: Regardless of whether your HTML validates or not, no files are copied to a
@@ -80,7 +80,7 @@ gulp.task(`validateHTML`, function () {
  * COMPRESS HTML
  *
  * This task sources all the HTML files in the dev/html folder, strips comments and
- * whitespace from them, then writes the compressed files to the production folder.
+ * whitespace from them, then writes the compressed file(s) to the production folder.
  */
 gulp.task(`compressHTML`, function () {
     return gulp.src([`dev/html/*.html`, `dev/html/**/*.html`])
@@ -97,7 +97,7 @@ gulp.task(`compressHTML`, function () {
  * This task looks for a single Sass file, compiles the CSS from it, and writes the
  * resulting CSS file to the temporary folder temp/styles. The file will be
  * formatted with 2-space indentations. Any floating-point calculations will be
- * carried out 10 places, and browser-specific prefixes will be added to support 2
+ * carried out 10 places and browser-specific prefixes will be added to support 2
  * browser versions behind all current browsers’ versions.
  */
 gulp.task(`compileCSSForDev`, function () {
@@ -119,8 +119,8 @@ gulp.task(`compileCSSForDev`, function () {
  * resulting single CSS file to the production folder. Any floating-point
  * calculations will be carried out 10 places, and browser-specific prefixes will be
  * added to support 2 browser versions behind all current browsers’ versions.
- * Lastly, the final CSS file is passed through two levels of compression:
- * “outputStyle” from Sass and compressCSS().
+ * Lastly, the final CSS file is passed through two levels of compression: One via
+ * Sass as an option (“outputStyle”) and the other from the cssCompressor() module.
  */
 gulp.task(`compileCSSForProd`, function () {
     return gulp.src(`dev/styles/main.scss`)
@@ -136,24 +136,24 @@ gulp.task(`compileCSSForProd`, function () {
 });
 
 /**
- * COMPILE ALL JAVASCRIPT FILES INTO ONE FILE FOR DEVELOPMENT WORK
+ * TRANSPILE JAVASCRIPT FILES FOR DEVELOPMENT
  *
- * This task sources all the JavaScript files in dev/scripts, concatenates them,
- * names the compiled file app.js, then writes the result to the temp/scripts folder.
+ * This task sources all the JavaScript files in dev/scripts, transpiles them to ES6,
+ * then writes the result to the temp/scripts folder.
  */
-gulp.task(`compileJSForDev`, function () {
+gulp.task(`transpileJSForDev`, function () {
     return gulp.src(`dev/scripts/*.js`)
         .pipe(babel())
         .pipe(gulp.dest(`temp/scripts`));
 });
 
 /**
- * COMPILE ALL JAVASCRIPT FILES INTO A SINGLE FILE FOR PRODUCTION
+ * TRANSPILE JAVASCRIPT FILES FOR PRODUCTION
  *
- * This task compiles one or more JavaScript files into a single file, app.js. The
- * resulting file is compressed then written to the production folder.
+ * This task sources all the JavaScript files in dev/scripts, transpiles them to ES6,
+ * compresses the output, then writes the result to the prod/scripts folder.
  */
-gulp.task(`compileJSForProd`, function () {
+gulp.task(`transpileJSForProd`, function () {
     return gulp.src(`dev/scripts/*.js`)
         .pipe(babel())
         .pipe(jsCompressor())
@@ -163,11 +163,10 @@ gulp.task(`compileJSForProd`, function () {
 /**
  * LINT JAVASCRIPT
  *
- * This task concatenates all the JS files in the dev/scripts folder into a single
- * file called app.js, then lints the file according to options listed in the object
- * passed to the linter. (ESLint is the linter in this file.)
+ * This task sources all the JavaScript files in dev/scripts and lints them.
+ * Errors/warnings are formatted using ESLint’s “compact” option for error reporting.
  *
- * Note: The concatenated file app.js is *not* written to a destination folder.
+ * https://eslint.org/docs/user-guide/formatters/#compact
  */
 gulp.task(`lintJS`, function () {
     return gulp.src(`dev/scripts/*.js`)
@@ -186,8 +185,7 @@ gulp.task(`lintJS`, function () {
             },
             extends: `eslint:recommended`
         }))
-        .pipe(jsLinter.formatEach(`compact`, process.stderr))
-        .pipe(babel());
+        .pipe(jsLinter.formatEach(`compact`, process.stderr));
 });
 
 /**
@@ -217,9 +215,9 @@ gulp.task(`compressThenCopyImagesToProdFolder`, function () {
  * Sass/CSS to the production folder, because those files are processed by other
  * tasks, specifically:
  *
- * — Images are compressed then copied by the compressThenCopyImagesToProdFolder task
- * — JavaScript is concatenated and compressed by the compileJSForProd task
- * — Sass/CSS is concatenated and compressed by the compileCSSForProd task
+ * — Images are handled by the compressThenCopyImagesToProdFolder task
+ * — JavaScript is handled by the transpileJSForProd task
+ * — Sass/CSS is handled by the compileCSSForProd task
  */
 gulp.task(`copyUnprocessedAssetsToProdFolder`, function () {
     return gulp.src([
@@ -227,24 +225,25 @@ gulp.task(`copyUnprocessedAssetsToProdFolder`, function () {
         `dev/**`,        // and all folders,
         `!dev/html/`,    // but not the HTML folder
         `!dev/html/*.*`, // or any files in it
-        `!dev/html/**`,  // or any sub folders
+        `!dev/html/**`,  // or any sub folders;
         `!dev/img/`,     // ignore images;
         `!dev/**/*.js`,  // ignore JS;
-        `!dev/styles/**` // ignore Sass/CSS.
+        `!dev/styles/**` // and, ignore Sass/CSS.
     ], {dot: true}).pipe(gulp.dest(`prod`));
 });
 
 /**
  * BUILD
  *
- * This task simply invokes other pre-defined tasks.
+ * Meant for building a production version of your project, this task simply invokes
+ * other pre-defined tasks.
  */
 gulp.task(`build`, [
     `validateHTML`,
     `compressHTML`,
     `compileCSSForProd`,
     `lintJS`,
-    `compileJSForProd`,
+    `transpileJSForProd`,
     `compressThenCopyImagesToProdFolder`,
     `copyUnprocessedAssetsToProdFolder`
 ]);
@@ -252,10 +251,10 @@ gulp.task(`build`, [
 /**
  * SERVE
  *
- * Used for development only, this task…
+ * Used for development, this task…
  *
  *    — compiles CSS via Sass,
- *    — concatenates one or more JavaScript files into a single file,
+ *    — transpiles JavaScript files into ES6,
  *    — lints JavaScript, and
  *    — validates HTML.
  *
@@ -267,15 +266,15 @@ gulp.task(`build`, [
  * Thus, CSS and JS are served from a temp folder (temp), while un-processed files,
  * such as fonts and images, are served from the development source folder (dev).
  *
- * If a JavaScript file is changed, all JavaScript files are rebuilt, the resulting
- * file is linted, and the browser reloads.
+ * If a JavaScript file is changed, all JavaScript files are linted, re-transpiled,
+ * and the browser reloads.
  *
  * If a Sass file is changed, a re-compilation of the primary CSS file is generated,
  * and the browser reloads.
  *
  * Finally, changes to images also trigger a browser reload.
  */
-gulp.task(`serve`, [`compileCSSForDev`, `compileJSForDev`, `lintJS`, `validateHTML`], function () {
+gulp.task(`serve`, [`compileCSSForDev`, `lintJS`, `transpileJSForDev`, `validateHTML`], function () {
     browserSync({
         notify: true,
         port: 9000,
@@ -290,7 +289,7 @@ gulp.task(`serve`, [`compileCSSForDev`, `compileJSForDev`, `lintJS`, `validateHT
         }
     });
 
-    gulp.watch(`dev/scripts/*.js`, [`compileJSForDev`, `lintJS`])
+    gulp.watch(`dev/scripts/*.js`, [`lintJS`, `transpileJSForDev`])
         .on(`change`, reload);
 
     gulp.watch(`dev/styles/**/*.scss`, [`compileCSSForDev`])
@@ -307,8 +306,7 @@ gulp.task(`serve`, [`compileCSSForDev`, `compileJSForDev`, `lintJS`, `validateHT
  * CLEAN
  *
  * This task deletes the temp and prod folders, both of which are expendable, since
- * Gulp creates them as temporary folders during the serve process and via the build
- * task.
+ * Gulp creates them as temporary folders during the serve and build tasks.
  */
 gulp.task(`clean`, function () {
     let fs = require(`fs`),
