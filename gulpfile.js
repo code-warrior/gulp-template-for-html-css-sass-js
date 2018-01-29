@@ -237,7 +237,8 @@ gulp.task(`copyUnprocessedAssetsToProdFolder`, function () {
 /**
  * BUILD
  *
- * This task simply invokes other pre-defined tasks.
+ * Meant for building a production version of your project, this task simply invokes
+ * other pre-defined tasks.
  */
 gulp.task(`build`, [
     `validateHTML`,
