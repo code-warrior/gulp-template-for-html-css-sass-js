@@ -97,7 +97,7 @@ gulp.task(`compressHTML`, function () {
  * This task looks for a single Sass file, compiles the CSS from it, and writes the
  * resulting CSS file to the temporary folder temp/styles. The file will be
  * formatted with 2-space indentations. Any floating-point calculations will be
- * carried out 10 places, and browser-specific prefixes will be added to support 2
+ * carried out 10 places and browser-specific prefixes will be added to support 2
  * browser versions behind all current browsers’ versions.
  */
 gulp.task(`compileCSSForDev`, function () {
