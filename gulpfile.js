@@ -153,7 +153,7 @@ gulp.task(`transpileJSForDev`, function () {
  * This task sources all the JavaScript files in dev/scripts, transpiles them to ES6,
  * compresses the output, then writes the result to the prod/scripts folder.
  */
-gulp.task(`compileJSForProd`, function () {
+gulp.task(`transpileJSForProd`, function () {
     return gulp.src(`dev/scripts/*.js`)
         .pipe(babel())
         .pipe(jsCompressor())
@@ -218,7 +218,7 @@ gulp.task(`compressThenCopyImagesToProdFolder`, function () {
  * tasks, specifically:
  *
  * — Images are handled by the compressThenCopyImagesToProdFolder task
- * — JavaScript is handled by the compileJSForProd task
+ * — JavaScript is handled by the transpileJSForProd task
  * — Sass/CSS is handled by the compileCSSForProd task
  */
 gulp.task(`copyUnprocessedAssetsToProdFolder`, function () {
@@ -245,7 +245,7 @@ gulp.task(`build`, [
     `compressHTML`,
     `compileCSSForProd`,
     `lintJS`,
-    `compileJSForProd`,
+    `transpileJSForProd`,
     `compressThenCopyImagesToProdFolder`,
     `copyUnprocessedAssetsToProdFolder`
 ]);
