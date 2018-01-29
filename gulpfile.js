@@ -138,8 +138,8 @@ gulp.task(`compileCSSForProd`, function () {
 /**
  * COMPILE ALL JAVASCRIPT FILES INTO ONE FILE FOR DEVELOPMENT WORK
  *
- * This task sources all the JavaScript files in dev/scripts, concatenates them,
- * names the compiled file app.js, then writes the result to the temp/scripts folder.
+ * This task sources all the JavaScript files in dev/scripts, transpiles them to ES6,
+ * then writes the result to the temp/scripts folder.
  */
 gulp.task(`compileJSForDev`, function () {
     return gulp.src(`dev/scripts/*.js`)
