@@ -307,8 +307,7 @@ gulp.task(`serve`, [`compileCSSForDev`, `compileJSForDev`, `lintJS`, `validateHT
  * CLEAN
  *
  * This task deletes the temp and prod folders, both of which are expendable, since
- * Gulp creates them as temporary folders during the serve process and via the build
- * task.
+ * Gulp creates them as temporary folders during the serve and build tasks.
  */
 gulp.task(`clean`, function () {
     let fs = require(`fs`),
