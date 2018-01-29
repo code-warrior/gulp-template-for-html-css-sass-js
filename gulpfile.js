@@ -251,10 +251,10 @@ gulp.task(`build`, [
 /**
  * SERVE
  *
- * Used for development only, this task…
+ * Used for development, this task…
  *
  *    — compiles CSS via Sass,
- *    — concatenates one or more JavaScript files into a single file,
+ *    — transpiles JavaScript files into ES6,
  *    — lints JavaScript, and
  *    — validates HTML.
  *
@@ -266,15 +266,15 @@ gulp.task(`build`, [
  * Thus, CSS and JS are served from a temp folder (temp), while un-processed files,
  * such as fonts and images, are served from the development source folder (dev).
  *
- * If a JavaScript file is changed, all JavaScript files are rebuilt, the resulting
- * file is linted, and the browser reloads.
+ * If a JavaScript file is changed, all JavaScript files are linted, re-transpiled,
+ * and the browser reloads.
  *
  * If a Sass file is changed, a re-compilation of the primary CSS file is generated,
  * and the browser reloads.
  *
  * Finally, changes to images also trigger a browser reload.
  */
-gulp.task(`serve`, [`compileCSSForDev`, `transpileJSForDev`, `lintJS`, `validateHTML`], function () {
+gulp.task(`serve`, [`compileCSSForDev`, `lintJS`, `transpileJSForDev`, `validateHTML`], function () {
     browserSync({
         notify: true,
         port: 9000,
@@ -289,7 +289,7 @@ gulp.task(`serve`, [`compileCSSForDev`, `transpileJSForDev`, `lintJS`, `validate
         }
     });
 
-    gulp.watch(`dev/scripts/*.js`, [`transpileJSForDev`, `lintJS`])
+    gulp.watch(`dev/scripts/*.js`, [`lintJS`, `transpileJSForDev`])
         .on(`change`, reload);
 
     gulp.watch(`dev/styles/**/*.scss`, [`compileCSSForDev`])
