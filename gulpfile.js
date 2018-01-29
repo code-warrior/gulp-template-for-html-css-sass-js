@@ -136,12 +136,12 @@ gulp.task(`compileCSSForProd`, function () {
 });
 
 /**
- * COMPILE ALL JAVASCRIPT FILES INTO ONE FILE FOR DEVELOPMENT WORK
+ * TRANSPILE ALL JAVASCRIPT FILES FOR DEVELOPMENT WORK
  *
  * This task sources all the JavaScript files in dev/scripts, transpiles them to ES6,
  * then writes the result to the temp/scripts folder.
  */
-gulp.task(`compileJSForDev`, function () {
+gulp.task(`transpileJSForDev`, function () {
     return gulp.src(`dev/scripts/*.js`)
         .pipe(babel())
         .pipe(gulp.dest(`temp/scripts`));
@@ -276,7 +276,7 @@ gulp.task(`build`, [
  *
  * Finally, changes to images also trigger a browser reload.
  */
-gulp.task(`serve`, [`compileCSSForDev`, `compileJSForDev`, `lintJS`, `validateHTML`], function () {
+gulp.task(`serve`, [`compileCSSForDev`, `transpileJSForDev`, `lintJS`, `validateHTML`], function () {
     browserSync({
         notify: true,
         port: 9000,
@@ -291,7 +291,7 @@ gulp.task(`serve`, [`compileCSSForDev`, `compileJSForDev`, `lintJS`, `validateHT
         }
     });
 
-    gulp.watch(`dev/scripts/*.js`, [`compileJSForDev`, `lintJS`])
+    gulp.watch(`dev/scripts/*.js`, [`transpileJSForDev`, `lintJS`])
         .on(`change`, reload);
 
     gulp.watch(`dev/styles/**/*.scss`, [`compileCSSForDev`])
