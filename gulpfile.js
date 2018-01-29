@@ -163,9 +163,8 @@ gulp.task(`transpileJSForProd`, function () {
 /**
  * LINT JAVASCRIPT
  *
- * This task sources all the JavaScript files in dev/scripts, lints them, then
- * transpiles to ES6. Errors/warnings are generated between the linting and
- * transpilation pipes using ESLint’s “compact” option for error reporting.
+ * This task sources all the JavaScript files in dev/scripts and lints them.
+ * Errors/warnings are formatted using ESLint’s “compact” option for error reporting.
  *
  * https://eslint.org/docs/user-guide/formatters/#compact
  */
@@ -186,8 +185,7 @@ gulp.task(`lintJS`, function () {
             },
             extends: `eslint:recommended`
         }))
-        .pipe(jsLinter.formatEach(`compact`, process.stderr))
-        .pipe(babel());
+        .pipe(jsLinter.formatEach(`compact`, process.stderr));
 });
 
 /**
