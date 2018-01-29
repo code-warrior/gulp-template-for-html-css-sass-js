@@ -150,8 +150,8 @@ gulp.task(`compileJSForDev`, function () {
 /**
  * COMPILE ALL JAVASCRIPT FILES INTO A SINGLE FILE FOR PRODUCTION
  *
- * This task compiles one or more JavaScript files into a single file, app.js. The
- * resulting file is compressed then written to the production folder.
+ * This task sources all the JavaScript files in dev/scripts, transpiles them to ES6,
+ * compresses the output, then writes the result to the prod/scripts folder.
  */
 gulp.task(`compileJSForProd`, function () {
     return gulp.src(`dev/scripts/*.js`)
