@@ -80,7 +80,7 @@ gulp.task(`validateHTML`, function () {
  * COMPRESS HTML
  *
  * This task sources all the HTML files in the dev/html folder, strips comments and
- * whitespace from them, then writes the compressed files to the production folder.
+ * whitespace from them, then writes the compressed file(s) to the production folder.
  */
 gulp.task(`compressHTML`, function () {
     return gulp.src([`dev/html/*.html`, `dev/html/**/*.html`])
