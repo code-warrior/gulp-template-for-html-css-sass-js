@@ -217,9 +217,9 @@ gulp.task(`compressThenCopyImagesToProdFolder`, function () {
  * Sass/CSS to the production folder, because those files are processed by other
  * tasks, specifically:
  *
- * — Images are compressed then copied by the compressThenCopyImagesToProdFolder task
- * — JavaScript is concatenated and compressed by the compileJSForProd task
- * — Sass/CSS is concatenated and compressed by the compileCSSForProd task
+ * — Images are handled by the compressThenCopyImagesToProdFolder task
+ * — JavaScript is handled by the compileJSForProd task
+ * — Sass/CSS is handled by the compileCSSForProd task
  */
 gulp.task(`copyUnprocessedAssetsToProdFolder`, function () {
     return gulp.src([
@@ -227,10 +227,10 @@ gulp.task(`copyUnprocessedAssetsToProdFolder`, function () {
         `dev/**`,        // and all folders,
         `!dev/html/`,    // but not the HTML folder
         `!dev/html/*.*`, // or any files in it
-        `!dev/html/**`,  // or any sub folders
+        `!dev/html/**`,  // or any sub folders;
         `!dev/img/`,     // ignore images;
         `!dev/**/*.js`,  // ignore JS;
-        `!dev/styles/**` // ignore Sass/CSS.
+        `!dev/styles/**` // and, ignore Sass/CSS.
     ], {dot: true}).pipe(gulp.dest(`prod`));
 });
 
