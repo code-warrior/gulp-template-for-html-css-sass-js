@@ -119,8 +119,8 @@ gulp.task(`compileCSSForDev`, function () {
  * resulting single CSS file to the production folder. Any floating-point
  * calculations will be carried out 10 places, and browser-specific prefixes will be
  * added to support 2 browser versions behind all current browsers’ versions.
- * Lastly, the final CSS file is passed through two levels of compression:
- * “outputStyle” from Sass and compressCSS().
+ * Lastly, the final CSS file is passed through two levels of compression: One via
+ * Sass as an option (“outputStyle”) and the other from the cssCompressor() module.
  */
 gulp.task(`compileCSSForProd`, function () {
     return gulp.src(`dev/styles/main.scss`)
