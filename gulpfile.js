@@ -65,7 +65,7 @@ gulp.task(`allBrowsers`, function () {
  * This task sources all the HTML files in the dev/html folder, then validates them.
  *
  * On error, the validator will generate one or more messages to the console with
- * line and column co-ordinates indicating where in your file the error was
+ * line and column co-ordinates, indicating where in your file the error was
  * generated.
  *
  * Note: Regardless of whether your HTML validates or not, no files are copied to a
