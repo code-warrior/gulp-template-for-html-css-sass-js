@@ -163,11 +163,11 @@ gulp.task(`compileJSForProd`, function () {
 /**
  * LINT JAVASCRIPT
  *
- * This task concatenates all the JS files in the dev/scripts folder into a single
- * file called app.js, then lints the file according to options listed in the object
- * passed to the linter. (ESLint is the linter in this file.)
+ * This task sources all the JavaScript files in dev/scripts, lints them, then
+ * transpiles to ES6. Errors/warnings are generated between the linting and
+ * transpilation pipes using ESLint’s “compact” option for error reporting.
  *
- * Note: The concatenated file app.js is *not* written to a destination folder.
+ * https://eslint.org/docs/user-guide/formatters/#compact
  */
 gulp.task(`lintJS`, function () {
     return gulp.src(`dev/scripts/*.js`)
