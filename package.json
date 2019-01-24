@@ -1,6 +1,6 @@
 {
   "name": "gulp-template-for-html-css-sass-js",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "An automation template for HTML, CSS, Sass, and JavaScript.",
   "main": "gulpfile.js",
   "scripts": {
