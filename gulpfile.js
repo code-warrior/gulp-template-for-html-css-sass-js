@@ -50,8 +50,6 @@
         `!dev/img/`,     // ignore images;
         `!dev/**/*.js`,  // ignore JS;
         `!dev/styles/**` // and, ignore Sass/CSS.
-
-
     browserSync({
         notify: true,
         port: 9000,
