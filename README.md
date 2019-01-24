@@ -1,6 +1,6 @@
 # A Set of Gulp v4.0.0 Tasks for Creating Web Projects Using HTML, CSS/Sass, and JavaScript
 
-(v4.0.0)
+(v4.0.1)
 
 ---
 
