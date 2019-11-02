@@ -223,10 +223,8 @@ exports.transpileJSForProd = transpileJSForProd;
 exports.lintJS = lintJS;
 exports.copyUnprocessedAssetsForProd = copyUnprocessedAssetsForProd;
 exports.build = series(
-    validateHTML,
     compressHTML,
     compileCSSForProd,
-    lintJS,
     transpileJSForProd,
     compressImages,
     copyUnprocessedAssetsForProd
