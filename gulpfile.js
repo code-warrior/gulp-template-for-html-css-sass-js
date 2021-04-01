@@ -84,7 +84,6 @@ let transpileJSForProd = () => {
         .pipe(babel())
         .pipe(jsCompressor())
         .pipe(dest(`prod/scripts`));
-
 };
 
 let lintJS = () => {
