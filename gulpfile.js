@@ -1,4 +1,12 @@
+const { src, dest } = require(`gulp`);
+const htmlCompressor = require(`gulp-htmlmin`);
 const del = require(`del`);
+
+let compressHTML = () => {
+    return src([`dev/html/*.html`,`dev/html/**/*.html`])
+        .pipe(htmlCompressor({collapseWhitespace: true}))
+        .pipe(dest(`prod`));
+};
 
 async function clean() {
     let fs = require(`fs`),
@@ -40,5 +48,6 @@ async function listTasks () {
     });
 }
 
+exports.compressHTML = compressHTML;
 exports.clean = clean;
 exports.default = listTasks;

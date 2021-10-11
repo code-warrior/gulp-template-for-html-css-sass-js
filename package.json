@@ -34,6 +34,7 @@
   "homepage": "https://github.com/code-warrior/gulp-template-for-html-css-sass-js#readme",
   "devDependencies": {
     "del": "^6.0.0",
-    "gulp": "^4.0.2"
+    "gulp": "^4.0.2",
+    "gulp-htmlmin": "^5.0.1"
   }
 }
