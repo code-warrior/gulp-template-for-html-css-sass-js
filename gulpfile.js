@@ -8,3 +8,5 @@ let compressHTML = () => {
         .pipe(htmlCompressor({collapseWhitespace: true}))
         .pipe(dest(`prod`));
 };
+
+exports.compressHTML = compressHTML;
