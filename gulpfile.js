@@ -1,6 +1,14 @@
 const { src, dest } = require(`gulp`);
 const htmlCompressor = require(`gulp-htmlmin`);
+const htmlValidator = require(`gulp-html`);
 const del = require(`del`);
+
+let validateHTML = () => {
+    return src([
+        `dev/html/*.html`,
+        `dev/html/**/*.html`])
+        .pipe(htmlValidator(undefined));
+};
 
 let compressHTML = () => {
     return src([`dev/html/*.html`,`dev/html/**/*.html`])
@@ -48,6 +56,7 @@ async function listTasks () {
     });
 }
 
+exports.validateHTML = validateHTML;
 exports.compressHTML = compressHTML;
 exports.clean = clean;
 exports.default = listTasks;
