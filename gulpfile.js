@@ -1,176 +1,98 @@
-/*jslint node: true, for */
+const { src, dest, series, watch } = require(`gulp`);
+const del = require(`del`);
+const sass = require(`gulp-sass`);
+const babel = require(`gulp-babel`);
+const htmlCompressor = require(`gulp-htmlmin`);
+const htmlValidator = require(`gulp-html`);
+const jsLinter = require(`gulp-eslint`);
+const jsCompressor = require(`gulp-uglify`);
+const imageCompressor = require(`gulp-imagemin`);
+const cache = require(`gulp-cache`);
+const browserSync = require(`browser-sync`);
+const reload = browserSync.reload;
+let browserChoice = `default`;
 
-'use strict';
-
-let gulp = require(`gulp`),
-    del = require(`del`),
-    sass = require(`gulp-sass`),
-    babel = require(`gulp-babel`),
-    cssCompressor = require(`gulp-csso`),
-    browserSpecificPrefixer = require(`gulp-autoprefixer`),
-    htmlMinifier = require(`gulp-htmlmin`),
-    htmlValidator = require(`gulp-html`),
-    jsLinter = require(`gulp-eslint`),
-    jsCompressor = require(`gulp-uglify`),
-    imageCompressor = require(`gulp-imagemin`),
-    tempCache = require(`gulp-cache`),
-    browserSync = require(`browser-sync`),
-    config = require(`./config.json`),
-    colors = config.colors,
-    reload = browserSync.reload,
-    browserChoice = `default`;
-
-/**
- * CHOOSE A BROWSER OTHER THAN THE DEFAULT
- *
- * Each of the following tasks sets the browser preference variable “browserChoice”
- * used by the “serve” task. To preview your project in either or all of your
- * browsers, invoke Gulp as follows:
- *
- *    gulp safari serve
- *    gulp firefox serve
- *    gulp chrome serve
- *    gulp opera serve
- *    gulp edge serve
- *    gulp allBrowsers serve
- */
-
-gulp.task(`safari`, function () {
+async function safari () {
     browserChoice = `safari`;
-});
+}
 
-gulp.task(`firefox`, function () {
+async function firefox () {
     browserChoice = `firefox`;
-});
+}
 
-gulp.task(`chrome`, function () {
+async function chrome () {
     browserChoice = `google chrome`;
-});
+}
 
-gulp.task(`opera`, function () {
+async function opera () {
     browserChoice = `opera`;
-});
+}
 
-gulp.task(`edge`, function () {
+async function edge () {
     browserChoice = `microsoft-edge`;
-});
+}
 
-gulp.task(`allBrowsers`, function () {
-    browserChoice = [`safari`, `firefox`, `google chrome`, `opera`, `microsoft-edge`];
-});
+async function allBrowsers () {
+    browserChoice = [
+        `safari`,
+        `firefox`,
+        `google chrome`,
+        `opera`,
+        `microsoft-edge`
+    ];
+}
 
-/**
- * VALIDATE HTML
- *
- * This task sources all the HTML files in the dev/html folder, then validates them.
- *
- * On error, the validator will generate one or more messages to the console with
- * line and column co-ordinates, indicating where in your file the error was
- * generated.
- *
- * Note: Regardless of whether your HTML validates or not, no files are copied to a
- * destination folder.
- */
-gulp.task(`validateHTML`, function () {
-    return gulp.src([`dev/html/*.html`, `dev/html/**/*.html`])
+let validateHTML = () => {
+    return src([
+        `dev/html/*.html`,
+        `dev/html/**/*.html`])
         .pipe(htmlValidator());
-});
+};
 
-/**
- * COMPRESS HTML
- *
- * This task sources all the HTML files in the dev/html folder, strips comments and
- * whitespace from them, then writes the compressed file(s) to the production folder.
- */
-gulp.task(`compressHTML`, function () {
-    return gulp.src([`dev/html/*.html`, `dev/html/**/*.html`])
-        .pipe(htmlMinifier({
-            removeComments: true,
-            collapseWhitespace: true
-        }))
-        .pipe(gulp.dest(`prod`));
-});
+let compressHTML = () => {
+    return src([`dev/html/*.html`,`dev/html/**/*.html`])
+        .pipe(htmlCompressor({collapseWhitespace: true}))
+        .pipe(dest(`prod`));
+};
 
-/**
- * COMPILE CSS FOR DEVELOPMENT WORK
- *
- * This task looks for a single Sass file, compiles the CSS from it, and writes the
- * resulting CSS file to the temporary folder temp/styles. The file will be
- * formatted with 2-space indentations. Any floating-point calculations will be
- * carried out 10 places and browser-specific prefixes will be added to support 2
- * browser versions behind all current browsers’ versions.
- */
-gulp.task(`compileCSSForDev`, function () {
-    return gulp.src(`dev/styles/main.scss`)
+let compileCSSForDev = () => {
+    return src(`dev/styles/main.scss`)
         .pipe(sass({
             outputStyle: `expanded`,
             precision: 10
         }).on(`error`, sass.logError))
-        .pipe(browserSpecificPrefixer({
-            browsers: [`last 2 versions`]
-        }))
-        .pipe(gulp.dest(`temp/styles`));
-});
+        .pipe(dest(`temp/styles`));
+};
 
-/**
- * COMPILE CSS FOR PRODUCTION
- *
- * This task looks for a single Sass file, compiles the CSS from it, and writes the
- * resulting single CSS file to the production folder. Any floating-point
- * calculations will be carried out 10 places, and browser-specific prefixes will be
- * added to support 2 browser versions behind all current browsers’ versions.
- * Lastly, the final CSS file is passed through two levels of compression: One via
- * Sass as an option (“outputStyle”) and the other from the cssCompressor() module.
- */
-gulp.task(`compileCSSForProd`, function () {
-    return gulp.src(`dev/styles/main.scss`)
+let compileCSSForProd = () => {
+    return src(`dev/styles/main.scss`)
         .pipe(sass({
             outputStyle: `compressed`,
             precision: 10
         }).on(`error`, sass.logError))
-        .pipe(browserSpecificPrefixer({
-            browsers: [`last 2 versions`]
-        }))
-        .pipe(cssCompressor())
-        .pipe(gulp.dest(`prod/styles`));
-});
+        .pipe(dest(`prod/styles`));
+};
 
-/**
- * TRANSPILE JAVASCRIPT FILES FOR DEVELOPMENT
- *
- * This task sources all the JavaScript files in dev/scripts, transpiles them to ES6,
- * then writes the result to the temp/scripts folder.
- */
-gulp.task(`transpileJSForDev`, function () {
-    return gulp.src(`dev/scripts/*.js`)
+let transpileJSForDev = () => {
+    return src(`dev/scripts/*.js`)
         .pipe(babel())
-        .pipe(gulp.dest(`temp/scripts`));
-});
+        .pipe(dest(`temp/scripts`));
+};
 
-/**
- * TRANSPILE JAVASCRIPT FILES FOR PRODUCTION
- *
- * This task sources all the JavaScript files in dev/scripts, transpiles them to ES6,
- * compresses the output, then writes the result to the prod/scripts folder.
- */
-gulp.task(`transpileJSForProd`, function () {
-    return gulp.src(`dev/scripts/*.js`)
+let transpileJSForProd = () => {
+    return src(`dev/scripts/*.js`)
         .pipe(babel())
         .pipe(jsCompressor())
-        .pipe(gulp.dest(`prod/scripts`));
-});
+        .pipe(dest(`prod/scripts`));
+};
 
-/**
- * LINT JAVASCRIPT
- *
- * This task sources all the JavaScript files in dev/scripts and lints them.
- * Errors/warnings are formatted using ESLint’s “compact” option for error reporting.
- *
- * https://eslint.org/docs/user-guide/formatters/#compact
- */
-gulp.task(`lintJS`, function () {
-    return gulp.src(`dev/scripts/*.js`)
+let lintJS = () => {
+    return src(`dev/scripts/*.js`)
         .pipe(jsLinter({
+            parserOptions: {
+                ecmaVersion: 2017,
+                sourceType: `module`
+            },
             rules: {
                 indent: [2, 4, {SwitchCase: 1}],
                 quotes: [2, `backtick`],
@@ -186,41 +108,10 @@ gulp.task(`lintJS`, function () {
             extends: `eslint:recommended`
         }))
         .pipe(jsLinter.formatEach(`compact`, process.stderr));
-});
+};
 
-/**
- * COMPRESS THEN COPY IMAGES TO THE PRODUCTION FOLDER
- *
- * This task sources all the images in the dev/img folder, compresses them based on
- * the settings in the object passed to imageCompressor, then copies the final
- * compressed images to the prod/img folder.
- */
-gulp.task(`compressThenCopyImagesToProdFolder`, function () {
-    return gulp.src(`dev/img/**/*`)
-        .pipe(tempCache(
-            imageCompressor({
-                optimizationLevel: 3, // For PNG files. Accepts 0 – 7; 3 is default.
-                progressive: true,    // For JPG files.
-                multipass: false,     // For SVG files. Set to true for compression.
-                interlaced: false     // For GIF files. Set to true for compression.
-            })
-        ))
-        .pipe(gulp.dest(`prod/img`));
-});
-
-/**
- * COPY UNPROCESSED ASSETS TO THE PRODUCTION FOLDER
- *
- * This task copies all unprocessed assets that aren’t images, JavaScript,
- * Sass/CSS to the production folder, because those files are processed by other
- * tasks, specifically:
- *
- * — Images are handled by the compressThenCopyImagesToProdFolder task
- * — JavaScript is handled by the transpileJSForProd task
- * — Sass/CSS is handled by the compileCSSForProd task
- */
-gulp.task(`copyUnprocessedAssetsToProdFolder`, function () {
-    return gulp.src([
+let copyUnprocessedAssetsForProd = () => {
+    return src([
         `dev/*.*`,       // Source all files,
         `dev/**`,        // and all folders,
         `!dev/html/`,    // but not the HTML folder
@@ -229,56 +120,27 @@ gulp.task(`copyUnprocessedAssetsToProdFolder`, function () {
         `!dev/img/`,     // ignore images;
         `!dev/**/*.js`,  // ignore JS;
         `!dev/styles/**` // and, ignore Sass/CSS.
-    ], {dot: true}).pipe(gulp.dest(`prod`));
-});
+    ], {dot: true}).pipe(dest(`prod`));
+};
 
-/**
- * BUILD
- *
- * Meant for building a production version of your project, this task simply invokes
- * other pre-defined tasks.
- */
-gulp.task(`build`, [
-    `validateHTML`,
-    `compressHTML`,
-    `compileCSSForProd`,
-    `lintJS`,
-    `transpileJSForProd`,
-    `compressThenCopyImagesToProdFolder`,
-    `copyUnprocessedAssetsToProdFolder`
-]);
+let compressImages = () => {
+    return src(`dev/img/**/*`)
+        .pipe(cache(
+            imageCompressor({
+                optimizationLevel: 3, // For PNG files. Accepts 0 – 7; 3 is default.
+                progressive: true,    // For JPG files.
+                multipass: false,     // For SVG files. Set to true for compression.
+                interlaced: false     // For GIF files. Set to true for compression.
+            })
+        ))
+        .pipe(dest(`prod/img`));
+};
 
-/**
- * SERVE
- *
- * Used for development, this task…
- *
- *    — compiles CSS via Sass,
- *    — transpiles JavaScript files into ES6,
- *    — lints JavaScript, and
- *    — validates HTML.
- *
- * Your localhost server looks for index.html as the first page to load from either
- * the temporary folder (temp), the development folder (dev), or the folder
- * containing HTML (html).
- *
- * Files that require pre-processing must be written to a folder before being served.
- * Thus, CSS and JS are served from a temp folder (temp), while un-processed files,
- * such as fonts and images, are served from the development source folder (dev).
- *
- * If a JavaScript file is changed, all JavaScript files are linted, re-transpiled,
- * and the browser reloads.
- *
- * If a Sass file is changed, a re-compilation of the primary CSS file is generated,
- * and the browser reloads.
- *
- * Finally, changes to images also trigger a browser reload.
- */
-gulp.task(`serve`, [`compileCSSForDev`, `lintJS`, `transpileJSForDev`, `validateHTML`], function () {
+let serve = () => {
     browserSync({
         notify: true,
         port: 9000,
-        reloadDelay: 100,
+        reloadDelay: 50,
         browser: browserChoice,
         server: {
             baseDir: [
@@ -289,72 +151,84 @@ gulp.task(`serve`, [`compileCSSForDev`, `lintJS`, `transpileJSForDev`, `validate
         }
     });
 
-    gulp.watch(`dev/scripts/*.js`, [`lintJS`, `transpileJSForDev`])
-        .on(`change`, reload);
+    watch(`dev/scripts/*.js`,
+        series(lintJS, transpileJSForDev)
+    ).on(`change`, reload);
 
-    gulp.watch(`dev/styles/**/*.scss`, [`compileCSSForDev`])
-        .on(`change`, reload);
+    watch(`dev/styles/**/*.scss`,
+        series(compileCSSForDev)
+    ).on(`change`, reload);
 
-    gulp.watch([`dev/html/**/*.html`], [`validateHTML`])
-        .on(`change`, reload);
+    watch(`dev/html/**/*.html`,
+        series(validateHTML)
+    ).on(`change`, reload);
 
-    gulp.watch(`dev/img/**/*`)
-        .on(`change`, reload);
-});
+    watch(`dev/img/**/*`).on(`change`, reload);
+};
 
-/**
- * CLEAN
- *
- * This task deletes the temp and prod folders, both of which are expendable, since
- * Gulp creates them as temporary folders during the serve and build tasks.
- */
-gulp.task(`clean`, function () {
+async function clean() {
     let fs = require(`fs`),
         i,
-        expendableFolders = [`temp`, `prod`];
+        foldersToDelete = [`./temp`, `prod`];
 
-    for (i = 0; i < expendableFolders.length; i += 1) {
+    for (i = 0; i < foldersToDelete.length; i++) {
         try {
-            fs.accessSync(expendableFolders[i], fs.F_OK);
-            process.stdout.write(`\n\tThe ${colors.green}${expendableFolders[i]}` +
-                    `${colors.default} directory was found and ${colors.green}` +
-                    `will ${colors.default}be deleted.\n`);
-            del(expendableFolders[i]);
-        } catch (error) {
-            if (error) {
-                process.stdout.write(`\n\tThe ${colors.red}` +
-                        `${expendableFolders[i]} ${colors.default}` +
-                        `directory does ${colors.red}not ${colors.default}` +
-                        `exist or is ${colors.red}not ${colors.default}` +
-                        `accessible.\n`);
-            }
+            fs.accessSync(foldersToDelete[i], fs.F_OK);
+            process.stdout.write(`\n\tThe ` + foldersToDelete[i] +
+                ` directory was found and will be deleted.\n`);
+            del(foldersToDelete[i]);
+        } catch (e) {
+            process.stdout.write(`\n\tThe ` + foldersToDelete[i] +
+                ` directory does NOT exist or is NOT accessible.\n`);
         }
     }
 
     process.stdout.write(`\n`);
-});
+}
 
-/**
- * DEFAULT
- *
- * This task does nothing but list the available tasks in this file.
- */
-gulp.task(`default`, function () {
+async function listTasks () {
     let exec = require(`child_process`).exec;
 
     exec(`gulp --tasks`, function (error, stdout, stderr) {
         if (null !== error) {
             process.stdout.write(`An error was likely generated when invoking ` +
-                    `the “exec” program in the default task.`);
+                `the “exec” program in the default task.`);
         }
 
         if (`` !== stderr) {
             process.stdout.write(`Content has been written to the stderr stream ` +
-                    `when invoking the “exec” program in the default task.`);
+                `when invoking the “exec” program in the default task.`);
         }
 
-        process.stdout.write(`\n\tThis default task does ${colors.red}` +
-                `nothing ${colors.default}but generate this message. The ` +
-                `available tasks are:\n\n ${stdout}`);
+        process.stdout.write(`\n\tThis default task does ` +
+            `nothing but generate this message. The ` +
+            `available tasks are:\n\n${stdout}`);
     });
-});
+}
+
+exports.safari = series(safari, serve);
+exports.firefox = series(firefox, serve);
+exports.chrome = series(chrome, serve);
+exports.opera = series(opera, serve);
+exports.edge = series(edge, serve);
+exports.safari = series(safari, serve);
+exports.allBrowsers = series(allBrowsers, serve);
+exports.validateHTML = validateHTML;
+exports.compressHTML = compressHTML;
+exports.compileCSSForDev = compileCSSForDev;
+exports.compileCSSForProd = compileCSSForProd;
+exports.transpileJSForDev = transpileJSForDev;
+exports.transpileJSForProd = transpileJSForProd;
+exports.lintJS = lintJS;
+exports.copyUnprocessedAssetsForProd = copyUnprocessedAssetsForProd;
+exports.build = series(
+    compressHTML,
+    compileCSSForProd,
+    transpileJSForProd,
+    compressImages,
+    copyUnprocessedAssetsForProd
+);
+exports.compressImages = compressImages;
+exports.serve = series(compileCSSForDev, lintJS, transpileJSForDev, validateHTML, serve);
+exports.clean = clean;
+exports.default = listTasks;
