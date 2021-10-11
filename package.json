@@ -1,6 +1,6 @@
 {
   "name": "gulp-template-for-html-css-sass-js",
-  "version": "4.0.0",
+  "version": "4.0.2",
   "description": "An automation template for HTML, CSS, Sass, and JavaScript.",
   "main": "gulpfile.js",
   "scripts": {
@@ -33,20 +33,6 @@
   },
   "homepage": "https://github.com/code-warrior/gulp-template-for-html-css-sass-js#readme",
   "devDependencies": {
-    "@babel/core": "^7.2.2",
-    "@babel/preset-env": "^7.3.1",
-    "babel-core": "^6.26.3",
-    "babel-preset-env": "^1.7.0",
-    "browser-sync": "^2.26.3",
-    "del": "^3.0.0",
-    "gulp": "^4.0.0",
-    "gulp-babel": "^8.0.0",
-    "gulp-cache": "^1.1.1",
-    "gulp-eslint": "^5.0.0",
-    "gulp-html": "^0.5.0",
-    "gulp-htmlmin": "^5.0.1",
-    "gulp-imagemin": "^5.0.3",
-    "gulp-sass": "^4.0.2",
-    "gulp-uglify": "^3.0.1"
+    "gulp": "^4.0.2"
   }
 }
