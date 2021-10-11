@@ -33,7 +33,7 @@
   },
   "homepage": "https://github.com/code-warrior/gulp-template-for-html-css-sass-js#readme",
   "devDependencies": {
-    "gulp": "^3.9.0",
+    "gulp": "^4.0.0",
     "gulp-htmlmin": "^1.3.0"
   }
 }
