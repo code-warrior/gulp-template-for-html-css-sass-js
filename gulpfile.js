@@ -1,20 +1,19 @@
 /*jslint node: true */
 
-var gulp = require('gulp');
+const { src, dest } = require(`gulp`);
+const sass = require(`gulp-sass`)(require('sass'));
+const browserSpecificPrefixer = require(`gulp-autoprefixer`);
 
-gulp.task('compileCSSForDev', function () {
-    'use strict';
-
-    var sass = require('gulp-sass'),
-        browserSpecificPrefixer = require('gulp-autoprefixer');
-
-    return gulp.src('dev/styles/main.scss')
+let compileCSSForDev = () => {
+    return src(`dev/styles/main.scss`)
         .pipe(sass({
-            outputStyle: 'expanded',
+            outputStyle: `expanded`,
             precision: 10
-        }).on('error', sass.logError))
+        }).on(`error`, sass.logError))
         .pipe(browserSpecificPrefixer({
-            browsers: ['last 2 versions']
+            browsers: [`last 2 versions`]
         }))
-        .pipe(gulp.dest('temp/styles'));
-});
+        .pipe(dest(`temp/styles`));
+};
+
+exports.compileCSSForDev = compileCSSForDev;
