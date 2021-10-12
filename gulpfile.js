@@ -1,7 +1,7 @@
 const { src, dest } = require(`gulp`);
+const del = require(`del`);
 const htmlCompressor = require(`gulp-htmlmin`);
 const htmlValidator = require(`gulp-html`);
-const del = require(`del`);
 
 let validateHTML = () => {
     return src([
