@@ -2,6 +2,7 @@ const { src, dest } = require(`gulp`);
 const del = require(`del`);
 const htmlCompressor = require(`gulp-htmlmin`);
 const htmlValidator = require(`gulp-html`);
+const jsLinter = require(`gulp-eslint`);
 
 let validateHTML = () => {
     return src([
@@ -14,6 +15,12 @@ let compressHTML = () => {
     return src([`dev/html/*.html`,`dev/html/**/*.html`])
         .pipe(htmlCompressor({collapseWhitespace: true}))
         .pipe(dest(`prod`));
+};
+
+let lintJS = () => {
+    return src(`dev/scripts/*.js`)
+        .pipe(jsLinter())
+        .pipe(jsLinter.formatEach(`compact`, process.stderr));
 };
 
 async function clean() {
@@ -58,5 +65,6 @@ async function listTasks () {
 
 exports.validateHTML = validateHTML;
 exports.compressHTML = compressHTML;
+exports.lintJS = lintJS;
 exports.clean = clean;
 exports.default = listTasks;
