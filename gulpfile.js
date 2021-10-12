@@ -1,7 +1,7 @@
 /*jslint node: true */
 
-const { src, dest }= require('gulp');
-const htmlCompressor = require('gulp-htmlmin');
+const { src, dest }= require(`gulp`);
+const htmlCompressor = require(`gulp-htmlmin`);
 
 let compressHTML = () => {
     return src([`dev/html/*.html`,`dev/html/**/*.html`])
