@@ -39,6 +39,20 @@ let compressImages = () => {
         .pipe(dest(`prod/img`));
 };
 
+let copyUnprocessedAssetsForProd = () => {
+    return src([
+        `dev/*.*`,       // Source all files,
+        `dev/**`,        // and all folders,
+        `!dev/html/`,    // but not the HTML folder
+        `!dev/html/*.*`, // or any files in it
+        `!dev/html/**`,  // or any sub folders;
+        `!dev/img/`,     // ignore images;
+        `!dev/**/*.js`,  // ignore JS;
+        `!dev/styles/**` // and, ignore Sass/CSS.
+    ], {dot: true})
+        .pipe(dest(`prod`));
+};
+
 async function clean() {
     let fs = require(`fs`),
         i,
@@ -79,6 +93,7 @@ async function listTasks () {
     });
 }
 
+exports.copyUnprocessedAssetsForProd = copyUnprocessedAssetsForProd;
 exports.validateHTML = validateHTML;
 exports.compressHTML = compressHTML;
 exports.lintJS = lintJS;
