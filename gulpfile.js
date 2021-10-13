@@ -5,6 +5,7 @@ const htmlCompressor = require(`gulp-htmlmin`);
 const htmlValidator = require(`gulp-html`);
 const imageCompressor = require(`gulp-image`);
 const jsLinter = require(`gulp-eslint`);
+const sass = require(`gulp-sass`)(require(`sass`));
 const browserSync = require(`browser-sync`);
 const reload = browserSync.reload;
 let browserChoice = `default`;
@@ -61,6 +62,24 @@ let compressHTML = () => {
     return src([`dev/html/*.html`,`dev/html/**/*.html`])
         .pipe(htmlCompressor({collapseWhitespace: true}))
         .pipe(dest(`prod`));
+};
+
+let compileCSSForDev = () => {
+    return src(`dev/styles/scss/main.scss`)
+        .pipe(sass.sync({
+            outputStyle: `expanded`,
+            precision: 10
+        }).on(`error`, sass.logError))
+        .pipe(dest(`temp/styles`));
+};
+
+let compileCSSForProd = () => {
+    return src(`dev/styles/scss/main.scss`)
+        .pipe(sass.sync({
+            outputStyle: `compressed`,
+            precision: 10
+        }).on(`error`, sass.logError))
+        .pipe(dest(`prod/styles`));
 };
 
 let lintCSS = () => {
@@ -163,6 +182,9 @@ let serve = () => {
         }
     });
 
+    watch(`dev/styles/scss/**/*.scss`, series(compileCSSForDev))
+        .on(`change`, reload);
+
     watch(`dev/html/**/*.html`, series(validateHTML))
         .on(`change`, reload);
 
@@ -177,6 +199,10 @@ exports.lintJS = lintJS;
 exports.lintCSS = lintCSS;
 exports.compressImages = compressImages;
 exports.clean = clean;
+
+exports.compileCSSForDev = compileCSSForDev;
+exports.compileCSSForProd = compileCSSForProd;
+
 exports.default = listTasks;
 exports.serve = serve;
 exports.brave = series(brave, serve);
