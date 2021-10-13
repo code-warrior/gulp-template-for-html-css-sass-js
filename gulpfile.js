@@ -1,4 +1,5 @@
 const { src, dest, series, watch } = require(`gulp`);
+const CSSLinter = require(`gulp-stylelint`);
 const del = require(`del`);
 const htmlCompressor = require(`gulp-htmlmin`);
 const htmlValidator = require(`gulp-html`);
@@ -60,6 +61,16 @@ let compressHTML = () => {
     return src([`dev/html/*.html`,`dev/html/**/*.html`])
         .pipe(htmlCompressor({collapseWhitespace: true}))
         .pipe(dest(`prod`));
+};
+
+let lintCSS = () => {
+    return src(`dev/styles/css/**/*.css`)
+        .pipe(CSSLinter({
+            failAfterError: false,
+            reporters: [
+                {formatter: "string", console: true}
+            ]
+        }));
 };
 
 let lintJS = () => {
@@ -163,6 +174,7 @@ exports.copyUnprocessedAssetsForProd = copyUnprocessedAssetsForProd;
 exports.validateHTML = validateHTML;
 exports.compressHTML = compressHTML;
 exports.lintJS = lintJS;
+exports.lintCSS = lintCSS;
 exports.compressImages = compressImages;
 exports.clean = clean;
 exports.default = listTasks;
