@@ -203,7 +203,7 @@ exports.compileCSSForDev = compileCSSForDev;
 exports.compileCSSForProd = compileCSSForProd;
 
 exports.default = listTasks;
-exports.serve = serve;
+exports.serve = series(compileCSSForDev, lintJS, validateHTML, serve);
 exports.brave = series(brave, serve);
 exports.chrome = series(chrome, serve);
 exports.edge = series(edge, serve);
