@@ -33,6 +33,7 @@
   },
   "homepage": "https://github.com/code-warrior/gulp-template-for-html-css-sass-js#readme",
   "devDependencies": {
+    "browser-sync": "^2.27.5",
     "del": "^6.0.0",
     "gulp": "^4.0.2",
     "gulp-eslint": "^6.0.0",

@@ -1,9 +1,53 @@
-const { src, dest } = require(`gulp`);
+const { src, dest, series } = require(`gulp`);
 const del = require(`del`);
 const htmlCompressor = require(`gulp-htmlmin`);
 const htmlValidator = require(`gulp-html`);
 const imageCompressor = require(`gulp-image`);
 const jsLinter = require(`gulp-eslint`);
+const browserSync = require(`browser-sync`);
+const reload = browserSync.reload;
+let browserChoice = `default`;
+
+async function brave () {
+    browserChoice = `brave browser`;
+}
+
+async function chrome () {
+    browserChoice = `google chrome`;
+}
+
+async function edge () {
+    // In Windows, the value might need to be “microsoft-edge”. Note the dash.
+    browserChoice = `microsoft edge`;
+}
+
+async function firefox () {
+    browserChoice = `firefox`;
+}
+
+async function opera () {
+    browserChoice = `opera`;
+}
+
+async function safari () {
+    browserChoice = `safari`;
+}
+
+async function vivaldi () {
+    browserChoice = `vivaldi`;
+}
+
+async function allBrowsers () {
+    browserChoice = [
+        `brave browser`,
+        `google chrome`,
+        `microsoft edge`, // Note: In Windows, this might need to be microsoft-edge
+        `firefox`,
+        `opera`,
+        `safari`,
+        `vivaldi`
+    ];
+}
 
 let validateHTML = () => {
     return src([
@@ -93,6 +137,22 @@ async function listTasks () {
     });
 }
 
+let serve = () => {
+    browserSync({
+        notify: true,
+        port: 9000,
+        reloadDelay: 50,
+        browser: browserChoice,
+        server: {
+            baseDir: [
+                `temp`,
+                `dev`,
+                `dev/html`
+            ]
+        }
+    });
+};
+
 exports.copyUnprocessedAssetsForProd = copyUnprocessedAssetsForProd;
 exports.validateHTML = validateHTML;
 exports.compressHTML = compressHTML;
@@ -100,3 +160,12 @@ exports.lintJS = lintJS;
 exports.compressImages = compressImages;
 exports.clean = clean;
 exports.default = listTasks;
+exports.serve = serve;
+exports.brave = series(brave, serve);
+exports.chrome = series(chrome, serve);
+exports.edge = series(edge, serve);
+exports.firefox = series(firefox, serve);
+exports.opera = series(opera, serve);
+exports.safari = series(safari, serve);
+exports.vivaldi = series(vivaldi, serve);
+exports.allBrowsers = series(allBrowsers, serve);
