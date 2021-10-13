@@ -154,6 +154,9 @@ let serve = () => {
 
     watch(`dev/html/**/*.html`, series(validateHTML))
         .on(`change`, reload);
+
+    watch(`dev/img/**/*`)
+        .on(`change`, reload);
 };
 
 exports.copyUnprocessedAssetsForProd = copyUnprocessedAssetsForProd;
