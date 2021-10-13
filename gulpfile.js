@@ -65,7 +65,7 @@ let compressHTML = () => {
 let lintJS = () => {
     return src(`dev/scripts/*.js`)
         .pipe(jsLinter())
-        .pipe(jsLinter.formatEach(`compact`, process.stderr));
+        .pipe(jsLinter.formatEach(`compact`));
 };
 
 let compressImages = () => {
