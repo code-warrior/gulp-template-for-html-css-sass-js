@@ -188,11 +188,13 @@ let serve = () => {
         }
     });
 
-    watch(`dev/styles/scss/**/*.scss`, series(compileCSSForDev))
     watch(`dev/scripts/*.js`, series(lintJS, transpileJSForDev))
         .on(`change`, reload);
 
-    watch(`dev/html/**/*.html`, series(validateHTML))
+    watch(`dev/styles/scss/**/*.scss`, compileCSSForDev)
+        .on(`change`, reload);
+
+    watch(`dev/html/**/*.html`, validateHTML)
         .on(`change`, reload);
 
     watch(`dev/img/**/*`)
