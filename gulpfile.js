@@ -1,15 +1,16 @@
-const { src, dest, series, watch } = require(`gulp`);
-const CSSLinter = require(`gulp-stylelint`);
-const del = require(`del`);
-const babel = require(`gulp-babel`);
-const htmlCompressor = require(`gulp-htmlmin`);
-const htmlValidator = require(`gulp-html`);
-const imageCompressor = require(`gulp-image`);
-const jsCompressor = require(`gulp-uglify`);
-const jsLinter = require(`gulp-eslint`);
-const sass = require(`gulp-sass`)(require(`sass`));
-const browserSync = require(`browser-sync`);
-const reload = browserSync.reload;
+const { src, dest, series, watch } = require(`gulp`),
+    CSSLinter = require(`gulp-stylelint`),
+    del = require(`del`),
+    babel = require(`gulp-babel`),
+    htmlCompressor = require(`gulp-htmlmin`),
+    htmlValidator = require(`gulp-html`),
+    imageCompressor = require(`gulp-image`),
+    jsCompressor = require(`gulp-uglify`),
+    jsLinter = require(`gulp-eslint`),
+    sass = require(`gulp-sass`)(require(`sass`)),
+    browserSync = require(`browser-sync`),
+    reload = browserSync.reload;
+
 let browserChoice = `default`;
 
 async function brave () {
@@ -60,12 +61,6 @@ let validateHTML = () => {
         .pipe(htmlValidator(undefined));
 };
 
-let compressHTML = () => {
-    return src([`dev/html/*.html`,`dev/html/**/*.html`])
-        .pipe(htmlCompressor({collapseWhitespace: true}))
-        .pipe(dest(`prod`));
-};
-
 let compileCSSForDev = () => {
     return src(`dev/styles/scss/main.scss`)
         .pipe(sass.sync({
@@ -75,6 +70,24 @@ let compileCSSForDev = () => {
         .pipe(dest(`temp/styles`));
 };
 
+let lintJS = () => {
+    return src(`dev/scripts/*.js`)
+        .pipe(jsLinter())
+        .pipe(jsLinter.formatEach(`compact`));
+};
+
+let transpileJSForDev = () => {
+    return src(`dev/scripts/*.js`)
+        .pipe(babel())
+        .pipe(dest(`temp/scripts`));
+};
+
+let compressHTML = () => {
+    return src([`dev/html/*.html`,`dev/html/**/*.html`])
+        .pipe(htmlCompressor({collapseWhitespace: true}))
+        .pipe(dest(`prod`));
+};
+
 let compileCSSForProd = () => {
     return src(`dev/styles/scss/main.scss`)
         .pipe(sass.sync({
@@ -82,22 +95,6 @@ let compileCSSForProd = () => {
             precision: 10
         }).on(`error`, sass.logError))
         .pipe(dest(`prod/styles`));
-};
-
-let lintCSS = () => {
-    return src(`dev/styles/css/**/*.css`)
-        .pipe(CSSLinter({
-            failAfterError: false,
-            reporters: [
-                {formatter: "string", console: true}
-            ]
-        }));
-};
-
-let lintJS = () => {
-    return src(`dev/scripts/*.js`)
-        .pipe(jsLinter())
-        .pipe(jsLinter.formatEach(`compact`));
 };
 
 let transpileJSForProd = () => {
@@ -136,10 +133,31 @@ let copyUnprocessedAssetsForProd = () => {
         .pipe(dest(`prod`));
 };
 
-let transpileJSForDev = () => {
-    return src(`dev/scripts/*.js`)
-        .pipe(babel())
-        .pipe(dest(`temp/scripts`));
+let serve = () => {
+    browserSync({
+        notify: true,
+        reloadDelay: 50,
+        browser: browserChoice,
+        server: {
+            baseDir: [
+                `temp`,
+                `dev`,
+                `dev/html`
+            ]
+        }
+    });
+
+    watch(`dev/scripts/*.js`, series(lintJS, transpileJSForDev))
+        .on(`change`, reload);
+
+    watch(`dev/styles/scss/**/*.scss`, compileCSSForDev)
+        .on(`change`, reload);
+
+    watch(`dev/html/**/*.html`, validateHTML)
+        .on(`change`, reload);
+
+    watch(`dev/img/**/*`)
+        .on(`change`, reload);
 };
 
 async function clean() {
@@ -182,46 +200,16 @@ async function listTasks () {
     });
 }
 
-let serve = () => {
-    browserSync({
-        notify: true,
-        reloadDelay: 50,
-        browser: browserChoice,
-        server: {
-            baseDir: [
-                `temp`,
-                `dev`,
-                `dev/html`
+let lintCSS = () => {
+    return src(`dev/styles/css/**/*.css`)
+        .pipe(CSSLinter({
+            failAfterError: false,
+            reporters: [
+                {formatter: "string", console: true}
             ]
-        }
-    });
-
-    watch(`dev/scripts/*.js`, series(lintJS, transpileJSForDev))
-        .on(`change`, reload);
-
-    watch(`dev/styles/scss/**/*.scss`, compileCSSForDev)
-        .on(`change`, reload);
-
-    watch(`dev/html/**/*.html`, validateHTML)
-        .on(`change`, reload);
-
-    watch(`dev/img/**/*`)
-        .on(`change`, reload);
+        }));
 };
 
-exports.transpileJSForProd = transpileJSForProd;
-exports.copyUnprocessedAssetsForProd = copyUnprocessedAssetsForProd;
-exports.validateHTML = validateHTML;
-exports.compressHTML = compressHTML;
-exports.lintJS = lintJS;
-exports.lintCSS = lintCSS;
-exports.compressImages = compressImages;
-exports.clean = clean;
-exports.compileCSSForDev = compileCSSForDev;
-exports.compileCSSForProd = compileCSSForProd;
-exports.transpileJSForDev = transpileJSForDev;
-exports.default = listTasks;
-exports.serve = series(compileCSSForDev, lintJS, transpileJSForDev, validateHTML, serve);
 exports.brave = series(brave, serve);
 exports.chrome = series(chrome, serve);
 exports.edge = series(edge, serve);
@@ -230,6 +218,25 @@ exports.opera = series(opera, serve);
 exports.safari = series(safari, serve);
 exports.vivaldi = series(vivaldi, serve);
 exports.allBrowsers = series(allBrowsers, serve);
+exports.validateHTML = validateHTML;
+exports.compileCSSForDev = compileCSSForDev;
+exports.lintJS = lintJS;
+exports.transpileJSForDev = transpileJSForDev;
+exports.compressHTML = compressHTML;
+exports.compileCSSForProd = compileCSSForProd;
+exports.transpileJSForProd = transpileJSForProd;
+exports.compressImages = compressImages;
+exports.copyUnprocessedAssetsForProd = copyUnprocessedAssetsForProd;
+exports.clean = clean;
+exports.default = listTasks;
+exports.lintCSS = lintCSS;
+exports.serve = series(
+    validateHTML,
+    compileCSSForDev,
+    lintJS,
+    transpileJSForDev,
+    serve
+);
 exports.build = series(
     compressHTML,
     compileCSSForProd,
