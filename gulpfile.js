@@ -5,6 +5,7 @@ const babel = require(`gulp-babel`);
 const htmlCompressor = require(`gulp-htmlmin`);
 const htmlValidator = require(`gulp-html`);
 const imageCompressor = require(`gulp-image`);
+const jsCompressor = require(`gulp-uglify`);
 const jsLinter = require(`gulp-eslint`);
 const sass = require(`gulp-sass`)(require(`sass`));
 const browserSync = require(`browser-sync`);
@@ -97,6 +98,13 @@ let lintJS = () => {
     return src(`dev/scripts/*.js`)
         .pipe(jsLinter())
         .pipe(jsLinter.formatEach(`compact`));
+};
+
+let transpileJSForProd = () => {
+    return src(`dev/scripts/*.js`)
+        .pipe(babel())
+        .pipe(jsCompressor())
+        .pipe(dest(`prod/scripts`));
 };
 
 let compressImages = () => {
@@ -201,6 +209,7 @@ let serve = () => {
         .on(`change`, reload);
 };
 
+exports.transpileJSForProd = transpileJSForProd;
 exports.copyUnprocessedAssetsForProd = copyUnprocessedAssetsForProd;
 exports.validateHTML = validateHTML;
 exports.compressHTML = compressHTML;
@@ -221,3 +230,10 @@ exports.opera = series(opera, serve);
 exports.safari = series(safari, serve);
 exports.vivaldi = series(vivaldi, serve);
 exports.allBrowsers = series(allBrowsers, serve);
+exports.build = series(
+    compressHTML,
+    compileCSSForProd,
+    transpileJSForProd,
+    compressImages,
+    copyUnprocessedAssetsForProd
+);
