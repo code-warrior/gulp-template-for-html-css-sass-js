@@ -205,7 +205,7 @@ let lintCSS = () => {
         .pipe(CSSLinter({
             failAfterError: false,
             reporters: [
-                {formatter: "string", console: true}
+                {formatter: `string`, console: true}
             ]
         }));
 };
