@@ -1,6 +1,7 @@
 const { src, dest, series, watch } = require(`gulp`);
 const CSSLinter = require(`gulp-stylelint`);
 const del = require(`del`);
+const babel = require(`gulp-babel`);
 const htmlCompressor = require(`gulp-htmlmin`);
 const htmlValidator = require(`gulp-html`);
 const imageCompressor = require(`gulp-image`);
@@ -127,6 +128,12 @@ let copyUnprocessedAssetsForProd = () => {
         .pipe(dest(`prod`));
 };
 
+let transpileJSForDev = () => {
+    return src(`dev/scripts/*.js`)
+        .pipe(babel())
+        .pipe(dest(`temp/scripts`));
+};
+
 async function clean() {
     let fs = require(`fs`),
         i,
@@ -182,6 +189,7 @@ let serve = () => {
     });
 
     watch(`dev/styles/scss/**/*.scss`, series(compileCSSForDev))
+    watch(`dev/scripts/*.js`, series(lintJS, transpileJSForDev))
         .on(`change`, reload);
 
     watch(`dev/html/**/*.html`, series(validateHTML))
@@ -198,12 +206,11 @@ exports.lintJS = lintJS;
 exports.lintCSS = lintCSS;
 exports.compressImages = compressImages;
 exports.clean = clean;
-
 exports.compileCSSForDev = compileCSSForDev;
 exports.compileCSSForProd = compileCSSForProd;
-
+exports.transpileJSForDev = transpileJSForDev;
 exports.default = listTasks;
-exports.serve = series(compileCSSForDev, lintJS, validateHTML, serve);
+exports.serve = series(compileCSSForDev, lintJS, transpileJSForDev, validateHTML, serve);
 exports.brave = series(brave, serve);
 exports.chrome = series(chrome, serve);
 exports.edge = series(edge, serve);
