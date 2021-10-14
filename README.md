@@ -20,7 +20,7 @@ During development, run `gulp serve`, which runs multiple development-related ta
 For production-ready projects, run `build`, which creates a folder called `prod`. This is the folder you’d upload to your server if you were going live with your project.
 
 ## Issues
-`gulp-stylelint` is included in a task called `lintCSS`. However, there’s a bug in this project that, when adding the following to the `serve` task, the browser won’t reload on changes to CSS files.
+As of this writing, 14 Oct 2021, you’ll need to have [`stylelint` installed](https://stylelint.io/user-guide/get-started) to run `gulp-stylelint`, which is included in a task called `lintCSS`. However, there’s a bug in this project that, when adding the following to the `serve` task, the browser won’t reload on changes to CSS files.
 
 ```javascript
 watch(`dev/styles/**/*.css`, lintCSS)
