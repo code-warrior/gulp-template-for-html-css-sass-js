@@ -1,44 +1,56 @@
-const { src, dest, series, watch } = require(`gulp`);
-const del = require(`del`);
-const sass = require(`gulp-sass`);
-const babel = require(`gulp-babel`);
-const htmlCompressor = require(`gulp-htmlmin`);
-const htmlValidator = require(`gulp-html`);
-const jsLinter = require(`gulp-eslint`);
-const jsCompressor = require(`gulp-uglify`);
-const imageCompressor = require(`gulp-imagemin`);
-const cache = require(`gulp-cache`);
-const browserSync = require(`browser-sync`);
-const reload = browserSync.reload;
+const { src, dest, series, watch } = require(`gulp`),
+    CSSLinter = require(`gulp-stylelint`),
+    del = require(`del`),
+    babel = require(`gulp-babel`),
+    htmlCompressor = require(`gulp-htmlmin`),
+    htmlValidator = require(`gulp-html`),
+    imageCompressor = require(`gulp-image`),
+    jsCompressor = require(`gulp-uglify`),
+    jsLinter = require(`gulp-eslint`),
+    sass = require(`gulp-sass`)(require(`sass`)),
+    browserSync = require(`browser-sync`),
+    reload = browserSync.reload;
+
 let browserChoice = `default`;
 
-async function safari () {
-    browserChoice = `safari`;
-}
-
-async function firefox () {
-    browserChoice = `firefox`;
+async function brave () {
+    browserChoice = `brave browser`;
 }
 
 async function chrome () {
     browserChoice = `google chrome`;
 }
 
+async function edge () {
+    // In Windows, the value might need to be “microsoft-edge”. Note the dash.
+    browserChoice = `microsoft edge`;
+}
+
+async function firefox () {
+    browserChoice = `firefox`;
+}
+
 async function opera () {
     browserChoice = `opera`;
 }
 
-async function edge () {
-    browserChoice = `microsoft-edge`;
+async function safari () {
+    browserChoice = `safari`;
+}
+
+async function vivaldi () {
+    browserChoice = `vivaldi`;
 }
 
 async function allBrowsers () {
     browserChoice = [
-        `safari`,
-        `firefox`,
+        `brave browser`,
         `google chrome`,
+        `microsoft edge`, // Note: In Windows, this might need to be microsoft-edge
+        `firefox`,
         `opera`,
-        `microsoft-edge`
+        `safari`,
+        `vivaldi`
     ];
 }
 
@@ -46,7 +58,28 @@ let validateHTML = () => {
     return src([
         `dev/html/*.html`,
         `dev/html/**/*.html`])
-        .pipe(htmlValidator());
+        .pipe(htmlValidator(undefined));
+};
+
+let compileCSSForDev = () => {
+    return src(`dev/styles/scss/main.scss`)
+        .pipe(sass.sync({
+            outputStyle: `expanded`,
+            precision: 10
+        }).on(`error`, sass.logError))
+        .pipe(dest(`temp/styles`));
+};
+
+let lintJS = () => {
+    return src(`dev/scripts/*.js`)
+        .pipe(jsLinter())
+        .pipe(jsLinter.formatEach(`compact`));
+};
+
+let transpileJSForDev = () => {
+    return src(`dev/scripts/*.js`)
+        .pipe(babel())
+        .pipe(dest(`temp/scripts`));
 };
 
 let compressHTML = () => {
@@ -55,28 +88,13 @@ let compressHTML = () => {
         .pipe(dest(`prod`));
 };
 
-let compileCSSForDev = () => {
-    return src(`dev/styles/main.scss`)
-        .pipe(sass({
-            outputStyle: `expanded`,
-            precision: 10
-        }).on(`error`, sass.logError))
-        .pipe(dest(`temp/styles`));
-};
-
 let compileCSSForProd = () => {
-    return src(`dev/styles/main.scss`)
-        .pipe(sass({
+    return src(`dev/styles/scss/main.scss`)
+        .pipe(sass.sync({
             outputStyle: `compressed`,
             precision: 10
         }).on(`error`, sass.logError))
         .pipe(dest(`prod/styles`));
-};
-
-let transpileJSForDev = () => {
-    return src(`dev/scripts/*.js`)
-        .pipe(babel())
-        .pipe(dest(`temp/scripts`));
 };
 
 let transpileJSForProd = () => {
@@ -86,28 +104,19 @@ let transpileJSForProd = () => {
         .pipe(dest(`prod/scripts`));
 };
 
-let lintJS = () => {
-    return src(`dev/scripts/*.js`)
-        .pipe(jsLinter({
-            parserOptions: {
-                ecmaVersion: 2017,
-                sourceType: `module`
-            },
-            rules: {
-                indent: [2, 4, {SwitchCase: 1}],
-                quotes: [2, `backtick`],
-                semi: [2, `always`],
-                'linebreak-style': [2, `unix`],
-                'max-len': [1, 85, 4]
-            },
-            env: {
-                es6: true,
-                node: true,
-                browser: true
-            },
-            extends: `eslint:recommended`
+let compressImages = () => {
+    return src(`dev/img/**/*`)
+        .pipe(imageCompressor({
+            optipng: ['-i 1', '-strip all', '-fix', '-o7', '-force'],
+            pngquant: ['--speed=1', '--force', 256],
+            zopflipng: ['-y', '--lossy_8bit', '--lossy_transparent'],
+            jpegRecompress: ['--strip', '--quality', 'medium', '--min', 40, '--max', 80],
+            mozjpeg: ['-optimize', '-progressive'],
+            gifsicle: ['--optimize'],
+            svgo: ['--enable', 'cleanupIDs', '--disable', 'convertColors'],
+            quiet: false
         }))
-        .pipe(jsLinter.formatEach(`compact`, process.stderr));
+        .pipe(dest(`prod/img`));
 };
 
 let copyUnprocessedAssetsForProd = () => {
@@ -120,26 +129,13 @@ let copyUnprocessedAssetsForProd = () => {
         `!dev/img/`,     // ignore images;
         `!dev/**/*.js`,  // ignore JS;
         `!dev/styles/**` // and, ignore Sass/CSS.
-    ], {dot: true}).pipe(dest(`prod`));
-};
-
-let compressImages = () => {
-    return src(`dev/img/**/*`)
-        .pipe(cache(
-            imageCompressor({
-                optimizationLevel: 3, // For PNG files. Accepts 0 – 7; 3 is default.
-                progressive: true,    // For JPG files.
-                multipass: false,     // For SVG files. Set to true for compression.
-                interlaced: false     // For GIF files. Set to true for compression.
-            })
-        ))
-        .pipe(dest(`prod/img`));
+    ], {dot: true})
+        .pipe(dest(`prod`));
 };
 
 let serve = () => {
     browserSync({
         notify: true,
-        port: 9000,
         reloadDelay: 50,
         browser: browserChoice,
         server: {
@@ -151,19 +147,17 @@ let serve = () => {
         }
     });
 
-    watch(`dev/scripts/*.js`,
-        series(lintJS, transpileJSForDev)
-    ).on(`change`, reload);
+    watch(`dev/scripts/*.js`, series(lintJS, transpileJSForDev))
+        .on(`change`, reload);
 
-    watch(`dev/styles/**/*.scss`,
-        series(compileCSSForDev)
-    ).on(`change`, reload);
+    watch(`dev/styles/scss/**/*.scss`, compileCSSForDev)
+        .on(`change`, reload);
 
-    watch(`dev/html/**/*.html`,
-        series(validateHTML)
-    ).on(`change`, reload);
+    watch(`dev/html/**/*.html`, validateHTML)
+        .on(`change`, reload);
 
-    watch(`dev/img/**/*`).on(`change`, reload);
+    watch(`dev/img/**/*`)
+        .on(`change`, reload);
 };
 
 async function clean() {
@@ -206,21 +200,43 @@ async function listTasks () {
     });
 }
 
-exports.safari = series(safari, serve);
-exports.firefox = series(firefox, serve);
+let lintCSS = () => {
+    return src(`dev/styles/css/**/*.css`)
+        .pipe(CSSLinter({
+            failAfterError: false,
+            reporters: [
+                {formatter: `string`, console: true}
+            ]
+        }));
+};
+
+exports.brave = series(brave, serve);
 exports.chrome = series(chrome, serve);
-exports.opera = series(opera, serve);
 exports.edge = series(edge, serve);
+exports.firefox = series(firefox, serve);
+exports.opera = series(opera, serve);
 exports.safari = series(safari, serve);
+exports.vivaldi = series(vivaldi, serve);
 exports.allBrowsers = series(allBrowsers, serve);
 exports.validateHTML = validateHTML;
-exports.compressHTML = compressHTML;
 exports.compileCSSForDev = compileCSSForDev;
-exports.compileCSSForProd = compileCSSForProd;
-exports.transpileJSForDev = transpileJSForDev;
-exports.transpileJSForProd = transpileJSForProd;
 exports.lintJS = lintJS;
+exports.transpileJSForDev = transpileJSForDev;
+exports.compressHTML = compressHTML;
+exports.compileCSSForProd = compileCSSForProd;
+exports.transpileJSForProd = transpileJSForProd;
+exports.compressImages = compressImages;
 exports.copyUnprocessedAssetsForProd = copyUnprocessedAssetsForProd;
+exports.clean = clean;
+exports.default = listTasks;
+exports.lintCSS = lintCSS;
+exports.serve = series(
+    validateHTML,
+    compileCSSForDev,
+    lintJS,
+    transpileJSForDev,
+    serve
+);
 exports.build = series(
     compressHTML,
     compileCSSForProd,
@@ -228,7 +244,3 @@ exports.build = series(
     compressImages,
     copyUnprocessedAssetsForProd
 );
-exports.compressImages = compressImages;
-exports.serve = series(compileCSSForDev, lintJS, transpileJSForDev, validateHTML, serve);
-exports.clean = clean;
-exports.default = listTasks;
