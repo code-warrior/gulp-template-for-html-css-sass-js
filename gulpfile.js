@@ -134,7 +134,7 @@ let copyUnprocessedAssetsForProd = () => {
 let serve = () => {
     browserSync({
         notify: true,
-        reloadDelay: 50,
+        reloadDelay: 200, // Modify this delay (measured in milliseconds) if tasks are not rendered properly.
         browser: browserChoice,
         server: {
             baseDir: [
