@@ -22,10 +22,3 @@ For production-ready projects, run `build`, which creates a folder called `prod`
 ## Issues
 
 * As of 22 February 2023, this project is currently not compatible with macOS Ventura (10.13).
-
-* As of 14 October 2021, you’ll need to have [`stylelint` installed](https://stylelint.io/user-guide/get-started) to run `gulp-stylelint`, which is included in a task called `lintCSS`. However, there’s a bug in this project that, when adding the following to the `serve` task, the browser won’t reload on changes to CSS files.
-
-```javascript
-watch(`dev/styles/**/*.css`, lintCSS)
-    .on(`change`, reload);
-```
