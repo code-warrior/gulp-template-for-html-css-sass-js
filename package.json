@@ -44,11 +44,7 @@
     "gulp-htmlmin": "^5.0.1",
     "gulp-image": "^6.2.1",
     "gulp-sass": "^5.1.0",
-    "gulp-stylelint": "^13.0.0",
     "gulp-uglify": "^3.0.2",
     "sass": "^1.63.6"
-  },
-  "dependencies": {
-    "stylelint": "^13.13.1"
   }
 }

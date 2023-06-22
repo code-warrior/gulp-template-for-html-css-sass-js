@@ -1,5 +1,4 @@
 const { src, dest, series, watch } = require(`gulp`),
-    CSSLinter = require(`gulp-stylelint`),
     del = require(`del`),
     babel = require(`gulp-babel`),
     htmlCompressor = require(`gulp-htmlmin`),
@@ -199,16 +198,6 @@ async function listTasks () {
     });
 }
 
-let lintCSS = () => {
-    return src(`dev/styles/css/**/*.css`)
-        .pipe(CSSLinter({
-            failAfterError: false,
-            reporters: [
-                {formatter: `string`, console: true}
-            ]
-        }));
-};
-
 exports.brave = series(brave, serve);
 exports.chrome = series(chrome, serve);
 exports.edge = series(edge, serve);
@@ -228,7 +217,6 @@ exports.compressImages = compressImages;
 exports.copyUnprocessedAssetsForProd = copyUnprocessedAssetsForProd;
 exports.clean = clean;
 exports.default = listTasks;
-exports.lintCSS = lintCSS;
 exports.serve = series(
     validateHTML,
     compileCSSForDev,
