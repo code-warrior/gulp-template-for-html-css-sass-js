@@ -1,0 +1,10 @@
+//
+// Utilities
+//
+// Import the basic utilities that other components in your project will require and
+// that don’t change. For example, fonts, color palettes, global variables, mixins,
+// etc.
+//
+
+$color--main: #06f;
+$color--border: lighten($color--main, 20%);

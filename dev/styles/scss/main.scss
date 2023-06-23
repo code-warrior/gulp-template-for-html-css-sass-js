@@ -7,46 +7,22 @@
 //
 // Contents:
 //
-// 00. Main (for production purposes, which does not include the modular grid)
-// 01. Fonts (@font-face rules)
-// 02. Utilities (Variables, functions, mixins, etc)
-// 03. Base (HTML elements, such as <header>, <footer>, <main>, etc)
-// 04. Layout (Layout templates, grid structure)
-// 05. Modules (modules, background, colors, typography)
-// 06. States (JavaScript-related Sass)
-// 07. Shame (Any code that would otherwise be marked with a TODO elsewhere)
-
-// ==================================================================================
-// Fonts
-// ==================================================================================
-@import '01-fonts/index';
+// 01. Utilities (fonts, variables, functions, mixins, etc)
+// 02. Base (HTML elements, such as <header>, <footer>, <main>, etc)
+// 03. Shame (Any code that would otherwise be marked with a TODO elsewhere)
 
 // ==================================================================================
 // Utilities
 // ==================================================================================
-@import '02-utilities/index';
+@use '01-utilities/variables';
 
 // ==================================================================================
 // Base
 // ==================================================================================
-@import '03-base/index';
-
-// ==================================================================================
-// Layout
-// ==================================================================================
-@import '04-layout/index';
-
-// ==================================================================================
-// Modules
-// ==================================================================================
-@import '05-modules/index';
-
-// ==================================================================================
-// States
-// ==================================================================================
-@import '06-states/index';
+@use '02-base/reset';
+@use '02-base/body';
 
 // ==================================================================================
 // Shame
 // ==================================================================================
-@import '07-_shame';
+@use '03-shame' as *;
