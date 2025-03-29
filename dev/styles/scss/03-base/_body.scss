@@ -1,5 +1,7 @@
+@use 'sass:color';
+
 $color--main: #06f;
-$color--border: lighten($color--main, 20%);
+$color--border: color.adjust($color--main, $lightness: 40%);
 
 body {
    padding: 100px;
