@@ -1,11 +1,11 @@
-# A Set of Gulp v4.0.0 Tasks for Creating Web Projects Using HTML, CSS/Sass, and JavaScript
+# A Set of Gulp v4.x.x Tasks for Creating Web Projects Using HTML, CSS/Sass, and JavaScript
 
-(v4.0.2)
+(v4.0.3)
 
 ---
 
 ## Installation
-Before continuing, make sure Java is installed, as the browser refresh module requires it. Additionally, all the required Node modules need to be installed before you can use this template. From the root folder, type `npm install`. This will create a folder called `node_modules` and download the plugins listed under the `devDependencies` section in the `package.json` file. If you encounter an `ERR!` message about `EACCES` on macOS, then run the command as the super user: `sudo npm install`.
+Before continuing, make sure Java is installed, because Gulp requires it for events such as browser refreshing. Additionally, all the required Node modules need to be installed before you can use this template. From the root folder, type `npm install`. This will create a folder called `node_modules` and download the plugins listed under the `devDependencies` section in the `package.json` file. If you encounter an `ERR!` message about `EACCES` on macOS, then run the command as the super user: `sudo npm install`.
 
 ## Tasks
 Typing `gulp --tasks`, or simply `gulp`, will render a list of tasks included in `gulpfile.js`. Tasks such as `build` and `serve` invoke other tasks and are executed in `<series>`.
