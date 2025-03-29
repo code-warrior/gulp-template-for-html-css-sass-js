@@ -47,8 +47,5 @@
     "gulp-stylelint": "^13.0.0",
     "gulp-uglify": "^3.0.2",
     "sass": "^1.86.0"
-  },
-  "dependencies": {
-    "stylelint": "^13.13.1"
   }
 }
