@@ -4,7 +4,6 @@ const { src, dest, series, watch } = require(`gulp`),
     babel = require(`gulp-babel`),
     htmlCompressor = require(`gulp-htmlmin`),
     htmlValidator = require(`gulp-html`),
-    imageCompressor = require(`gulp-image`),
     jsCompressor = require(`gulp-uglify`),
     jsLinter = require(`gulp-eslint`),
     sass = require(`gulp-sass`)(require(`sass`)),
@@ -102,22 +101,6 @@ let transpileJSForProd = () => {
         .pipe(dest(`prod/scripts`));
 };
 
-let compressImages = () => {
-    return src(`dev/img/**/*`)
-        .pipe(imageCompressor({
-            optipng: [`-i 1`, `-strip all`, `-fix`, `-o7`, `-force`],
-            pngquant: [`--speed=1`, `--force`, 256],
-            zopflipng: [`-y`, `--lossy_8bit`, `--lossy_transparent`],
-            jpegRecompress: [`--strip`, `--quality`, `medium`, `--min`, 40,
-                `--max`, 80],
-            mozjpeg: [`-optimize`, `-progressive`],
-            gifsicle: [`--optimize`],
-            svgo: [`--enable`, `cleanupIDs`, `--disable`, `convertColors`],
-            quiet: false
-        }))
-        .pipe(dest(`prod/img`));
-};
-
 let copyUnprocessedAssetsForProd = () => {
     return src([
         `dev/*.*`,       // Source all files,
@@ -204,7 +187,6 @@ exports.transpileJSForDev = transpileJSForDev;
 exports.compressHTML = compressHTML;
 exports.compileCSSForProd = compileCSSForProd;
 exports.transpileJSForProd = transpileJSForProd;
-exports.compressImages = compressImages;
 exports.copyUnprocessedAssetsForProd = copyUnprocessedAssetsForProd;
 exports.clean = clean;
 exports.default = listTasks;
@@ -220,6 +202,5 @@ exports.build = series(
     compressHTML,
     compileCSSForProd,
     transpileJSForProd,
-    compressImages,
     copyUnprocessedAssetsForProd
 );
