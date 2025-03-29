@@ -1,6 +1,6 @@
 const { src, dest, series, watch } = require(`gulp`),
     CSSLinter = require(`gulp-stylelint`),
-    del = require(`del`),
+    { deleteAsync } = require(`del`),
     babel = require(`gulp-babel`),
     htmlCompressor = require(`gulp-htmlmin`),
     htmlValidator = require(`gulp-html`),
@@ -160,23 +160,9 @@ let serve = () => {
 };
 
 async function clean() {
-    let fs = require(`fs`),
-        i,
-        foldersToDelete = [`./temp`, `prod`];
+    const foldersToDelete = await deleteAsync([`./temp`, `prod`]);
 
-    for (i = 0; i < foldersToDelete.length; i++) {
-        try {
-            fs.accessSync(foldersToDelete[i], fs.F_OK);
-            process.stdout.write(`\n\tThe ` + foldersToDelete[i] +
-                ` directory was found and will be deleted.\n`);
-            del(foldersToDelete[i]);
-        } catch (e) {
-            process.stdout.write(`\n\tThe ` + foldersToDelete[i] +
-                ` directory does NOT exist or is NOT accessible.\n`);
-        }
-    }
-
-    process.stdout.write(`\n`);
+    console.log(`The following directories were deleted:`, foldersToDelete);
 }
 
 async function listTasks () {
