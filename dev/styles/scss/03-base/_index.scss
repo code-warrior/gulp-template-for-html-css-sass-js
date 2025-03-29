@@ -7,5 +7,5 @@
 // Eric Meyer’s reset CSS document is included here as “_reset.scss.” It’s available
 // at http://meyerweb.com/eric/tools/css/reset/reset.css
 //
-@import 'reset';
-@import 'body';
+@use 'reset' as *;
+@use 'body' as *;
