@@ -37,7 +37,7 @@
     "@babel/preset-env": "^7.15.8",
     "browser-sync": "^2.27.10",
     "del": "^6.0.0",
-    "gulp": "^4.0.2",
+    "gulp": "^5.0.0",
     "gulp-babel": "^8.0.0",
     "gulp-eslint": "^6.0.0",
     "gulp-html": "^3.5.0",
