@@ -1,7 +1,9 @@
 //
 // Fonts
 //
-// Import any fonts here, either locally or externally. For example:
+// Import font-related syntax here, such @font-face rules. You may uncomment
+// the following to ensure this scaffold works. Recall, however, that loading
+// fonts via CSS’s @import statement blocks, thus slowing page loads.
 //
 // @import url("http://fonts.googleapis.com/css?family=Hind:400,700&subset=latin,latin-ext");
 // @import url("http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css");
