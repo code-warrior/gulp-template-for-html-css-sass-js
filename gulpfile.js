@@ -109,6 +109,7 @@ let copyUnprocessedAssetsForProd = () => {
         `!dev/html/*.*`, // or any files in it
         `!dev/html/**`,  // or any sub folders;
         `!dev/img/`,     // ignore images;
+        `!dev/img/.gitignore`,     // ignore .gitignore;
         `!dev/**/*.js`,  // ignore JS;
         `!dev/styles/**` // and, ignore Sass/CSS.
     ], {dot: true})
