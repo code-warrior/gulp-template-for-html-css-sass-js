@@ -42,3 +42,9 @@ For production-ready projects, run `gulp build`, which creates a folder called `
 * macOS Ventura with Intel chip
 * PowerShell in Windows 11
 * Cygwin in Windows 11
+
+---
+
+## Legacy Versions
+
+Older versions of this project exist under tags and in separate branches. For example, if you were looking for the version of this project that worked with `v3.9.0` of Gulp, you could check out branch `using-gulp-v3.9.0`.
