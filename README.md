@@ -33,3 +33,12 @@ All your work must be added to the sub-folders under the `dev` folder: your mark
 Run `gulp serve` while you’re developing your project. This will initiate multiple development-related tasks, then launch your default browser. File changes trigger a browser reload. Transpiled files (`.js` and `.css`) are written to the `temp` folder.
 
 For production-ready projects, run `gulp build`, which creates a folder called `prod`. This is the folder you’d upload to your server if you were going live with your project.
+
+---
+
+## Test Environments
+
+* macOS Sequoia with Apple M2 Pro chip
+* macOS Ventura with Intel chip
+* PowerShell in Windows 11
+* Cygwin in Windows 11
